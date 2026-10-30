@@ -28,7 +28,10 @@
         "ev-92190a8fea7c427a9b86ae05cda8a465"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, commit 288ab04",
+        "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
+        "at": "2026-10-30T02:04:45+00:00"
       },
       "specs": []
     },
@@ -70,7 +73,10 @@
         "ev-0f09170e710649c3a062a6b4501d17d1"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, commit 288ab04",
+        "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
+        "at": "2026-10-30T02:04:45+00:00"
       },
       "specs": []
     },
@@ -100,7 +106,10 @@
         "ev-bf762a43646c4dc1991cf1f635ecdf95"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, commit 288ab04",
+        "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
+        "at": "2026-10-30T02:04:45+00:00"
       },
       "specs": []
     },
@@ -130,7 +139,10 @@
         "ev-afbdcbd8a4c944c3a8546bd4cf2924a5"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, commit 288ab04",
+        "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
+        "at": "2026-10-30T02:04:45+00:00"
       },
       "specs": []
     },
@@ -167,7 +179,10 @@
         "ev-1866cfd6786e4978ab1d47461af3f344"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, commit 288ab04",
+        "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
+        "at": "2026-10-30T02:04:45+00:00"
       },
       "specs": []
     },
@@ -185,7 +200,10 @@
         "ev-545f62a09229475f86bfb5c0a0c87316"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, commit 288ab04",
+        "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
+        "at": "2026-10-30T02:04:45+00:00"
       },
       "specs": [],
       "notes": "Prova o build limpo sem avisos aqui; não prova a ausência de outras bibliotecas instaladas na máquina, só que o CMakeLists não declara nenhuma."
