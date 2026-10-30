@@ -94,8 +94,24 @@ Não achei um modelo de linguagem de bytes em disparos com STDP: o terreno é ab
 | 6 | Escala/GPU e engrama de estado | Medir neurônios/s na RTX 3060; `fork` preserva estado dinâmico |
 | Horizonte | e-prop, gânglios da base, astrócitos, mapa cognitivo | Só após o degrau 4 |
 
-## 5. Perguntas que mudam o plano
+## 5. Decisão do usuário: o Child é uma base
 
-1. O sinal de cima do e-prop conta como "sem retropropagação"? Se sim, o degrau 2 pode usá-lo; se não, fica a leitura cerebelar.
-2. A homeostase e a inibição entram no `cerebro` v001 (exige nova versão, pois está aprovado) ou viram contrato próprio?
-3. O objetivo final é gerar texto ou demonstrar mecanismos? Isso decide quanto investir em 1.5 e 1.8.
+Decidido em 2026-10-30: o objetivo final do Child **é ser uma base**; outras pessoas clonam o repositório e treinam a partir dela. Não é um produto que gera texto bem. Consequências para as ideias acima:
+
+- **Sobe de prioridade:** tudo que torna a base confiável e extensível.
+  - Determinismo e reprodutibilidade (mesma semente, mesmos pesos, também entre máquinas; ponto fixo ajuda).
+  - Formato de engrama estável e versionado, com `fork` e linhagem como o modo oficial de derivar o próprio cérebro a partir da base.
+  - Peças pequenas e substituíveis por região (`neuron/`, `synapse/`, `dopamine/`, `hippocampus/`), com interfaces estreitas, para que alguém troque o AdEx por outro neurônio sem tocar no resto.
+  - Parâmetros e regras de aprendizado configuráveis sem recompilar; `feed` aceitando qualquer fonte de bytes.
+  - Homeostase e inibição (1.1): um clone que treina sem divergir vale mais que um que aprende rápido.
+  - Testes de comportamento por degrau (XOR, sequência, esquecimento) como contrato de que a base funciona.
+  - Documentação de "como treinar o seu": o que `init`, `fork`, `feed`, `sleep` e `info` fazem.
+- **Desce para horizonte:** gânglios da base como gerador de texto (1.5), curiosidade e currículo (1.8), astrócitos (1.9), mapa cognitivo e e-prop. São extensões que terceiros podem construir sobre a base, não parte dela.
+- **Fica no núcleo mínimo:** neurônio, sinapse com STDP, dopamina como surpresa, homeostase, depois dendritos em segmentos e hipocampo com repetição, que são o que dá à base algo que o MLP não faz.
+- **Qualidade de texto deixa de ser critério.** Os critérios medem mecanismo (aprende o padrão, resolve XOR, não esquece), como já é nas exclusões do contrato `cerebro`.
+- **Pendências de projeto aberto** (fora do escopo da pesquisa): licença, guia de contribuição e um exemplo de ponta a ponta no README.
+
+## 6. Perguntas que ainda mudam o plano
+
+1. O sinal de cima do e-prop conta como "sem retropropagação"? Como é extensão, pode ficar de fora da base.
+2. A homeostase e a inibição entram no `cerebro` v001 (exige nova versão, pois está aprovado) ou viram contrato próprio? Pela decisão acima, recomendo entrar logo.
