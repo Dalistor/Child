@@ -1,0 +1,6 @@
+/home/dalistor/Documentos/Projetos/Child/build/CMakeFiles/child_core.dir
+/home/dalistor/Documentos/Projetos/Child/build/CMakeFiles/child.dir
+/home/dalistor/Documentos/Projetos/Child/build/CMakeFiles/child_tests.dir
+/home/dalistor/Documentos/Projetos/Child/build/CMakeFiles/test.dir
+/home/dalistor/Documentos/Projetos/Child/build/CMakeFiles/edit_cache.dir
+/home/dalistor/Documentos/Projetos/Child/build/CMakeFiles/rebuild_cache.dir
