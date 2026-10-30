@@ -1,6 +1,6 @@
 # Arquitetura
 
-O objetivo do projeto é criar uma **versão bem simplificada do cérebro**. Este documento separa o que **existe hoje** (a base MLP, que passa a ser a referência/legado) do que está **planejado**. As regras normativas estão nos contratos [`base`](../contracts/base/v002.json) (o MLP atual) e [`cerebro`](../contracts/cerebro/v001.json) (a direção nova); este documento só explica e vincula. A pesquisa que fundamenta a mudança está em [pesquisa-cerebro.md](pesquisa-cerebro.md).
+O objetivo do projeto é criar uma **versão bem simplificada do cérebro**. Este documento separa o que **existe hoje** (a base MLP, que passa a ser a referência/legado) do que está **planejado**. As regras normativas estão nos contratos [`base`](../contracts/base/v002.json) (o MLP atual) e [`cerebro`](../contracts/cerebro/v001.json) (a direção nova); este documento só explica e vincula. A pesquisa que fundamenta a mudança está em [pesquisa-cerebro.md](../../docs/pesquisa-cerebro.md).
 
 # Parte 1 — Estado atual: a base MLP (referência)
 

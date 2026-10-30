@@ -3,7 +3,10 @@
 ## Visão Geral
 O objetivo é criar uma **versão bem simplificada do cérebro humano**, em C++20 sem dependências externas. A direção é: um neurônio que dispara (AdEx), sinapses que aprendem por regras locais (STDP) moduladas por dopamina, e depois dendritos humanos, hipocampo com replay e escala em GPU, tudo organizado em estruturas nomeadas pelas regiões do cérebro.
 
-O que existe hoje é a **base MLP**, que prevê o próximo byte e tem captação, processamento e armazenamento com linhagem (ramificação). Ela é a referência e o oráculo de testes até ser substituída; **não é um neurônio**. Detalhes: [arquitetura](.centaur/system/architecture.md) e [pesquisa](.centaur/system/pesquisa-cerebro.md).
+O que existe hoje é a **base MLP**, que prevê o próximo byte e tem captação, processamento e armazenamento com linhagem (ramificação). Ela é a referência e o oráculo de testes até ser substituída; **não é um neurônio**. Detalhes: [arquitetura](.centaur/system/architecture.md) e [pesquisa](docs/pesquisa-cerebro.md).
+
+## Pesquisa
+Toda pesquisa (cérebro, redes neurais, ideias) fica em [docs/](docs/README.md), com fontes e a data. Pesquisa nova vira arquivo novo ali e entra no índice; não vai para `.centaur/`.
 
 ## Recuperação de contexto
 Priorize busca e símbolos do editor. Graphify é opcional para relações amplas; consulte `.centaur/graphify/graph.json` pelo adaptador da skill apenas quando útil. Confirme fontes atuais. Não indexe automaticamente após mudanças. Decisões e documentação gerada ficam em `.centaur/`; código e testes comprovam comportamento.
@@ -18,7 +21,7 @@ Contratos aprovados:
 - [`cerebro`](.centaur/contracts/cerebro/v001.json) (2026-10-30): a direção atual. Neurônio AdEx, sinapse com STDP, dopamina como terceiro fator, nomes pelas regiões do cérebro. **Ainda sem implementação, estado nem evidências.**
 - [`base`](.centaur/contracts/base/v002.json) (2026-10-29): o MLP atual, que segue valendo como referência. Estado em [base.json](.centaur/state/base.json); as evidências são testes reais ligados ao hash da v002.
 
-Os rascunhos `memoria-eficiente` e `escala-gpu` foram **retirados** (falavam de milhões de parâmetros de um MLP); o que se aproveita deles está na [pesquisa](.centaur/system/pesquisa-cerebro.md).
+Os rascunhos `memoria-eficiente` e `escala-gpu` foram **retirados** (falavam de milhões de parâmetros de um MLP); o que se aproveita deles está na [pesquisa](docs/pesquisa-cerebro.md).
 
 ## Comandos essenciais
 ```bash
