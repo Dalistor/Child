@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "id": "escala-gpu",
+  "version": 1,
+  "title": "Escalar a rede para 100 a 300 milhões de parâmetros com treino na GPU",
+  "scope": "master",
+  "status": "retired",
+  "intent": "Criar bases virgens de 100 a 300 milhões de parâmetros e treiná-las na GPU (CUDA, RTX 3060 de 12 GB), com resultado equivalente ao da CPU, sem acoplar o núcleo da rede a CUDA.",
+  "extends": [
+    "base@2"
+  ],
+  "boundaries": [
+    "CUDA é um backend opcional: o build padrão continua exigindo apenas compilador C++20 e CMake, preservando base/RNF-01",
+    "O núcleo (captação, rede e armazenamento) não conhece CUDA; a dependência aponta do backend para o núcleo",
+    "O backend de CPU permanece como referência para comparar resultados",
+    "O formato de checkpoint v1 não muda; pesos continuam em float32",
+    "Falha na GPU nunca corrompe nem altera o checkpoint de origem"
+  ],
+  "autonomy": [
+    "Organizar os kernels, a interface do backend e o gerenciamento de memória da GPU dentro dos limites acima"
+  ],
+  "decisions": [
+    "Manter neste degrau o MLP de janela fixa, float32 e SGD, mudando só onde o treino roda e o tamanho (recomendado para isolar o efeito da GPU); atenção, Adam e bf16 ficam para contratos seguintes",
+    "Instalar o CUDA Toolkit (nvcc) nesta máquina: o driver 595.99 já suporta CUDA 13.2, mas o toolkit não está instalado; exige sudo e alguns GB de disco",
+    "Confirmar a tolerância proposta entre CPU e GPU (diferença relativa de perda de até 1e-3 em float32)"
+  ],
+  "specification": {
+    "actors": [
+      "Desenvolvedor"
+    ],
+    "exclusions": [
+      "Treino distribuído em várias GPUs",
+      "Precisão mista, quantização e novos otimizadores",
+      "Nova arquitetura de modelo",
+      "Meta de qualidade do texto gerado"
+    ],
+    "use_cases": [
+      {
+        "id": "UC-01",
+        "title": "Treinar uma ramificação grande na GPU",
+        "actor": "Desenvolvedor",
+        "preconditions": [
+          "CUDA Toolkit instalado e build com backend CUDA habilitado",
+          "GPU com memória suficiente"
+        ],
+        "main_flow": [
+          "Criar uma base virgem de cerca de 300 milhões de parâmetros",
+          "Ramificar a base",
+          "Alimentar a ramificação com código usando o dispositivo cuda",
+          "Gerar texto na CPU a partir do checkpoint resultante"
+        ],
+        "alternatives": [
+          "GPU ou toolkit ausente: informar o erro e não alterar o checkpoint"
+        ],
+        "postconditions": [
+          "Checkpoint v1 atualizado com bytes aprendidos refletindo o treino"
+        ],
+        "rules": [
+          "ESC-01",
+          "GPU-01",
+          "GPU-02",
+          "GPU-03",
+          "GPU-04"
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "ESC-01",
+      "kind": "functional",
+      "description": "É possível criar, salvar e carregar bases virgens de 100 e de 300 milhões de parâmetros escolhendo embed, context e hidden",
+      "acceptance": [
+        "`init` com configurações de cerca de 100 e de cerca de 300 milhões de parâmetros produz checkpoints cujo número de parâmetros confere com Config::param_count, e `info` os lê corretamente"
+      ],
+      "depends_on": [
+        "memoria-eficiente/MEM-02"
+      ]
+    },
+    {
+      "id": "GPU-01",
+      "kind": "functional",
+      "description": "O treino na GPU (passagem direta, retropropagação e atualização) é equivalente ao da CPU",
+      "acceptance": [
+        "Numa configuração pequena, com mesma semente e dados, a perda por época na GPU difere da CPU em no máximo 1e-3 relativo nas três primeiras épocas",
+        "O gradiente calculado na GPU coincide com o da CPU dentro de tolerância em um exemplo fixo"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "GPU-02",
+      "kind": "non_functional",
+      "description": "Uma base de cerca de 300 milhões de parâmetros é treinada na GPU de 12 GB sem esgotar a memória",
+      "acceptance": [
+        "No ambiente de desenvolvimento (RTX 3060, 12 GB), `feed` com dispositivo cuda sobre um arquivo pequeno conclui uma época sem erro de memória e registra o pico de memória da GPU e os bytes aprendidos por segundo medidos"
+      ],
+      "depends_on": [
+        "escala-gpu/ESC-01",
+        "escala-gpu/GPU-01"
+      ]
+    },
+    {
+      "id": "GPU-03",
+      "kind": "functional",
+      "description": "Sem GPU utilizável, ou se o treino falhar no meio, o checkpoint original permanece intacto",
+      "acceptance": [
+        "Pedir o dispositivo cuda num build sem CUDA, ou sem GPU, termina com erro claro e código diferente de zero, e o arquivo do checkpoint mantém o mesmo hash",
+        "Não resta arquivo temporário após a falha"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "GPU-04",
+      "kind": "functional",
+      "description": "Um checkpoint treinado na GPU é carregado e usado na CPU sem conversão",
+      "acceptance": [
+        "Após `feed` com dispositivo cuda, `sample` na CPU carrega o checkpoint v1 e as probabilidades calculadas na CPU e na GPU para o mesmo contexto diferem dentro da tolerância de GPU-01"
+      ],
+      "depends_on": [
+        "escala-gpu/GPU-01"
+      ]
+    },
+    {
+      "id": "ARQ-01",
+      "kind": "non_functional",
+      "description": "CUDA é detalhe: o núcleo não depende dele e o build padrão não o exige",
+      "acceptance": [
+        "Nenhum arquivo em src/capture, src/model e src/store inclui ou menciona CUDA",
+        "O build padrão, sem nvcc instalado, compila sem avisos e passa em todos os testes"
+      ],
+      "depends_on": []
+    }
+  ]
+}

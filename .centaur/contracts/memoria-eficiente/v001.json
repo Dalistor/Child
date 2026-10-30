@@ -1,0 +1,90 @@
+{
+  "schema": 1,
+  "id": "memoria-eficiente",
+  "version": 1,
+  "title": "Manipular checkpoints grandes sem duplicar os pesos na memória",
+  "scope": "master",
+  "status": "retired",
+  "intent": "Permitir que feed, fork, info e sample trabalhem com checkpoints de centenas de milhões de parâmetros sem manter mais cópias dos pesos na RAM do que o necessário, sem mudar o formato do arquivo nem o resultado do aprendizado.",
+  "extends": [
+    "base@2"
+  ],
+  "boundaries": [
+    "O formato de checkpoint v1 não muda: arquivos antigos continuam carregando e o arquivo salvo é idêntico byte a byte para o mesmo conteúdo",
+    "O resultado do aprendizado não muda: mesma semente, dados e opções produzem os mesmos parâmetros de antes",
+    "Sem novas dependências além do compilador C++20 e do CMake"
+  ],
+  "autonomy": [
+    "Escolher a técnica (mover em vez de copiar, E/S em blocos, checksum incremental, mapeamento de memória) dentro dos limites acima"
+  ],
+  "decisions": [
+    "Confirmar os limites de pico de memória propostos: 2,5x o tamanho dos pesos no feed e 1,5x no fork (derivados do mínimo estrutural: pesos + gradientes = 2x)"
+  ],
+  "specification": {
+    "actors": [
+      "Desenvolvedor"
+    ],
+    "exclusions": [
+      "Treino na GPU (contrato escala-gpu)",
+      "Compressão ou quantização dos pesos",
+      "Mudança do formato do checkpoint"
+    ],
+    "use_cases": [
+      {
+        "id": "UC-01",
+        "title": "Alimentar uma base grande sem esgotar a RAM",
+        "actor": "Desenvolvedor",
+        "preconditions": [
+          "Checkpoint de cerca de 100 milhões de parâmetros existente"
+        ],
+        "main_flow": [
+          "Executar feed sobre um arquivo pequeno",
+          "Observar o pico de memória residente",
+          "Ramificar o resultado com fork"
+        ],
+        "alternatives": [
+          "Memória insuficiente: falhar sem alterar o checkpoint original"
+        ],
+        "postconditions": [
+          "Checkpoint atualizado por escrita atômica; pico de memória dentro dos limites"
+        ],
+        "rules": [
+          "MEM-01",
+          "MEM-02",
+          "MEM-03"
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "MEM-01",
+      "kind": "non_functional",
+      "description": "O feed mantém só pesos e gradientes na memória, sem cópias extras dos parâmetros",
+      "acceptance": [
+        "Em um checkpoint de cerca de 100 milhões de parâmetros, no ambiente de desenvolvimento, `/usr/bin/time -v build/child feed` sobre um arquivo pequeno mostra Maximum resident set size menor ou igual a 2,5 x 4 bytes x número de parâmetros"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "MEM-02",
+      "kind": "non_functional",
+      "description": "Carregar, salvar e verificar a integridade de um checkpoint usam leitura e escrita em blocos, sem materializar o arquivo inteiro além dos pesos",
+      "acceptance": [
+        "No mesmo checkpoint de cerca de 100 milhões de parâmetros, `info` tem pico de memória residente menor ou igual a 64 MiB, pois só lê o cabeçalho e verifica o checksum em blocos",
+        "`fork` tem pico de memória residente menor ou igual a 1,5 x 4 bytes x número de parâmetros"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "MEM-03",
+      "kind": "functional",
+      "description": "A economia de memória não altera formato nem resultado",
+      "acceptance": [
+        "Carregar e salvar de novo um checkpoint existente reproduz o arquivo byte a byte",
+        "Um feed com mesma semente, dados e opções produz parâmetros idênticos aos da versão anterior ao contrato"
+      ],
+      "depends_on": []
+    }
+  ]
+}

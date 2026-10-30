@@ -1,6 +1,10 @@
-# Arquitetura da base
+# Arquitetura
 
-Fatos extraídos do código em 2026-10-29. As regras normativas estão no contrato [`base`](../contracts/base/v002.json); este documento só explica e vincula.
+O objetivo do projeto é criar uma **versão bem simplificada do cérebro**. Este documento separa o que **existe hoje** (a base MLP, que passa a ser a referência/legado) do que está **planejado**. As regras normativas estão nos contratos [`base`](../contracts/base/v002.json) (o MLP atual) e [`cerebro`](../contracts/cerebro/v001.json) (a direção nova); este documento só explica e vincula. A pesquisa que fundamenta a mudança está em [pesquisa-cerebro.md](pesquisa-cerebro.md).
+
+# Parte 1 — Estado atual: a base MLP (referência)
+
+Fatos extraídos do código em 2026-10-29. Não é um neurônio: é uma rede de camadas que prevê o próximo byte. Continua no repositório como referência e oráculo de testes até ser substituída.
 
 ## Fluxo
 
@@ -40,12 +44,36 @@ Embeddings dos 16 bytes anteriores concatenados → `tanh(W1·x + b1)` → softm
 
 - Aprendizado de cerca de 9 mil bytes/s numa thread, medido em 22 KB de código.
 - Janela fixa de 16 bytes, sem memória além dela.
-- Sem proteção contra esquecimento catastrófico (lacuna aberta no contrato).
+- Sem proteção contra esquecimento catastrófico (prevista no roteiro, via hipocampo e replay).
 
-## Decisões futuras em aberto
+# Parte 2 — Direção: uma versão simplificada do cérebro (planejado)
 
-Fora do contrato [`base`](../contracts/base/v002.json) (que cobre só a base) e sem contrato próprio ainda; viram contrato quando forem abordadas:
+Nada abaixo está implementado. O primeiro degrau tem contrato aprovado ([`cerebro`](../contracts/cerebro/v001.json)); os demais ainda não têm contrato.
 
-- Arquitetura do modelo além do MLP de janela fixa de 16 bytes (por exemplo, atenção) e como medir "capacidade".
-- Estratégia contra o esquecimento catastrófico ao alimentar uma ramificação com dados novos.
-- Compatibilidade entre versões do formato de checkpoint ao evoluir a arquitetura.
+## Princípios (decididos)
+
+- **Fidelidade em degraus**: neurônio de ponto AdEx primeiro; dendritos humanos depois.
+- **Aprendizado por regras locais e online** (STDP e três fatores com dopamina), sem retropropagação no código novo.
+- **Nomes pelas regiões do cérebro**: cada pasta tem um arquivo principal de mesmo nome; identificadores em inglês.
+- **CUDA é um backend opcional**; o núcleo não o conhece e o build padrão exige só C++20 e CMake.
+
+## Estrutura-alvo (proposta de nomes)
+
+| Pasta | Estrutura do cérebro | Responsabilidade | Substitui |
+|---|---|---|---|
+| `src/thalamus/` | tálamo, relé sensorial | Filtrar e codificar bytes em disparos | `capture/` |
+| `src/neuron/` | neurônio | Dinâmica AdEx: integrar, disparar, reiniciar, adaptar | parte de `model/` |
+| `src/synapse/` | sinapse | Peso e plasticidade STDP | parte de `model/` |
+| `src/dopamine/` | dopamina | Sinal de recompensa, o terceiro fator | novo |
+| `src/hippocampus/` | hipocampo | Memória rápida e repetição (replay) | novo |
+| `src/engram/` | engrama, o traço físico da memória | Checkpoint, linhagem e `fork` | `store/` |
+
+As dependências seguem a regra de dentro para fora: neurônio e sinapse são o núcleo e não conhecem tálamo nem engrama. As pastas legadas (`capture/`, `model/`, `store/`) saem conforme cada substituta for entregue.
+
+## Roteiro
+
+1. **`cerebro`** (contrato aprovado): neurônio AdEx, sinapse com STDP, dopamina como terceiro fator e um neurônio que aprende um padrão.
+2. **Neurônio humano**: dendritos com NMDA e picos de cálcio, com o critério de que um único neurônio resolve XOR, comparado ao modelo da [ModelDB 260178](https://modeldb.science/260178).
+3. **Hipocampo e replay**: aprendizado rápido e consolidação, contra o esquecimento catastrófico.
+4. **Escala e GPU**: estado por neurônio e sinapse, backend CUDA opcional e medição na RTX 3060.
+5. **Engrama**: persistência do estado dos neurônios, preservando linhagem, atomicidade e detecção de corrupção.

@@ -1,30 +1,32 @@
 # Child
 
-Uma base **virgem** de rede neural, escrita em C++20 sem dependências externas, pensada para aprender e **ramificar**.
+Uma tentativa de criar uma **versão bem simplificada do cérebro humano**, em C++20 e sem dependências externas.
 
 ## A ideia
 
-A maioria das IAs de hoje é treinada uma vez, congelada e depois só usada. O aprendizado humano é diferente: contínuo, acumulativo e cada pessoa segue seu caminho a partir do que viveu.
+A maioria das IAs de hoje é treinada uma vez, congelada e depois só usada. O cérebro é diferente: aprende de forma contínua, a partir de regras **locais** entre neurônios, e cada pessoa segue um caminho próprio a partir do que viveu.
 
-Child é o ponto de partida de um experimento nessa direção: uma rede sem nada aprendido, capaz de ser copiada em ramificações que **divergem** conforme o que cada uma estuda, sem afetar a origem nem as irmãs. A meta de longo prazo é aproximar o aprendizado da rede do humano. Este repositório cobre só a **base**.
+Child parte dessa ideia. Em vez de otimizar uma rede de camadas por retropropagação, o plano é recriar, em degraus, as peças do cérebro: o **neurônio** que dispara, a **sinapse** que aprende pela ordem dos disparos (STDP), a **dopamina** que decide o que vale a pena guardar, o **hipocampo** que repete as experiências para consolidá-las. Cada peça fica numa pasta com o nome da estrutura que representa.
 
-## O que existe hoje
+## Onde estamos
 
-Três camadas, nada mais:
+**Hoje ainda não há neurônios no código.** O que existe é uma base de partida, uma rede de camadas que prevê o próximo byte, com captação, aprendizado e armazenamento com **ramificação** (`fork`): copiar o estado e deixar cada cópia divergir sem afetar a origem. Ela segue no repositório como referência para comparar e testar o que vier.
 
-| Camada | O que faz |
-|---|---|
-| **Captação** | Lê um arquivo, uma pasta ou stdin e converte em bytes. Cada byte é um token, então serve para qualquer texto ou código, sem tokenizador para treinar. |
-| **Processamento** | Rede que olha os 16 bytes anteriores e prevê o próximo. Passagem direta, retropropagação e SGD, tudo escrito do zero. |
-| **Armazenamento** | Checkpoint binário com checksum e escrita atômica, que guarda os pesos e a **linhagem**: id, pai, nome e quantos bytes já aprendeu. |
+| Degrau | O que entrega | Situação |
+|---|---|---|
+| Base MLP | Captação, aprendizado, checkpoint e ramificação | feito (referência) |
+| [`cerebro`](.centaur/contracts/cerebro/v001.json) | Neurônio AdEx, sinapse com STDP, dopamina, um neurônio que aprende um padrão | contrato aprovado, sem código |
+| Neurônio humano | Dendritos com NMDA e picos de cálcio; um único neurônio resolvendo XOR | planejado |
+| Hipocampo | Aprendizado rápido e replay, contra o esquecimento catastrófico | planejado |
+| Escala e GPU | Muitos neurônios, CUDA opcional | planejado |
 
-A **ramificação** (`fork`) copia o estado inteiro e dá à cópia uma identidade própria apontando para o pai.
+Estrutura-alvo, por regiões do cérebro: `thalamus/` (entrada sensorial), `neuron/`, `synapse/`, `dopamine/`, `hippocampus/` e `engram/` (armazenamento).
 
-## O que ainda não é
+## Seja realista
 
-Seja realista: é uma rede minúscula (cerca de 107 mil parâmetros) com janela fixa de 16 bytes e sem memória além dela. Treinada em um pouco de código, ela imita o formato e gera texto sem sentido. Ela **não** tem capacidade comparável à de um adulto, e não há proteção contra o esquecimento catastrófico ao alimentar uma ramificação com dados novos. A base existe para crescer: os próximos passos naturais são uma arquitetura com atenção, aprendizado contínuo e treino mais rápido.
+O cérebro humano tem 86 bilhões de neurônios e de 10¹⁴ a 10¹⁵ sinapses. Um neurônio humano real é bem mais complexo que o artificial clássico. O objetivo aqui é uma versão **bem simplificada**, e uma GPU como a desta máquina deve simular, segundo benchmarks de outra GPU, na casa de centenas de milhares de neurônios simples, não de bilhões (ainda não medimos aqui). A [pesquisa](.centaur/system/pesquisa-cerebro.md) por trás de cada decisão, com fontes, está registrada.
 
-## Como usar
+## Como usar a base atual
 
 Precisa de um compilador C++20 e CMake.
 
@@ -43,6 +45,7 @@ Depois do `feed`, só `a.child` terá bytes aprendidos; `root.child` continua vi
 
 ## Documentação
 
-- [Arquitetura](.centaur/system/architecture.md): fluxo, módulos e formato do checkpoint.
-- [Contrato da base](.centaur/contracts/base/v002.json): o comportamento esperado, regra por regra, com as [evidências](.centaur/evidence) dos testes que o comprovam.
-- [AGENTS.md](AGENTS.md): instruções para agentes de IA que trabalham no projeto, que usa o fluxo [Centaur](.centaur/workspace.json) para contratos e evidências.
+- [Arquitetura](.centaur/system/architecture.md): o estado atual e a direção.
+- [Pesquisa](.centaur/system/pesquisa-cerebro.md): neurônio humano, modelos, aprendizado, esquecimento e escala.
+- [Contratos](.centaur/contracts): o comportamento esperado, regra por regra, com as [evidências](.centaur/evidence) dos testes da base.
+- [AGENTS.md](AGENTS.md): instruções para agentes de IA que trabalham no projeto, que usa o fluxo [Centaur](.centaur/workspace.json).

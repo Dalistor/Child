@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "id": "cerebro",
+  "version": 1,
+  "title": "Versão simplificada do cérebro: neurônio que dispara, sinapse com plasticidade local e dopamina",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Construir, em degraus, uma versão bem simplificada do cérebro humano, começando por um neurônio que dispara (AdEx), com sinapses que aprendem por regras locais (STDP) moduladas por dopamina (três fatores), organizado em estruturas nomeadas pelas regiões do cérebro.",
+  "extends": [],
+  "boundaries": [
+    "Fidelidade em degraus: este contrato cobre o neurônio de ponto (AdEx); os dendritos humanos (NMDA e picos de cálcio) têm contrato próprio",
+    "O aprendizado do código novo usa regras locais e online (STDP e três fatores); retropropagação não é usada nele",
+    "Pastas e arquivos são nomeados por estruturas do cérebro; cada pasta tem um arquivo principal de mesmo nome; identificadores em inglês",
+    "O MLP atual permanece como referência e oráculo de testes até ser substituído; o contrato base@2 continua valendo para ele",
+    "Ramificação e checkpoint mantêm as garantias da base: isolamento entre ramificações, escrita atômica e detecção de corrupção",
+    "Sem dependências externas além do compilador C++20 e do CMake; CUDA, quando vier, é um backend opcional"
+  ],
+  "autonomy": [
+    "Escolher discretização, passo de tempo, codificação de bytes em disparos e parâmetros iniciais dentro de faixas publicadas, sem mudar o comportamento observável das regras"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Desenvolvedor"
+    ],
+    "exclusions": [
+      "Dendritos humanos e o critério do XOR em um único neurônio (contrato seguinte)",
+      "Hipocampo, repetição (replay) e consolidação",
+      "Treino em GPU e escala",
+      "Qualidade de geração de texto"
+    ],
+    "use_cases": [
+      {
+        "id": "UC-01",
+        "title": "Observar um neurônio aprender um padrão",
+        "actor": "Desenvolvedor",
+        "preconditions": [
+          "Projeto compilado"
+        ],
+        "main_flow": [
+          "Criar um neurônio com várias sinapses de entrada",
+          "Apresentar repetidamente um padrão de disparos misturado a ruído",
+          "Deixar a plasticidade ajustar os pesos",
+          "Comparar a resposta ao padrão e ao ruído"
+        ],
+        "alternatives": [
+          "Plasticidade desligada: a resposta ao padrão não melhora"
+        ],
+        "postconditions": [
+          "Os pesos refletem o padrão apresentado"
+        ],
+        "rules": [
+          "NEU-01",
+          "SIN-01",
+          "DOP-01",
+          "APR-01"
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "REG-01",
+      "kind": "non_functional",
+      "description": "As estruturas do código novo seguem os nomes do cérebro, com pasta e arquivo principal de mesmo nome",
+      "acceptance": [
+        "Toda pasta de src/ que não seja legada é nomeada por uma estrutura do cérebro e contém um arquivo principal de mesmo nome, verificado por um script"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "NEU-01",
+      "kind": "functional",
+      "description": "O neurônio de ponto AdEx integra corrente, dispara, reinicia e se adapta",
+      "acceptance": [
+        "Sem corrente de entrada, o potencial de membrana permanece em repouso e não há disparos",
+        "Com corrente constante acima do limiar, o neurônio dispara repetidamente e o intervalo entre os primeiros disparos aumenta (adaptação)",
+        "Após cada disparo o potencial é reiniciado e a corrente de adaptação aumenta",
+        "A mesma entrada produz sempre a mesma sequência de disparos"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "SIN-01",
+      "kind": "functional",
+      "description": "A sinapse aprende por STDP: o peso depende da ordem e do intervalo entre os disparos pré e pós-sinápticos",
+      "acceptance": [
+        "Disparo pré-sináptico pouco antes do pós-sináptico aumenta o peso; o inverso o reduz",
+        "O efeito diminui conforme o intervalo entre os disparos aumenta",
+        "O peso permanece entre zero e o máximo configurado",
+        "Sem disparos, o peso não muda"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "DOP-01",
+      "kind": "functional",
+      "description": "A dopamina funciona como terceiro fator: o par pré e pós só altera o peso se a dopamina chegar enquanto a marca de elegibilidade ainda vale",
+      "acceptance": [
+        "Um par pré e pós seguido de dopamina dentro da janela da marca de elegibilidade altera o peso",
+        "O mesmo par sem dopamina, ou com dopamina depois da marca expirar, não deixa alteração persistente"
+      ],
+      "depends_on": [
+        "cerebro/SIN-01"
+      ]
+    },
+    {
+      "id": "APR-01",
+      "kind": "functional",
+      "description": "Um neurônio com sinapses plásticas aprende a responder a um padrão de entrada repetido em meio a ruído",
+      "acceptance": [
+        "Depois da exposição repetida, o neurônio dispara em resposta ao padrão mais vezes do que em resposta ao ruído",
+        "Com a plasticidade desligada, essa diferença não aparece"
+      ],
+      "depends_on": [
+        "cerebro/NEU-01",
+        "cerebro/SIN-01"
+      ]
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-10-30",
+    "reference": "Pedido do usuário na sessão: \"Eu aprovo estas decisões, pode seguir com suas recomendações\" (neurônio AdEx de ponto com STDP primeiro; regras locais de aprendizado; nomes por regiões do cérebro com pasta e arquivo de mesmo nome; MLP mantido como referência), e \"O objetivo deste projeto é criar uma versão bem simplificada do cérebro\""
+  }
+}
