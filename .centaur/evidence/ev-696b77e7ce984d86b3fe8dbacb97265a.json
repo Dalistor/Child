@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "ev-696b77e7ce984d86b3fe8dbacb97265a",
+  "contract": "base@1",
+  "rule": "RAM-01",
+  "contract_hash": "988b92bc6bf4f26ee6284f7f429cac286ddf37adad3e9fc4595746463dcb5da0",
+  "method": "test",
+  "command": [
+    "./build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-10-30T01:59:39.461240+00:00",
+  "revision": "683615d9cb403daaa930d584306c618267de04ec",
+  "summary": "Teste 'fork diverges but remembers': ramificações têm ids distintos e o mesmo pai; ensinar uma não altera raiz nem irmã",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/model.cpp": "3083d5c157389d2e613f312c559e012c0a62932c70bdfd5a5bf3f0e96cf9952d",
+    "src/model.hpp": "fa9959cbdae0d68661b37dc555dbc6a94c2f950c925aa94696cc4c80de3735d0",
+    "src/store.cpp": "5c89635650a9013efb0024935e4180b272fe09b78822a9a900402660795a67a4",
+    "src/store.hpp": "46cacd5e099df84fa87a0c005f08505faf2ca492e2a65f0ee5f68b1ac0595676",
+    "tests/tests.cpp": "14844e62398c8989172764e1e89ae589623f1db32bc56cac72c2082cc7d031ba"
+  },
+  "sources_stable": true
+}

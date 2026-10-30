@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-92190a8fea7c427a9b86ae05cda8a465",
+  "contract": "base@2",
+  "rule": "CAP-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "./build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-10-30T02:01:34.119986+00:00",
+  "revision": "683615d9cb403daaa930d584306c618267de04ec",
+  "summary": "Teste 'capture': pasta com textos, binário, .git e build rende só os textos em ordem, cada um seguido de 0; caminho inexistente gera erro",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/capture.cpp": "7ec908da97c3f70ed6c9ee33a4469d31d98b0b89c2da3646ccdb582a1f5045f8",
+    "src/capture.hpp": "dff3ca2885b031f0be8c93b49536e4ee178345b35c999557c1f901e1f2b0a896",
+    "tests/tests.cpp": "14844e62398c8989172764e1e89ae589623f1db32bc56cac72c2082cc7d031ba"
+  },
+  "sources_stable": true
+}

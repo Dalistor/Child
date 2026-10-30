@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-6f98cc15637449f4a706f3adaeda5ddf",
+  "contract": "base@1",
+  "rule": "PRO-01",
+  "contract_hash": "988b92bc6bf4f26ee6284f7f429cac286ddf37adad3e9fc4595746463dcb5da0",
+  "method": "test",
+  "command": [
+    "./build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-10-30T01:59:38.429366+00:00",
+  "revision": "683615d9cb403daaa930d584306c618267de04ec",
+  "summary": "Testes 'gradients match numeric' e 'learns a pattern': gradiente analítico bate com o numérico; perda cai de ~5,5 para <0,1 e todos os bytes são previstos",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/model.cpp": "3083d5c157389d2e613f312c559e012c0a62932c70bdfd5a5bf3f0e96cf9952d",
+    "src/model.hpp": "fa9959cbdae0d68661b37dc555dbc6a94c2f950c925aa94696cc4c80de3735d0",
+    "src/rng.hpp": "9d4dca796d6afbff1f21224c9b9a5195caf8e57154acaa7fd125a1df5cf3a913",
+    "tests/tests.cpp": "14844e62398c8989172764e1e89ae589623f1db32bc56cac72c2082cc7d031ba"
+  },
+  "sources_stable": true
+}

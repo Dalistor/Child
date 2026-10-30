@@ -25,3 +25,5 @@ enable_testing()
 add_executable(child_tests tests/tests.cpp)
 target_link_libraries(child_tests PRIVATE child_core)
 add_test(NAME child_tests COMMAND child_tests)
+add_test(NAME cli_branching
+  COMMAND sh ${CMAKE_SOURCE_DIR}/tests/cli_branching.sh $<TARGET_FILE:child> ${CMAKE_SOURCE_DIR}/src/rng.hpp)

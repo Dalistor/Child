@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "id": "base",
+  "version": 1,
+  "title": "Base virgem de uma rede neural que aprende: captação, processamento e armazenamento",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Fornecer uma base de rede neural sem treino, que capta texto e código como bytes, processa-os aprendendo a prever o próximo byte e armazena seu estado de forma que possa ser ramificado e continuar aprendendo por caminhos distintos.",
+  "extends": [],
+  "boundaries": [
+    "Sem dependências externas além do compilador C++20 e do CMake",
+    "O armazenamento nunca deixa um checkpoint parcial ou silenciosamente corrompido",
+    "Ensinar uma ramificação não altera a raiz nem as irmãs"
+  ],
+  "autonomy": [
+    "Organizar funções internas e otimizar desempenho sem mudar o formato do checkpoint nem o comportamento observável"
+  ],
+  "decisions": [
+    "Arquitetura do modelo além do MLP de janela fixa de 16 bytes (por exemplo, atenção) e como medir 'capacidade' do modelo",
+    "Estratégia contra o esquecimento catastrófico ao alimentar uma ramificação com dados novos",
+    "Política de compatibilidade entre versões do formato de checkpoint ao evoluir a arquitetura"
+  ],
+  "specification": {
+    "actors": [
+      "Desenvolvedor"
+    ],
+    "exclusions": [
+      "Alcançar capacidade equivalente à de um adulto: este contrato cobre apenas a base",
+      "Treino distribuído ou em GPU",
+      "Tokenização além de bytes"
+    ],
+    "use_cases": [
+      {
+        "id": "UC-01",
+        "title": "Criar, ramificar e ensinar uma base",
+        "actor": "Desenvolvedor",
+        "preconditions": [
+          "Projeto compilado"
+        ],
+        "main_flow": [
+          "Criar uma base virgem a partir de uma semente",
+          "Ramificar a base em uma ou mais cópias nomeadas",
+          "Alimentar uma ramificação com arquivos ou pastas de código",
+          "Consultar a linhagem e gerar texto para observar o que foi aprendido"
+        ],
+        "alternatives": [
+          "Fonte sem texto aproveitável: informar erro e não alterar o checkpoint",
+          "Checkpoint corrompido ou inexistente: informar erro e não prosseguir"
+        ],
+        "postconditions": [
+          "Cada ramificação guarda seu próprio estado, pai e total de bytes aprendidos"
+        ],
+        "rules": [
+          "CAP-01",
+          "PRO-01",
+          "PRO-02",
+          "ARM-01",
+          "RAM-01"
+        ]
+      }
+    ],
+    "data_model": {
+      "entities": [
+        {
+          "name": "Checkpoint",
+          "attributes": [
+            "config",
+            "linhagem",
+            "parâmetros",
+            "checksum"
+          ],
+          "invariants": [
+            "Número de parâmetros coincide com a configuração",
+            "Checksum cobre todo o conteúdo anterior"
+          ]
+        },
+        {
+          "name": "Linhagem",
+          "attributes": [
+            "id",
+            "pai",
+            "nome",
+            "bytes aprendidos"
+          ],
+          "invariants": [
+            "id diferente de 0",
+            "pai é 0 apenas em uma raiz"
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "from": "Linhagem",
+          "to": "Linhagem",
+          "cardinality": "1:N",
+          "invariants": [
+            "Uma ramificação aponta para o id do checkpoint do qual foi copiada"
+          ]
+        }
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "CAP-01",
+      "kind": "functional",
+      "description": "A captação converte arquivo, pasta ou stdin em um fluxo de bytes determinístico, ignorando binários, pastas ocultas, build e node_modules",
+      "acceptance": [
+        "Em uma pasta com dois arquivos de texto, um binário e pastas .git e build, o resultado contém apenas os dois textos, em ordem de caminho, cada um seguido de um byte 0",
+        "Um caminho inexistente produz erro"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "PRO-01",
+      "kind": "functional",
+      "description": "A rede prevê o próximo byte a partir da janela anterior e aprende reduzindo a perda de entropia cruzada",
+      "acceptance": [
+        "O gradiente calculado pela retropropagação coincide com o gradiente numérico dentro de tolerância",
+        "Numa frase curta repetida, a perda cai de cerca de ln 256 para próximo de zero e todos os bytes são previstos corretamente"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "PRO-02",
+      "kind": "functional",
+      "description": "Uma base virgem é determinística pela semente e quase uniforme antes de qualquer aprendizado",
+      "acceptance": [
+        "A mesma semente produz parâmetros idênticos e sementes diferentes produzem parâmetros diferentes",
+        "Antes do treino, as probabilidades somam 1 e nenhuma ultrapassa 5%"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "ARM-01",
+      "kind": "functional",
+      "description": "O checkpoint é restaurado exatamente, é escrito de forma atômica e qualquer adulteração é detectada",
+      "acceptance": [
+        "Salvar e carregar preserva configuração, linhagem e parâmetros bit a bit",
+        "Alterar um byte do arquivo faz o carregamento falhar",
+        "Não resta arquivo temporário após salvar com sucesso"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "RAM-01",
+      "kind": "functional",
+      "description": "Uma ramificação copia o estado, ganha identidade própria apontando para o pai e diverge sem afetar as demais",
+      "acceptance": [
+        "Duas ramificações da mesma raiz têm ids distintos e o mesmo pai",
+        "Ensinar a ramificação a não altera a raiz nem a ramificação b",
+        "O total de bytes aprendidos reflete bytes x épocas apenas na ramificação alimentada"
+      ],
+      "depends_on": [
+        "base/ARM-01"
+      ]
+    },
+    {
+      "id": "RNF-01",
+      "kind": "non_functional",
+      "description": "O projeto compila do zero usando somente compilador C++20 e CMake, sem bibliotecas externas, e sem avisos com -Wall -Wextra -Wpedantic",
+      "acceptance": [
+        "cmake -S . -B build -G Ninja && cmake --build build conclui sem avisos num ambiente sem outras dependências instaladas"
+      ],
+      "depends_on": []
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-10-29",
+    "reference": "Pedido do usuário na sessão de 2026-10-29: \"aprovar o contrato e registrar as evidências\""
+  }
+}

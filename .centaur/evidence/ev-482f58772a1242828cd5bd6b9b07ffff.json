@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "id": "ev-482f58772a1242828cd5bd6b9b07ffff",
+  "contract": "base@1",
+  "rule": "RNF-01",
+  "contract_hash": "988b92bc6bf4f26ee6284f7f429cac286ddf37adad3e9fc4595746463dcb5da0",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "rm -rf .centaur/build/rnf01 && cmake -S . -B .centaur/build/rnf01 -G Ninja -DCMAKE_CXX_FLAGS=-Werror >/dev/null && cmake --build .centaur/build/rnf01"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-10-30T01:59:42.476587+00:00",
+  "revision": "683615d9cb403daaa930d584306c618267de04ec",
+  "summary": "Build limpo do zero em diretório novo com -Werror (-Wall -Wextra -Wpedantic ativos) conclui sem avisos; CMakeLists não declara dependências externas",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "0ec8bf22c13a6e5146e4a53f8dc76b4336f1ef0df49e496328dfcffb603eb379",
+    "src/capture.cpp": "7ec908da97c3f70ed6c9ee33a4469d31d98b0b89c2da3646ccdb582a1f5045f8",
+    "src/main.cpp": "e2b6128bb505413ac717e04f5e167984fb41cbb323d4b19a05c627cefe710672",
+    "src/model.cpp": "3083d5c157389d2e613f312c559e012c0a62932c70bdfd5a5bf3f0e96cf9952d",
+    "src/store.cpp": "5c89635650a9013efb0024935e4180b272fe09b78822a9a900402660795a67a4"
+  },
+  "sources_stable": true
+}

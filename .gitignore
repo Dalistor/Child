@@ -1,0 +1,7 @@
+build/
+.centaur/tmp/
+.centaur/backups/
+.centaur/build/
+.centaur/graphify/
+.centaur/worktrees/
+.centaur/ai-memory/pending/

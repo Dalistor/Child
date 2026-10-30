@@ -1,0 +1,194 @@
+{
+  "schema": 1,
+  "contract": "base@2",
+  "rules": {
+    "CAP-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/capture.cpp",
+          "start": 42,
+          "end": 69,
+          "role": "Captação de arquivo, pasta e stdin"
+        },
+        {
+          "path": "src/capture.cpp",
+          "start": 16,
+          "end": 18,
+          "role": "Filtro de pastas ignoradas"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 179,
+          "end": 205,
+          "role": "Teste da captação"
+        }
+      ],
+      "evidence": [
+        "ev-92190a8fea7c427a9b86ae05cda8a465"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": []
+    },
+    "PRO-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/model.cpp",
+          "start": 49,
+          "end": 76,
+          "role": "Passagem direta"
+        },
+        {
+          "path": "src/model.cpp",
+          "start": 83,
+          "end": 122,
+          "role": "Retropropagação"
+        },
+        {
+          "path": "src/model.cpp",
+          "start": 137,
+          "end": 165,
+          "role": "Laço de aprendizado"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 31,
+          "end": 64,
+          "role": "Gradiente contra diferença numérica"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 82,
+          "end": 108,
+          "role": "Aprendizado de um padrão"
+        }
+      ],
+      "evidence": [
+        "ev-0f09170e710649c3a062a6b4501d17d1"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": []
+    },
+    "PRO-02": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/model.cpp",
+          "start": 16,
+          "end": 26,
+          "role": "Inicialização determinística por semente"
+        },
+        {
+          "path": "src/model.cpp",
+          "start": 49,
+          "end": 76,
+          "role": "Softmax sobre pesos iniciais"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 66,
+          "end": 80,
+          "role": "Teste da base virgem"
+        }
+      ],
+      "evidence": [
+        "ev-bf762a43646c4dc1991cf1f635ecdf95"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": []
+    },
+    "ARM-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/store.cpp",
+          "start": 83,
+          "end": 110,
+          "role": "Escrita atômica com checksum"
+        },
+        {
+          "path": "src/store.cpp",
+          "start": 112,
+          "end": 147,
+          "role": "Leitura com verificação de integridade"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 110,
+          "end": 155,
+          "role": "Ida e volta e detecção de corrupção"
+        }
+      ],
+      "evidence": [
+        "ev-afbdcbd8a4c944c3a8546bd4cf2924a5"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": []
+    },
+    "RAM-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/store.cpp",
+          "start": 75,
+          "end": 81,
+          "role": "Ramificação com nova identidade e pai"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 157,
+          "end": 177,
+          "role": "Isolamento entre ramificações"
+        },
+        {
+          "path": "src/main.cpp",
+          "start": 101,
+          "end": 121,
+          "role": "Contagem de bytes aprendidos no feed"
+        },
+        {
+          "path": "tests/cli_branching.sh",
+          "start": 1,
+          "end": 20,
+          "role": "Fluxo ponta a ponta de ramificação pelo CLI"
+        }
+      ],
+      "evidence": [
+        "ev-f82716134ccc43a98e155a61f1130a6d",
+        "ev-1866cfd6786e4978ab1d47461af3f344"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": []
+    },
+    "RNF-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "CMakeLists.txt",
+          "start": 1,
+          "end": 29,
+          "role": "Alvos e flags de compilação, sem dependências externas"
+        }
+      ],
+      "evidence": [
+        "ev-545f62a09229475f86bfb5c0a0c87316"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [],
+      "notes": "Prova o build limpo sem avisos aqui; não prova a ausência de outras bibliotecas instaladas na máquina, só que o CMakeLists não declara nenhuma."
+    }
+  }
+}

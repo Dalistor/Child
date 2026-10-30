@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-afbdcbd8a4c944c3a8546bd4cf2924a5",
+  "contract": "base@2",
+  "rule": "ARM-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "./build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-10-30T02:01:35.107484+00:00",
+  "revision": "683615d9cb403daaa930d584306c618267de04ec",
+  "summary": "Teste 'store roundtrip and corruption': ida e volta exata, byte adulterado e arquivo ausente falham, sem .tmp residual",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/store.cpp": "5c89635650a9013efb0024935e4180b272fe09b78822a9a900402660795a67a4",
+    "src/store.hpp": "46cacd5e099df84fa87a0c005f08505faf2ca492e2a65f0ee5f68b1ac0595676",
+    "tests/tests.cpp": "14844e62398c8989172764e1e89ae589623f1db32bc56cac72c2082cc7d031ba"
+  },
+  "sources_stable": true
+}

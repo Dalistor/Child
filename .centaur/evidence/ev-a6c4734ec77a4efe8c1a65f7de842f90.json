@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "ev-a6c4734ec77a4efe8c1a65f7de842f90",
+  "contract": "base@1",
+  "rule": "RAM-01",
+  "contract_hash": "988b92bc6bf4f26ee6284f7f429cac286ddf37adad3e9fc4595746463dcb5da0",
+  "method": "test",
+  "command": [
+    "sh",
+    "tests/cli_branching.sh",
+    "./build/child",
+    "src/rng.hpp"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-10-30T02:00:36.719996+00:00",
+  "revision": "683615d9cb403daaa930d584306c618267de04ec",
+  "summary": "Teste 'cli_branching': após init, duas ramificações e feed de 2 épocas em uma delas, só ela tem bytes aprendidos = bytes captados x 2; raiz e irmã permanecem em 0",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "12d719fcbe57e7c23c7c4a1b0695a5fa3575a7ef2cc348559cc78bac4d5d0ccf",
+    "src/main.cpp": "e2b6128bb505413ac717e04f5e167984fb41cbb323d4b19a05c627cefe710672",
+    "src/store.cpp": "5c89635650a9013efb0024935e4180b272fe09b78822a9a900402660795a67a4",
+    "tests/cli_branching.sh": "977d945aee5e06aae34fd165745a70d6948174e42b196f041134a83c2741b688",
+    "tests/tests.cpp": "14844e62398c8989172764e1e89ae589623f1db32bc56cac72c2082cc7d031ba"
+  },
+  "sources_stable": true
+}
