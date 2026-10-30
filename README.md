@@ -24,7 +24,7 @@ Estrutura-alvo, por regiões do cérebro: `thalamus/` (entrada sensorial), `neur
 
 ## Seja realista
 
-O cérebro humano tem 86 bilhões de neurônios e de 10¹⁴ a 10¹⁵ sinapses. Um neurônio humano real é bem mais complexo que o artificial clássico. O objetivo aqui é uma versão **bem simplificada**, e uma GPU como a desta máquina deve simular, segundo benchmarks de outra GPU, na casa de centenas de milhares de neurônios simples, não de bilhões (ainda não medimos aqui). A [pesquisa](.centaur/system/pesquisa-cerebro.md) por trás de cada decisão, com fontes, está registrada.
+O cérebro humano tem 86 bilhões de neurônios e de 10¹⁴ a 10¹⁵ sinapses. Um neurônio humano real é bem mais complexo que o artificial clássico. O objetivo aqui é uma versão **bem simplificada**, e uma GPU como a desta máquina deve simular, segundo benchmarks de outra GPU, na casa de centenas de milhares de neurônios simples, não de bilhões (ainda não medimos aqui). A [pesquisa](docs/pesquisa-cerebro.md) por trás de cada decisão, com fontes, está registrada.
 
 ## Como usar a base atual
 
@@ -46,6 +46,6 @@ Depois do `feed`, só `a.child` terá bytes aprendidos; `root.child` continua vi
 ## Documentação
 
 - [Arquitetura](.centaur/system/architecture.md): o estado atual e a direção.
-- [Pesquisa](.centaur/system/pesquisa-cerebro.md): neurônio humano, modelos, aprendizado, esquecimento e escala.
+- [Pesquisa](docs/pesquisa-cerebro.md): neurônio humano, modelos, aprendizado, esquecimento e escala.
 - [Contratos](.centaur/contracts): o comportamento esperado, regra por regra, com as [evidências](.centaur/evidence) dos testes da base.
 - [AGENTS.md](AGENTS.md): instruções para agentes de IA que trabalham no projeto, que usa o fluxo [Centaur](.centaur/workspace.json).

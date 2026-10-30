@@ -1,6 +1,6 @@
 # Pesquisa: do MLP a uma versão simplificada do cérebro
 
-Levantamento de 2026-10-30 que fundamenta o contrato [`cerebro`](../contracts/cerebro/v001.json). Baseado nos resumos devolvidos pelas buscas, não nos artigos completos; os números de custo são antigos e dependem da implementação.
+Levantamento de 2026-10-30 que fundamenta o contrato [`cerebro`](../.centaur/contracts/cerebro/v001.json). Baseado nos resumos devolvidos pelas buscas, não nos artigos completos; os números de custo são antigos e dependem da implementação.
 
 ## O neurônio humano
 
