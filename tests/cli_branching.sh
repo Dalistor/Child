@@ -2,7 +2,7 @@
 # End-to-end check of branching through the CLI: only the fed branch learns.
 set -eu
 bin=${1:-./build/child}
-src=${2:-src/rng.hpp}
+src=${2:-src/model/rng.hpp}
 dir=$(mktemp -d)
 trap 'rm -rf "$dir"' EXIT
 

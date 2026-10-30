@@ -6,13 +6,13 @@ Fatos extraídos do código em 2026-10-29. As regras normativas estão no contra
 
 ```
 fonte (arquivo | pasta | stdin)
-   │  captação  ─ src/capture.cpp
+   │  captação  ─ src/capture/capture.cpp
    ▼
-bytes ──► janela de 16 bytes ──► rede ─ src/model.cpp ──► P(próximo byte)
+bytes ──► janela de 16 bytes ──► rede ─ src/model/model.cpp ──► P(próximo byte)
                                   │
                                   ▼ aprendizado (learn)
                            parâmetros atualizados
-                                  │  armazenamento ─ src/store.cpp
+                                  │  armazenamento ─ src/store/store.cpp
                                   ▼
                       checkpoint (.child) + linhagem
 ```
@@ -21,9 +21,9 @@ bytes ──► janela de 16 bytes ──► rede ─ src/model.cpp ──► P(
 
 | Módulo | Arquivos | Responsabilidade | Depende de |
 |---|---|---|---|
-| Captação | [capture.hpp](../../src/capture.hpp), [capture.cpp](../../src/capture.cpp) | Fonte → bytes determinísticos | nada do projeto |
-| Processamento | [model.hpp](../../src/model.hpp), [model.cpp](../../src/model.cpp), [rng.hpp](../../src/rng.hpp) | Rede, retropropagação, SGD, `learn` | nada do projeto |
-| Armazenamento | [store.hpp](../../src/store.hpp), [store.cpp](../../src/store.cpp) | Checkpoint, checksum, linhagem, `fork` | `model.hpp` (só `Config`) |
+| Captação | [capture.hpp](../../src/capture/capture.hpp), [capture.cpp](../../src/capture/capture.cpp) | Fonte → bytes determinísticos | nada do projeto |
+| Processamento | [model.hpp](../../src/model/model.hpp), [model.cpp](../../src/model/model.cpp), [rng.hpp](../../src/model/rng.hpp) | Rede, retropropagação, SGD, `learn` | nada do projeto |
+| Armazenamento | [store.hpp](../../src/store/store.hpp), [store.cpp](../../src/store/store.cpp) | Checkpoint, checksum, linhagem, `fork` | `model.hpp` (só `Config`) |
 | CLI | [main.cpp](../../src/main.cpp) | `init`, `fork`, `info`, `feed`, `sample` | os três acima |
 
 Processamento e captação não se conhecem; só o CLI os une.

@@ -11,9 +11,9 @@ endif()
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native")
 
 add_library(child_core STATIC
-  src/capture.cpp
-  src/model.cpp
-  src/store.cpp)
+  src/capture/capture.cpp
+  src/model/model.cpp
+  src/store/store.cpp)
 target_include_directories(child_core PUBLIC src)
 target_compile_options(child_core PRIVATE -Wall -Wextra -Wpedantic)
 
@@ -26,4 +26,4 @@ add_executable(child_tests tests/tests.cpp)
 target_link_libraries(child_tests PRIVATE child_core)
 add_test(NAME child_tests COMMAND child_tests)
 add_test(NAME cli_branching
-  COMMAND sh ${CMAKE_SOURCE_DIR}/tests/cli_branching.sh $<TARGET_FILE:child> ${CMAKE_SOURCE_DIR}/src/rng.hpp)
+  COMMAND sh ${CMAKE_SOURCE_DIR}/tests/cli_branching.sh $<TARGET_FILE:child> ${CMAKE_SOURCE_DIR}/src/model/rng.hpp)

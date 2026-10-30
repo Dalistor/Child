@@ -30,9 +30,9 @@ Rode os comandos a partir da raiz do projeto. Arquivos `.child` são checkpoints
 ## Arquitetura de Camadas
 | Camada | Pasta | Responsabilidade | Proibido |
 |---|---|---|---|
-| Captação | `src/capture.*` | Fonte → bytes | Conhecer o modelo ou o armazenamento |
-| Processamento | `src/model.*`, `src/rng.hpp` | Rede, gradientes, `learn` | E/S de arquivos; conhecer captação ou armazenamento |
-| Armazenamento | `src/store.*` | Checkpoint, linhagem, `fork` | Alterar pesos; depender de algo além de `Config` do modelo |
+| Captação | `src/capture/` | Fonte → bytes | Conhecer o modelo ou o armazenamento |
+| Processamento | `src/model/` | Rede, gradientes, `learn` | E/S de arquivos; conhecer captação ou armazenamento |
+| Armazenamento | `src/store/` | Checkpoint, linhagem, `fork` | Alterar pesos; depender de algo além de `Config` do modelo |
 | CLI | `src/main.cpp` | Orquestra as camadas | Lógica de aprendizado ou de formato |
 
 Dependências apontam para dentro: só o CLI conhece as três camadas. Mudar o formato do checkpoint exige subir `kVersion` em `store.cpp`.

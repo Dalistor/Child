@@ -8,9 +8,9 @@
 #include <string>
 #include <vector>
 
-#include "capture.hpp"
-#include "model.hpp"
-#include "store.hpp"
+#include "capture/capture.hpp"
+#include "model/model.hpp"
+#include "store/store.hpp"
 
 using namespace child;
 

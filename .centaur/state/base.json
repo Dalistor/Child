@@ -6,13 +6,13 @@
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/capture.cpp",
+          "path": "src/capture/capture.cpp",
           "start": 42,
           "end": 69,
           "role": "Captação de arquivo, pasta e stdin"
         },
         {
-          "path": "src/capture.cpp",
+          "path": "src/capture/capture.cpp",
           "start": 16,
           "end": 18,
           "role": "Filtro de pastas ignoradas"
@@ -25,7 +25,7 @@
         }
       ],
       "evidence": [
-        "ev-92190a8fea7c427a9b86ae05cda8a465"
+        "ev-d16f5aabfac34913a7bb4a4eda8e95e6"
       ],
       "delivery": {
         "stage": "integrated",
@@ -39,19 +39,19 @@
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/model.cpp",
+          "path": "src/model/model.cpp",
           "start": 49,
           "end": 76,
           "role": "Passagem direta"
         },
         {
-          "path": "src/model.cpp",
+          "path": "src/model/model.cpp",
           "start": 83,
           "end": 122,
           "role": "Retropropagação"
         },
         {
-          "path": "src/model.cpp",
+          "path": "src/model/model.cpp",
           "start": 137,
           "end": 165,
           "role": "Laço de aprendizado"
@@ -70,7 +70,7 @@
         }
       ],
       "evidence": [
-        "ev-0f09170e710649c3a062a6b4501d17d1"
+        "ev-41e952360da64ec6b488e2b3449e79be"
       ],
       "delivery": {
         "stage": "integrated",
@@ -84,13 +84,13 @@
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/model.cpp",
+          "path": "src/model/model.cpp",
           "start": 16,
           "end": 26,
           "role": "Inicialização determinística por semente"
         },
         {
-          "path": "src/model.cpp",
+          "path": "src/model/model.cpp",
           "start": 49,
           "end": 76,
           "role": "Softmax sobre pesos iniciais"
@@ -103,7 +103,7 @@
         }
       ],
       "evidence": [
-        "ev-bf762a43646c4dc1991cf1f635ecdf95"
+        "ev-846b86f54d964403a7669c5e00cfff33"
       ],
       "delivery": {
         "stage": "integrated",
@@ -117,13 +117,13 @@
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/store.cpp",
+          "path": "src/store/store.cpp",
           "start": 83,
           "end": 110,
           "role": "Escrita atômica com checksum"
         },
         {
-          "path": "src/store.cpp",
+          "path": "src/store/store.cpp",
           "start": 112,
           "end": 147,
           "role": "Leitura com verificação de integridade"
@@ -136,7 +136,7 @@
         }
       ],
       "evidence": [
-        "ev-afbdcbd8a4c944c3a8546bd4cf2924a5"
+        "ev-75de59246fde45fc8226ef8f91a176b8"
       ],
       "delivery": {
         "stage": "integrated",
@@ -150,7 +150,7 @@
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/store.cpp",
+          "path": "src/store/store.cpp",
           "start": 75,
           "end": 81,
           "role": "Ramificação com nova identidade e pai"
@@ -175,8 +175,8 @@
         }
       ],
       "evidence": [
-        "ev-f82716134ccc43a98e155a61f1130a6d",
-        "ev-1866cfd6786e4978ab1d47461af3f344"
+        "ev-27af57c500d5463ba24b09839b6b800e",
+        "ev-4578d518046c4be7b4a4c8735a3603b1"
       ],
       "delivery": {
         "stage": "integrated",
@@ -197,7 +197,7 @@
         }
       ],
       "evidence": [
-        "ev-545f62a09229475f86bfb5c0a0c87316"
+        "ev-8447ac2a812f4a448da96c488ff1d10b"
       ],
       "delivery": {
         "stage": "integrated",

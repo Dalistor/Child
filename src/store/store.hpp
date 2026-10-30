@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "model.hpp"
+#include "model/model.hpp"
 
 namespace child {
 
