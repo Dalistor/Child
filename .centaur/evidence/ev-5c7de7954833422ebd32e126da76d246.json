@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "id": "ev-5c7de7954833422ebd32e126da76d246",
+  "contract": "base@2",
+  "rule": "RAM-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "sh",
+    "tests/cli_branching.sh",
+    "./build/child",
+    "src/model/rng.hpp"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T17:29:31.676817+00:00",
+  "revision": "addccea31e54bab717cc56910a55286227a0a5a8",
+  "summary": "cli_branching com o engrama formato 2: só a ramificação alimentada aprende",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/engram/engram.cpp": "ae1a31ab0cb7404331b636a6cd488d291c148b189c1ef2059cccfe11411f7e99",
+    "src/main.cpp": "b8840c005a2a8683506c87f66226233d2ae364dd74eac4c81e02e5c3fa45566b",
+    "tests/cli_branching.sh": "fa677a944bcc274c97bd5a67549f3af11814565fdc1fd8dba8f0e307dab761c9",
+    "tests/tests.cpp": "b94825a627608230a30e34fd4a9c12589c909167e6dec24148d04b9d8b24ea7d"
+  },
+  "sources_stable": true
+}

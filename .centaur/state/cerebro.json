@@ -19,7 +19,7 @@
         }
       ],
       "evidence": [
-        "ev-d50c0b9d6d7647afb9582e811b440029"
+        "ev-720f1fbfbebe4eeeae4083124ce43c3c"
       ],
       "delivery": {
         "stage": "local"
@@ -28,6 +28,89 @@
         "master/0007"
       ],
       "notes": "Legadas: capture, model. Revalidado contra o cerebro@2."
+    },
+    "NEU-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/neuron/neuron.hpp",
+          "start": 1,
+          "end": 42,
+          "role": "Parâmetros AdEx e interface do neurônio"
+        },
+        {
+          "path": "src/neuron/neuron.cpp",
+          "start": 1,
+          "end": 26,
+          "role": "Integração, disparo, reinício e adaptação"
+        }
+      ],
+      "evidence": [
+        "ev-c0045c3d943e4136a70a5cbe4fc58558"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0008"
+      ]
+    },
+    "SIN-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/synapse/synapse.hpp",
+          "start": 1,
+          "end": 43,
+          "role": "Parâmetros STDP e interface da sinapse"
+        },
+        {
+          "path": "src/synapse/synapse.cpp",
+          "start": 1,
+          "end": 35,
+          "role": "Traços, proposta de mudança e corte do peso"
+        }
+      ],
+      "evidence": [
+        "ev-2bfe32f2424947bf8d71306c21078f9f"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0008"
+      ]
+    },
+    "PAR-01": {
+      "implementation": "parcial",
+      "sources": [
+        {
+          "path": "src/neuron/neuron.hpp",
+          "start": 8,
+          "end": 19,
+          "role": "Padrões do AdEx (Brette & Gerstner 2005)"
+        },
+        {
+          "path": "src/synapse/synapse.hpp",
+          "start": 8,
+          "end": 14,
+          "role": "Padrões do STDP (Song 2000)"
+        },
+        {
+          "path": "docs/parametros.md",
+          "start": 5,
+          "end": 52,
+          "role": "Faixas publicadas"
+        }
+      ],
+      "evidence": [],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0008"
+      ],
+      "notes": "Neurônio e sinapse dentro das faixas; faltam dopamina, homeostase e inibição."
     }
   }
 }

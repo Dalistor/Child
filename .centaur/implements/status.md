@@ -10,6 +10,7 @@ Histórico de todas as implementações realizadas neste projeto.
 | 0004 | Documentação alinhada à síntese da pesquisa | 2026-11-02 | Concluído | .centaur/system/architecture.md, AGENTS.md, README.md |
 | 0005 | Repositório pronto para ser clonado | 2026-11-02 | Concluído | LICENSE, CONTRIBUTING.md, README.md |
 | 0006 | Fontes primárias confirmadas e faixas de parâmetros registradas | 2026-11-02 | Concluído | docs/parametros.md, docs/sintese.md, docs/README.md |
+| 0007 | Neurônio AdEx e sinapse com STDP | 2026-11-02 | Concluído | src/neuron/*, src/synapse/*, CMakeLists.txt, tests/tests.cpp, README.md, AGENTS.md, architecture.md |
 
 ---
 
