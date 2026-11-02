@@ -165,7 +165,10 @@
         "ev-ea5a45026dec49e79ffeb04b7f6dfb72"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #3 (commit 4ab7c9c)",
+        "revision": "4ab7c9cc7db91024762dd99ae1dc1c13780a89a6",
+        "at": "2026-11-02T17:35:26-03:00"
       },
       "specs": [
         "master/0009"

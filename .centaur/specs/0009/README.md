@@ -1,7 +1,7 @@
 # 2026 Dopamina como terceiro fator: o STDP só vira mudança de peso se a dopamina chegar a tempo
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** cerebro@2
@@ -108,7 +108,8 @@ Fora desta entrega:
 - Implementação: [0008](../../implements/0008/README.md). Seguiu o plano: τ_e 1 s, expiração em 5 s, τ_d 0,2 s, sem basal, `dw = e·d·dt` por Euler.
 - Escolha interna: a liberação de dopamina é medida pela integral do pulso, para a escala do reforço não depender de τ_d.
 - Mudaram `tests/tests.cpp`, `CMakeLists.txt`, `synapse.*` e o README, por isso as evidências afetadas foram refeitas.
-- Na branch `dopamine-third-factor`, com PR; falta o merge.
+- Entregue na branch `dopamine-third-factor`, PR #3.
+- Integrada no `main` pelo merge do PR #3 (4ab7c9c); `--ready cerebro/DOP-01` e `--complete master/0009` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Marca de elegibilidade e sinal de dopamina
