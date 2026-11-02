@@ -23,7 +23,9 @@ add_library(child_core STATIC
   src/engram/engram.cpp
   src/neuron/neuron.cpp
   src/synapse/synapse.cpp
-  src/dopamine/dopamine.cpp)
+  src/synapse/homeostasis.cpp
+  src/dopamine/dopamine.cpp
+  src/interneuron/interneuron.cpp)
 target_include_directories(child_core PUBLIC src)
 target_compile_options(child_core PRIVATE -Wall -Wextra -Wpedantic)
 

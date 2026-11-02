@@ -16,7 +16,10 @@
 #include "engram/engram.hpp"
 #include "neuron/neuron.hpp"
 #include "synapse/synapse.hpp"
+#include "synapse/homeostasis.hpp"
 #include "dopamine/dopamine.hpp"
+#include "interneuron/interneuron.hpp"
+#include "model/rng.hpp"
 
 using namespace child;
 namespace fs = std::filesystem;
@@ -215,6 +218,237 @@ void test_three_factor_plasticity() {
     CHECK(s.eligibility(5000.f) == 0.f);
 }
 
+// Background input: each source fires as a Poisson process, drawn from the
+// project's own Rng so the same seed gives the same spikes on every machine.
+class SpikeSource {
+public:
+    SpikeSource(uint64_t seed, float rate_hz) : rng_(seed), rate_(rate_hz) {}
+    void set_rate(float rate_hz) { rate_ = rate_hz; }
+    bool step(float dt = kStepMs) { return rng_.uniform() < rate_ * dt / 1000.f; }
+
+private:
+    Rng rng_;
+    float rate_;
+};
+
+// Lowest and highest potential over `duration_ms` without input current.
+std::pair<float, float> potential_range(Neuron& n, float duration_ms) {
+    float low = n.potential(), high = n.potential();
+    for (int i = 0; i < int(duration_ms / kStepMs); ++i) {
+        n.step(0.f);
+        low = std::min(low, n.potential());
+        high = std::max(high, n.potential());
+    }
+    return {low, high};
+}
+
+void test_synaptic_transmission() {
+    const float rest = AdExParams{}.rest;
+
+    Neuron excited;
+    excited.excite(5.f);
+    // Subthreshold adaptation (a > 0) makes a small rebound past rest afterwards.
+    const float e_high = potential_range(excited, 200.f).second;
+    Neuron inhibited;
+    inhibited.inhibit(5.f);
+    const float i_low = potential_range(inhibited, 200.f).first;
+    std::printf("  5 nS excitatory peak %+.3f mV, inhibitory trough %+.3f mV (from rest)\n", e_high - rest,
+                i_low - rest);
+    CHECK(e_high > rest + 0.5f);
+    CHECK(std::fabs(excited.potential() - rest) < 0.05f);
+    CHECK(excited.excitation() < 1e-6f);
+    CHECK(i_low < rest - 0.5f);
+    CHECK(std::fabs(inhibited.potential() - rest) < 0.05f);
+
+    // However strong, inhibition pulls the potential toward E_I and never past it.
+    Neuron clamped;
+    clamped.inhibit(1000.f);
+    CHECK(potential_range(clamped, 100.f).first >= ReceptorParams{}.inhibitory_reversal);
+
+    Neuron idle;
+    CHECK(potential_range(idle, 200.f).second < rest + 1e-3f);
+
+    SpikeSource a(9, 20.f), b(9, 20.f);
+    int spikes = 0, same = 0;
+    for (int i = 0; i < 100000; ++i) {
+        const bool fired = a.step();
+        spikes += fired;
+        same += fired == b.step();
+    }
+    std::printf("  20 Hz source: %d spikes in 10 s\n", spikes);
+    CHECK(same == 100000);
+    CHECK(spikes > 150 && spikes < 250);
+}
+
+// HOM-01: one neuron driven by background excitatory inputs. Homeostasis
+// brings it to the target rate; then the input rate doubles and the rate is
+// measured in 20 s windows, with the scaling kept on or switched off.
+constexpr float kMaxConductance = 1.f;  // nS at full weight (Song et al. 2000 range)
+
+struct ScalingRun {
+    float before;  // Hz, last 20 s before the input doubles
+    float after;   // Hz, 20 s window ending 50 s after it doubles
+    std::vector<float> rates;  // Hz per 10 s, after the doubling
+    float ratio_before, ratio_after;  // between two effective incoming weights
+};
+
+ScalingRun run_scaling(bool keep_homeostasis) {
+    constexpr int kInputs = 200;
+    constexpr float kRate = 20.f;  // Hz per input (Song et al. 2000 use 10-40)
+    std::vector<SpikeSource> sources;
+    std::vector<Synapse> synapses;
+    for (int i = 0; i < kInputs; ++i) {
+        sources.emplace_back(1000 + uint64_t(i), kRate);
+        synapses.emplace_back(0.3f + 0.1f * float(i % 5));
+    }
+    Neuron neuron;
+    Homeostasis homeostasis;
+
+    // Spikes per 10 s bin while running `seconds` of simulated time.
+    auto simulate = [&](int seconds, bool scaling) {
+        std::vector<int> bins(size_t(seconds / 10), 0);
+        const int steps_per_bin = int(10000.f / kStepMs);
+        for (int b = 0; b < int(bins.size()); ++b)
+            for (int i = 0; i < steps_per_bin; ++i) {
+                for (int k = 0; k < kInputs; ++k)
+                    if (sources[size_t(k)].step())
+                        neuron.excite(synapses[size_t(k)].weight() * homeostasis.gain() * kMaxConductance);
+                const bool fired = neuron.step(0.f);
+                if (scaling) homeostasis.step(fired, kStepMs);
+                bins[size_t(b)] += fired;
+            }
+        return bins;
+    };
+    auto window_rate = [](const std::vector<int>& bins, size_t end) {
+        return float(bins[end - 2] + bins[end - 1]) / 20.f;
+    };
+
+    ScalingRun r;
+    const auto warmup = simulate(100, true);
+    r.before = window_rate(warmup, warmup.size());
+    auto effective = [&](size_t k) { return synapses[k].weight() * homeostasis.gain(); };
+    r.ratio_before = effective(4) / effective(0);
+    for (auto& s : sources) s.set_rate(2.f * kRate);
+    const auto after = simulate(60, keep_homeostasis);
+    r.after = window_rate(after, 5);
+    for (int c : after) r.rates.push_back(float(c) / 10.f);
+    r.ratio_after = effective(4) / effective(0);
+    return r;
+}
+
+void test_homeostatic_scaling() {
+    const ScalingRun on = run_scaling(true), off = run_scaling(false);
+    for (const auto* r : {&on, &off}) {
+        std::printf("  %s: before %.2f Hz | after doubling, per 10 s:", r == &on ? "on " : "off", r->before);
+        for (float x : r->rates) std::printf(" %.1f", x);
+        std::printf(" | 30-50 s window %.2f Hz | weight ratio drift %.2e\n", r->after,
+                    r->ratio_after / r->ratio_before - 1.f);
+    }
+    CHECK(on.before >= 4.f && on.before <= 6.f);
+    CHECK(on.after >= 4.f && on.after <= 6.f);
+    CHECK(off.after < 4.f || off.after > 6.f);
+    CHECK(std::fabs(on.ratio_after / on.ratio_before - 1.f) < 1e-6f);
+    CHECK(HomeostasisParams{}.tau == 5000.f);
+    CHECK(HomeostasisParams{}.target_rate == 5.f);
+}
+
+// INB-01: an excitatory population with recurrent STDP synapses under a
+// strong constant background, with and without generic interneurons that
+// sample it and inhibit it back. Mean rate per 1 s window, in Hz.
+std::vector<float> run_population(bool inhibition) {
+    constexpr int kExcitatory = 200, kInhibitory = kExcitatory / 4;  // 4:1, as in cortex
+    constexpr float kRecurrence = 0.1f;      // E->E connection probability
+    constexpr float kRecurrentPeak = 12.f;   // nS at full weight; a small network needs strong synapses
+    constexpr float kToInterneuron = 0.5f;   // E->I connection probability
+    constexpr float kToInterneuronG = 1.f;   // nS per spike, fixed
+    constexpr float kBackgroundRate = 4000.f, kBackgroundG = 0.6f;  // 200 inputs at 20 Hz, pooled
+    Rng wiring(7);
+
+    struct Connection { int pre, post; Synapse synapse; };
+    std::vector<Connection> recurrent;
+    std::vector<std::vector<int>> outgoing(kExcitatory), incoming(kExcitatory), to_interneurons(kExcitatory);
+    for (int a = 0; a < kExcitatory; ++a)
+        for (int b = 0; b < kExcitatory; ++b)
+            if (a != b && wiring.uniform() < kRecurrence) {
+                outgoing[size_t(a)].push_back(int(recurrent.size()));
+                incoming[size_t(b)].push_back(int(recurrent.size()));
+                recurrent.push_back({a, b, Synapse(0.3f)});
+            }
+    for (auto& targets : to_interneurons)
+        for (int b = 0; b < kInhibitory; ++b)
+            if (wiring.uniform() < kToInterneuron) targets.push_back(b);
+
+    std::vector<Neuron> excitatory(kExcitatory);
+    std::vector<Interneuron> interneurons(kInhibitory);  // each one inhibits the whole population
+    std::vector<SpikeSource> background;
+    for (int i = 0; i < kExcitatory; ++i) background.emplace_back(100 + uint64_t(i), kBackgroundRate);
+
+    std::vector<float> rates;
+    std::vector<int> fired;
+    const int steps_per_window = int(1000.f / kStepMs);
+    for (int window = 0; window < 30; ++window) {
+        int spikes = 0;
+        for (int i = 0; i < steps_per_window; ++i) {
+            const float t = float(window * steps_per_window + i) * kStepMs;
+            fired.clear();
+            for (int k = 0; k < kExcitatory; ++k) {
+                if (background[size_t(k)].step()) excitatory[size_t(k)].excite(kBackgroundG);
+                if (excitatory[size_t(k)].step(0.f)) fired.push_back(k);
+            }
+            for (auto& cell : interneurons)
+                if (cell.step(0.f) && inhibition)
+                    for (auto& target : excitatory) cell.inhibit(target);
+            for (int a : fired) {
+                for (int c : outgoing[size_t(a)]) {
+                    Connection& link = recurrent[size_t(c)];
+                    link.synapse.apply(link.synapse.on_pre(t));
+                    excitatory[size_t(link.post)].excite(link.synapse.weight() * kRecurrentPeak);
+                }
+                for (int c : incoming[size_t(a)]) {
+                    Synapse& synapse = recurrent[size_t(c)].synapse;
+                    synapse.apply(synapse.on_post(t));
+                }
+                for (int b : to_interneurons[size_t(a)]) interneurons[size_t(b)].excite(kToInterneuronG);
+            }
+            spikes += int(fired.size());
+        }
+        rates.push_back(float(spikes) / float(kExcitatory));
+    }
+    return rates;
+}
+
+float mean_rate(const std::vector<float>& rates, size_t from, size_t to) {
+    float sum = 0.f;
+    for (size_t i = from; i < to; ++i) sum += rates[i];
+    return sum / float(to - from);
+}
+
+void test_inhibition() {
+    const std::vector<float> with = run_population(true), without = run_population(false);
+    for (const auto* r : {&with, &without}) {
+        std::printf("  %s:", r == &with ? "with inhibition   " : "without inhibition");
+        for (float x : *r) std::printf(" %.0f", x);
+        std::printf(" Hz\n");
+    }
+    // Stable: over the last 10 s, neighbouring windows differ by less than 20%,
+    // no trend from the 10 s before, and well below the 60 Hz instability limit.
+    for (size_t i = 21; i < 30; ++i) CHECK(std::fabs(with[i] - with[i - 1]) < 0.2f * with[i - 1]);
+    CHECK(std::fabs(mean_rate(with, 20, 30) / mean_rate(with, 10, 20) - 1.f) < 0.2f);
+    CHECK(*std::max_element(with.begin() + 20, with.end()) < 60.f);
+    // Without it, the same population grows past 60 Hz and stays there.
+    CHECK(mean_rate(without, 20, 30) > 60.f);
+    CHECK(mean_rate(without, 20, 30) > 2.f * mean_rate(without, 0, 2));
+
+    // An interneuron spike lowers the target's potential; its synapse is fixed.
+    Interneuron cell;
+    const float fixed = cell.conductance();
+    Neuron target;
+    cell.inhibit(target);
+    CHECK(potential_range(target, 100.f).first < AdExParams{}.rest - 0.2f);
+    CHECK(cell.conductance() == fixed);
+    CHECK(Interneuron().params().cell.spike_jump == 0.f);  // fast, non-adapting
+}
+
 void test_learns_a_pattern() {
     Model m(Config{16, 8, 64}, 3);
     std::vector<uint8_t> data = bytes("int main() { return 0; }\n");
@@ -393,6 +627,9 @@ int main() {
     run("adex neuron", test_adex_neuron);
     run("stdp synapse", test_stdp_synapse);
     run("three-factor plasticity", test_three_factor_plasticity);
+    run("synaptic transmission", test_synaptic_transmission);
+    run("homeostatic scaling", test_homeostatic_scaling);
+    run("inhibition", test_inhibition);
     run("engram roundtrip and corruption", test_engram_roundtrip_and_corruption);
     run("fork diverges but remembers", test_fork_diverges_but_remembers);
     run("capture", test_capture);
