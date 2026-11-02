@@ -1,7 +1,7 @@
 # 2026 Repositório pronto para ser clonado
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** base-aberta@1
@@ -47,7 +47,7 @@ Fontes: [README.md](../../../README.md), [AGENTS.md](../../../AGENTS.md) (regras
 - ABR-03 verificado numa cópia limpa da árvore candidata, não num `git clone` real (as mudanças não estão no remoto); repetir após o push.
 - Entrega local; falta o commit.
 
-- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Fica em revisão até o aceite humano da entrega.
+- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Concluída por aceite humano em 2026-11-02 ("Aceito, pode marcar as quatro como concluídas").
 
 ## Checklist de conclusão
 - [x] Task 01 — Licença, guia e exemplo

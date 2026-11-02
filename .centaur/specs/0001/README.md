@@ -1,7 +1,7 @@
 # 2026 Fontes primárias confirmadas e faixas de parâmetros registradas
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** —
@@ -56,7 +56,7 @@ Revisão humana do documento. Integração por commit em `main` quando autorizad
 - Duas correções da síntese: a estabilidade do STDP (vale para redes, não para um neurônio isolado com teto e depressão dominante) e a escala de tempo da homeostase em modelos.
 - Aguarda revisão humana e commit; a proposta de limiares aguarda decisão na master/0002.
 
-- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Fica em revisão até o aceite humano da entrega.
+- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Concluída por aceite humano em 2026-11-02 ("Aceito, pode marcar as quatro como concluídas").
 
 ## Checklist de conclusão
 - [x] Task 01 — Ler as fontes primárias das regras do `cerebro`
