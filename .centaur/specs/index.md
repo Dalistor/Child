@@ -11,6 +11,7 @@ Planejamentos de implementações complexas, decompostos em tasks para subagente
 | [0005](0005/README.md) | Engrama em seções versionadas | 2026-11-02 | Em revisão | 1 |
 | [0006](0006/README.md) | Repositório pronto para ser clonado | 2026-11-02 | Em revisão | 1 |
 | [0007](0007/README.md) | Script que verifica os nomes das estruturas do cérebro | 2026-11-02 | Em revisão | 1 |
+| [0008](0008/README.md) | Neurônio AdEx que dispara e se adapta, e sinapse que aprende por STDP | 2026-11-02 | Em revisão | 2 |
 
 ---
 

@@ -20,7 +20,9 @@ endif()
 add_library(child_core STATIC
   src/capture/capture.cpp
   src/model/model.cpp
-  src/engram/engram.cpp)
+  src/engram/engram.cpp
+  src/neuron/neuron.cpp
+  src/synapse/synapse.cpp)
 target_include_directories(child_core PUBLIC src)
 target_compile_options(child_core PRIVATE -Wall -Wextra -Wpedantic)
 

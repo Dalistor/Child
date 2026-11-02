@@ -52,7 +52,7 @@ O build padrão é portátil (`-O3 -ffp-contract=off`); `-DCHILD_NATIVE=ON` acre
 
 # Parte 2 — Direção: uma versão simplificada do cérebro (planejado)
 
-Nada abaixo está implementado, exceto o engrama em seções e a verificação de nomes (REG-01). O primeiro degrau tem contrato aprovado ([`cerebro` v002](../contracts/cerebro/v002.json)), com homeostase, inibição e limiares numéricos tirados de [parametros.md](../../docs/parametros.md). O roteiro completo e os critérios de cada degrau estão na [síntese](../../docs/sintese.md).
+Já implementados: o engrama em seções, a verificação de nomes (REG-01), o neurônio AdEx em `src/neuron/` (NEU-01) e a sinapse com STDP em `src/synapse/` (SIN-01). O resto está planejado. O primeiro degrau tem contrato aprovado ([`cerebro` v002](../contracts/cerebro/v002.json)), com homeostase, inibição e limiares numéricos tirados de [parametros.md](../../docs/parametros.md). O roteiro completo e os critérios de cada degrau estão na [síntese](../../docs/sintese.md).
 
 ## Princípios (decididos)
 
