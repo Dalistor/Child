@@ -10,7 +10,7 @@
 
 #include "capture/capture.hpp"
 #include "model/model.hpp"
-#include "store/store.hpp"
+#include "engram/engram.hpp"
 
 using namespace child;
 

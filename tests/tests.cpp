@@ -1,15 +1,18 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
+#include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <functional>
+#include <iterator>
+#include <optional>
 #include <string>
 #include <vector>
 
 #include "capture/capture.hpp"
 #include "model/model.hpp"
-#include "store/store.hpp"
+#include "engram/engram.hpp"
 
 using namespace child;
 namespace fs = std::filesystem;
@@ -79,6 +82,21 @@ void test_virgin_network() {
     CHECK(*std::max_element(probs, probs + kVocab) < 0.05f);
 }
 
+// Pins the exact weights a known seed and text produce, so a change in
+// initialization, learning or compiler floating point shows up on any machine.
+void test_reference_weights() {
+    Model m(Config{}, 42);
+    learn(m, bytes("int main() { return 0; }\n"), LearnOptions{});
+
+    uint64_t h = 0xcbf29ce484222325ull;  // FNV-1a 64
+    const auto* p = reinterpret_cast<const unsigned char*>(m.params().data());
+    for (size_t i = 0; i < m.params().size() * sizeof(float); ++i) h = (h ^ p[i]) * 0x100000001b3ull;
+
+    const uint64_t expected = 0x6213932d187d6039ull;
+    if (h != expected) std::printf("  weights hash 0x%016llx\n", static_cast<unsigned long long>(h));
+    CHECK(h == expected);
+}
+
 void test_learns_a_pattern() {
     Model m(Config{16, 8, 64}, 3);
     std::vector<uint8_t> data = bytes("int main() { return 0; }\n");
@@ -107,7 +125,38 @@ void test_learns_a_pattern() {
     CHECK(right == data.size());
 }
 
-void test_store_roundtrip_and_corruption() {
+std::string load_error(const std::string& path) {
+    try {
+        load(path);
+    } catch (const std::exception& e) {
+        return e.what();
+    }
+    return "";
+}
+
+// Saves `s`, then patches the format version (when `version` != 0) or the
+// first section's type, and re-seals the checksum so only that change counts.
+std::string rewritten(const std::string& path, const Snapshot& s, std::optional<uint32_t> type,
+                      uint32_t version) {
+    save(path, s);
+    std::ifstream in(path, std::ios::binary);
+    std::vector<uint8_t> buf{std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
+    in.close();
+
+    const size_t header = 4 + 4 + 8 * 3 + 4 + s.lineage.name.size() + 4;  // up to section count
+    if (version) std::memcpy(buf.data() + 4, &version, sizeof version);
+    if (type) std::memcpy(buf.data() + header, &*type, sizeof *type);
+
+    uint64_t h = 0xcbf29ce484222325ull;
+    for (size_t i = 0; i + 8 < buf.size(); ++i) h = (h ^ buf[i]) * 0x100000001b3ull;
+    std::memcpy(buf.data() + buf.size() - 8, &h, sizeof h);
+
+    std::string out = path + ".patched";
+    std::ofstream(out, std::ios::binary).write(reinterpret_cast<const char*>(buf.data()), std::streamsize(buf.size()));
+    return out;
+}
+
+void test_engram_roundtrip_and_corruption() {
     fs::path dir = "child_test_tmp";
     fs::create_directories(dir);
     std::string path = (dir / "a.child").string();
@@ -150,6 +199,11 @@ void test_store_roundtrip_and_corruption() {
         threw = true;
     }
     CHECK(threw);
+
+    // A well-formed engram whose section is unknown, or a format-1 file, must
+    // be refused with a message that says why, never read half-way.
+    CHECK(load_error(rewritten(path, s, 99, 0)).find("section type 99") != std::string::npos);
+    CHECK(load_error(rewritten(path, s, std::nullopt, 1)).find("recreate") != std::string::npos);
 
     fs::remove_all(dir);
 }
@@ -216,8 +270,9 @@ void run(const char* name, const std::function<void()>& fn) {
 int main() {
     run("gradients match numeric", test_gradients_match_numeric);
     run("virgin network", test_virgin_network);
+    run("reference weights", test_reference_weights);
     run("learns a pattern", test_learns_a_pattern);
-    run("store roundtrip and corruption", test_store_roundtrip_and_corruption);
+    run("engram roundtrip and corruption", test_engram_roundtrip_and_corruption);
     run("fork diverges but remembers", test_fork_diverges_but_remembers);
     run("capture", test_capture);
     std::printf(failures ? "%d check(s) failed\n" : "all passed\n", failures);

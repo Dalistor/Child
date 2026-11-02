@@ -1,4 +1,4 @@
-#include "store.hpp"
+#include "engram.hpp"
 
 #include <bit>
 #include <cstring>
@@ -8,14 +8,20 @@
 #include <random>
 #include <stdexcept>
 
-static_assert(std::endian::native == std::endian::little, "checkpoint format is little-endian");
+static_assert(std::endian::native == std::endian::little, "engram format is little-endian");
 
 namespace child {
 
 namespace {
 
 constexpr char kMagic[4] = {'C', 'H', 'L', 'D'};
-constexpr uint32_t kVersion = 1;
+// Format 2: header with lineage, then typed sections, then a checksum of all of
+// it. New brain structures add section types instead of changing the format.
+constexpr uint32_t kVersion = 2;
+
+// Section types and the version of each one's layout.
+constexpr uint32_t kSectionMlp = 1;
+constexpr uint32_t kSectionMlpVersion = 1;
 
 uint64_t fnv1a(const uint8_t* data, size_t n) {
     uint64_t h = 0xcbf29ce484222325ULL;
@@ -47,7 +53,7 @@ public:
         return v;
     }
     void get_bytes(void* out, size_t n) {
-        if (size_t(end_ - p_) < n) throw std::runtime_error("checkpoint is truncated");
+        if (size_t(end_ - p_) < n) throw std::runtime_error("engram is truncated");
         std::memcpy(out, p_, n);
         p_ += n;
     }
@@ -84,19 +90,26 @@ void save(const std::string& path, const Snapshot& snap) {
     if (snap.params.size() != snap.config.param_count())
         throw std::runtime_error("snapshot parameters do not match its config");
 
+    Writer mlp;
+    mlp.put(snap.config.embed);
+    mlp.put(snap.config.context);
+    mlp.put(snap.config.hidden);
+    mlp.put(uint64_t(snap.params.size()));
+    mlp.put_bytes(snap.params.data(), snap.params.size() * sizeof(float));
+
     Writer w;
     w.put_bytes(kMagic, sizeof kMagic);
     w.put(kVersion);
-    w.put(snap.config.embed);
-    w.put(snap.config.context);
-    w.put(snap.config.hidden);
     w.put(snap.lineage.id);
     w.put(snap.lineage.parent);
     w.put(snap.lineage.steps);
     w.put(uint32_t(snap.lineage.name.size()));
     w.put_bytes(snap.lineage.name.data(), snap.lineage.name.size());
-    w.put(uint64_t(snap.params.size()));
-    w.put_bytes(snap.params.data(), snap.params.size() * sizeof(float));
+    w.put(uint32_t(1));  // section count
+    w.put(kSectionMlp);
+    w.put(kSectionMlpVersion);
+    w.put(uint64_t(mlp.buf.size()));
+    w.put_bytes(mlp.buf.data(), mlp.buf.size());
     w.put(fnv1a(w.buf.data(), w.buf.size()));
 
     std::string tmp = path + ".tmp";
@@ -109,40 +122,67 @@ void save(const std::string& path, const Snapshot& snap) {
     std::filesystem::rename(tmp, path);
 }
 
+namespace {
+
+void read_mlp(Reader r, Snapshot& s) {
+    s.config.embed = r.get<uint32_t>();
+    s.config.context = r.get<uint32_t>();
+    s.config.hidden = r.get<uint32_t>();
+    uint64_t count = r.get<uint64_t>();
+    if (count != s.config.param_count() || count * sizeof(float) != r.remaining())
+        throw std::runtime_error("engram parameters do not match its config");
+    s.params.resize(count);
+    r.get_bytes(s.params.data(), count * sizeof(float));
+}
+
+}  // namespace
+
 Snapshot load(const std::string& path) {
     std::ifstream in(path, std::ios::binary);
     if (!in) throw std::runtime_error("cannot open " + path);
     std::vector<uint8_t> buf{std::istreambuf_iterator<char>(in), std::istreambuf_iterator<char>()};
 
-    if (buf.size() < sizeof kMagic + sizeof(uint64_t)) throw std::runtime_error("not a Child checkpoint: " + path);
+    if (buf.size() < sizeof kMagic + sizeof(uint64_t)) throw std::runtime_error("not a Child engram: " + path);
     size_t body = buf.size() - sizeof(uint64_t);
     uint64_t stored;
     std::memcpy(&stored, buf.data() + body, sizeof stored);
-    if (stored != fnv1a(buf.data(), body)) throw std::runtime_error("checkpoint is corrupted: " + path);
+    if (stored != fnv1a(buf.data(), body)) throw std::runtime_error("engram is corrupted: " + path);
 
     Reader r(buf.data(), body);
     char magic[4];
     r.get_bytes(magic, sizeof magic);
-    if (std::memcmp(magic, kMagic, sizeof magic) != 0) throw std::runtime_error("not a Child checkpoint: " + path);
-    if (r.get<uint32_t>() != kVersion) throw std::runtime_error("unsupported checkpoint version");
+    if (std::memcmp(magic, kMagic, sizeof magic) != 0) throw std::runtime_error("not a Child engram: " + path);
+    uint32_t version = r.get<uint32_t>();
+    if (version == 1)
+        throw std::runtime_error(path + " uses engram format 1, which is no longer read; recreate the base with `child init`");
+    if (version != kVersion) throw std::runtime_error("unsupported engram format " + std::to_string(version));
 
     Snapshot s;
-    s.config.embed = r.get<uint32_t>();
-    s.config.context = r.get<uint32_t>();
-    s.config.hidden = r.get<uint32_t>();
     s.lineage.id = r.get<uint64_t>();
     s.lineage.parent = r.get<uint64_t>();
     s.lineage.steps = r.get<uint64_t>();
     uint32_t name_len = r.get<uint32_t>();
-    if (name_len > r.remaining()) throw std::runtime_error("checkpoint is truncated");
+    if (name_len > r.remaining()) throw std::runtime_error("engram is truncated");
     s.lineage.name.resize(name_len);
     r.get_bytes(s.lineage.name.data(), name_len);
 
-    uint64_t count = r.get<uint64_t>();
-    if (count != s.config.param_count() || count * sizeof(float) != r.remaining())
-        throw std::runtime_error("checkpoint parameters do not match its config");
-    s.params.resize(count);
-    r.get_bytes(s.params.data(), count * sizeof(float));
+    bool has_mlp = false;
+    for (uint32_t n = r.get<uint32_t>(); n > 0; --n) {
+        uint32_t type = r.get<uint32_t>();
+        uint32_t layout = r.get<uint32_t>();
+        uint64_t size = r.get<uint64_t>();
+        if (size > r.remaining()) throw std::runtime_error("engram is truncated");
+        std::vector<uint8_t> data(size);
+        r.get_bytes(data.data(), size);
+
+        if (type != kSectionMlp) throw std::runtime_error("unknown engram section type " + std::to_string(type));
+        if (layout != kSectionMlpVersion || has_mlp)
+            throw std::runtime_error("unsupported or repeated engram section type " + std::to_string(type));
+        read_mlp(Reader(data.data(), data.size()), s);
+        has_mlp = true;
+    }
+    if (r.remaining() != 0) throw std::runtime_error("engram has trailing data");
+    if (!has_mlp) throw std::runtime_error("engram has no network section");
     return s;
 }
 
