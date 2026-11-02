@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "contract": "cerebro@2",
+  "rules": {
+    "REG-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "tests/brain_layout.py",
+          "start": 1,
+          "end": 25,
+          "role": "Verificação dos nomes das pastas de src/"
+        },
+        {
+          "path": "CMakeLists.txt",
+          "start": 38,
+          "end": 43,
+          "role": "Registro no ctest, pulado sem Python"
+        }
+      ],
+      "evidence": [
+        "ev-d50c0b9d6d7647afb9582e811b440029"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0007"
+      ],
+      "notes": "Legadas: capture, model. Revalidado contra o cerebro@2."
+    }
+  }
+}

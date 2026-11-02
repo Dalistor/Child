@@ -1,0 +1,54 @@
+{
+  "schema": 1,
+  "contract": "reprodutibilidade@1",
+  "rules": {
+    "REP-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "CMakeLists.txt",
+          "start": 11,
+          "end": 18,
+          "role": "Build portátil com -ffp-contract=off e opção CHILD_NATIVE"
+        }
+      ],
+      "evidence": [
+        "ev-34221aae94244d5992ad2cd7cb1a6f70"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0003"
+      ],
+      "notes": "Aprendizado caiu de ~9,2 mil para ~8,6 mil bytes/s (feed de 22.707 bytes, 2 épocas)."
+    },
+    "REP-02": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "tests/tests.cpp",
+          "start": 87,
+          "end": 98,
+          "role": "Hash de referência dos pesos"
+        },
+        {
+          "path": "CMakeLists.txt",
+          "start": 11,
+          "end": 18,
+          "role": "Flags que fixam o hash"
+        }
+      ],
+      "evidence": [
+        "ev-dbd75a97139949b0a3531a9010e73e8a"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0003"
+      ],
+      "notes": "Com -march=native sem -ffp-contract=off o hash vira 0x621efdd9134abb6f e o teste falha mostrando o valor. A constante foi refeita em master/0005 após corrigir a base do FNV-1a no teste."
+    }
+  }
+}

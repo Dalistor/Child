@@ -1,0 +1,73 @@
+{
+  "schema": 1,
+  "contract": "base-aberta@1",
+  "rules": {
+    "ABR-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "LICENSE",
+          "start": 1,
+          "end": 21,
+          "role": "Licença MIT"
+        },
+        {
+          "path": "README.md",
+          "start": 68,
+          "end": 70,
+          "role": "Citação da licença"
+        }
+      ],
+      "evidence": [
+        "ev-1d1961e5e33646098f748a400c3f5742"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0006"
+      ]
+    },
+    "ABR-02": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "CONTRIBUTING.md",
+          "start": 1,
+          "end": 43,
+          "role": "Guia de contribuição"
+        }
+      ],
+      "evidence": [
+        "ev-496bcdc3a7a84d45815539516a6cbec1"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0006"
+      ]
+    },
+    "ABR-03": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "README.md",
+          "start": 33,
+          "end": 59,
+          "role": "Exemplo do clone ao fork treinado"
+        }
+      ],
+      "evidence": [
+        "ev-ebf769a3e31c44a5b874e4bcb2d3986f"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0006"
+      ],
+      "notes": "Verificado numa cópia limpa da árvore candidata; repetir com git clone real depois do push."
+    }
+  }
+}
