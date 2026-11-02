@@ -1,7 +1,7 @@
 # 2026 Build reprodutível entre máquinas
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** reprodutibilidade@1
@@ -57,6 +57,7 @@ Fontes: [CMakeLists.txt](../../../CMakeLists.txt), [tests/tests.cpp](../../../te
 - Confirmado que as flags antigas mudavam os pesos.
 - Durante a master/0005, a base do FNV-1a no teste foi corrigida (faltava um dígito) e a constante virou 0x6213932d187d6039; evidências refeitas.
 - Entrega local; falta o commit (integração não autorizada).
+- Integrada no `main` pelo merge do PR #2 (508d00f); `--complete` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Build padrão portátil e opção nativa

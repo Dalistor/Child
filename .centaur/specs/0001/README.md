@@ -56,6 +56,8 @@ Revisão humana do documento. Integração por commit em `main` quando autorizad
 - Duas correções da síntese: a estabilidade do STDP (vale para redes, não para um neurônio isolado com teto e depressão dominante) e a escala de tempo da homeostase em modelos.
 - Aguarda revisão humana e commit; a proposta de limiares aguarda decisão na master/0002.
 
+- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Fica em revisão até o aceite humano da entrega.
+
 ## Checklist de conclusão
 - [x] Task 01 — Ler as fontes primárias das regras do `cerebro`
 - [x] Task 02 — Atualizar a confiança da síntese e o índice

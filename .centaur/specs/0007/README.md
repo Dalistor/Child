@@ -1,10 +1,10 @@
 # 2026 Script que verifica os nomes das estruturas do cérebro
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
-**Contrato:** cerebro@1
+**Contrato:** cerebro@2
 **Regras:** REG-01
 **Spec mestre:** —
 **Specs filhas:** —
@@ -43,7 +43,8 @@ Fontes: [cerebro v001](../../contracts/cerebro/v001.json) (REG-01), [CMakeLists.
 ## Diferença entre plano e resultado
 - Implementação: [0003](../../implements/0003/README.md).
 - Legadas reduzidas a `capture` e `model` (a `store` virou `engram` na master/0005).
-- Entrega local; falta o commit.
+- O contrato passou de `cerebro@1` para `cerebro@2` durante a execução (master/0002). O REG-01 é idêntico nas duas versões e foi revalidado no v2.
+- Integrada no `main` pelo merge do PR #2 (508d00f).
 
 ## Checklist de conclusão
 - [x] Task 01 — Check do REG-01 no ctest

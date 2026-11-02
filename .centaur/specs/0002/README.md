@@ -5,7 +5,7 @@
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** cerebro@2
-**Regras:** APR-01, HOM-01, INB-01, PAR-01, CFG-01
+**Regras:** —
 **Spec mestre:** —
 **Specs filhas:** —
 **Dependências:** master/0001
@@ -48,6 +48,8 @@ Fontes: [cerebro v001](../../contracts/cerebro/v001.json), [v002](../../contract
 ## Diferença entre plano e resultado
 - v002 aprovado, sem decisões abertas. Acrescentado em `boundaries` o motivo da homeostase rápida (Zenke 2013).
 - Estado `cerebro.json` passou para `cerebro@2` e o REG-01 foi revalidado (nova evidência).
+- Correção do plano: as regras APR-01, HOM-01, INB-01, PAR-01 e CFG-01 estavam listadas aqui, mas esta spec só entrega o contrato que as define. A implementação delas fica com as specs de cada degrau (NEU-01 e SIN-01 já estão na master/0008).
+- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Fica em revisão até o aceite humano da entrega.
 - Próximo passo: spec de implementação do degrau 0 (NEU-01 e SIN-01).
 
 ## Checklist de conclusão

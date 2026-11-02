@@ -1,7 +1,7 @@
 # 2026 Engrama em seções versionadas
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** engrama@1
@@ -50,6 +50,7 @@ Fontes: [store.hpp](../../../src/store/store.hpp), [store.cpp](../../../src/stor
 - Evidências do `base@2` refeitas e estado `base.json` apontando para `src/engram/`.
 - `AGENTS.md` atualizado (camada Engrama).
 - Entrega local; falta o commit.
+- Integrada no `main` pelo merge do PR #2 (508d00f); `--complete` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Formato em seções em `src/engram/`

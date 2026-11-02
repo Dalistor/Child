@@ -53,6 +53,8 @@ Revisão humana. Commit em `main` quando autorizado.
 - Parte 1 da arquitetura também atualizada (engrama formato 2, build portátil).
 - Aguarda revisão humana e commit.
 
+- Integrada no `main` pelo merge do PR #2 (508d00f). O `--complete` não se aplica: a spec não declara regras de comportamento próprias (ou depende de uma que não declara). Fica em revisão até o aceite humano da entrega.
+
 ## Checklist de conclusão
 - [x] Task 01 — Alinhar arquitetura, AGENTS e README
 

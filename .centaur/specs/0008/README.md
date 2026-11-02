@@ -1,7 +1,7 @@
 # 2026 Neurônio AdEx que dispara e se adapta, e sinapse que aprende por STDP
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** cerebro@2
@@ -124,6 +124,7 @@ Fora desta entrega: DOP-01 (dopamina), APR-01 (neurônio que aprende um padrão)
 - Sinapse com traços decaídos sob demanda (só a cada evento).
 - Documentos atualizados (README, `AGENTS.md`, `architecture.md`). Por isso, e pelas mudanças em `tests/tests.cpp` e `CMakeLists.txt`, as evidências de todas as regras afetadas foram refeitas.
 - Entregue no PR #2, a pedido do usuário. Falta o merge.
+- Integrada no `main` pelo merge do PR #2 (508d00f); `--complete` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Neurônio AdEx em `src/neuron/`
