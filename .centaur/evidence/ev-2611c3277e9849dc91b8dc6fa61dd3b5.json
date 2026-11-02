@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-2611c3277e9849dc91b8dc6fa61dd3b5",
+  "contract": "base@2",
+  "rule": "ARM-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T17:42:55.725148+00:00",
+  "revision": "d33d08745cd7bb29f2a5897bddd0f3dab2ab7a19",
+  "summary": "Teste 'engram roundtrip and corruption' no formato 2: ida e volta exata, byte adulterado e arquivo ausente falham, sem .tmp residual",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/engram/engram.cpp": "ae1a31ab0cb7404331b636a6cd488d291c148b189c1ef2059cccfe11411f7e99",
+    "src/engram/engram.hpp": "7efe836fcb3064c3ef09afbd09d7432cc16bd2d650556418998c86ce701e3741",
+    "tests/tests.cpp": "1aa93a5606e5256ba21ab8238e471dc2bb465ba4570f80d7497b191fc7e08201"
+  },
+  "sources_stable": true
+}

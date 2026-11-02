@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-938a5564e23a4ffa96d6e3e0c43b6293",
+  "contract": "base-aberta@1",
+  "rule": "ABR-03",
+  "contract_hash": "f0e2e038bb03fa67449a970f968fe373056271a3dc12da1fca4a6bb0171c50fd",
+  "method": "test",
+  "command": [
+    "sh",
+    "/tmp/claude-1000/-home-dalistor-Documentos-Projetos-Child/74d48d18-9407-47e1-8ed0-f3dabb5c6218/scratchpad/readme_example.sh",
+    "/home/dalistor/Documentos/Projetos/Child"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T17:43:13.997974+00:00",
+  "revision": "d33d08745cd7bb29f2a5897bddd0f3dab2ab7a19",
+  "summary": "Bloco do README executado sem alterações numa cópia limpa da árvore candidata (o git clone foi trocado pela cópia, pois as mudanças ainda não estão no remoto): compila, ctest passa, meu.child aprende 73.332 bytes e root.child fica com 0. Script em scratchpad da sessão; refazer com git clone real após o push",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "README.md": "3ba98f74d14669dbcb7510b963002618867c89b0bc09a065e23b6bf96664edc5"
+  },
+  "sources_stable": true
+}
