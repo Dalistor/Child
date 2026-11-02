@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-677dcaaa4a1749e886943530353de758",
+  "contract": "base@2",
+  "rule": "PRO-02",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T17:42:55.338428+00:00",
+  "revision": "d33d08745cd7bb29f2a5897bddd0f3dab2ab7a19",
+  "summary": "Teste 'virgin network': mesma semente, pesos idênticos; quase uniforme antes do treino",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/model/model.cpp": "3083d5c157389d2e613f312c559e012c0a62932c70bdfd5a5bf3f0e96cf9952d",
+    "src/model/rng.hpp": "9d4dca796d6afbff1f21224c9b9a5195caf8e57154acaa7fd125a1df5cf3a913",
+    "tests/tests.cpp": "1aa93a5606e5256ba21ab8238e471dc2bb465ba4570f80d7497b191fc7e08201"
+  },
+  "sources_stable": true
+}

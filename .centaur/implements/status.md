@@ -11,6 +11,7 @@ Histórico de todas as implementações realizadas neste projeto.
 | 0005 | Repositório pronto para ser clonado | 2026-11-02 | Concluído | LICENSE, CONTRIBUTING.md, README.md |
 | 0006 | Fontes primárias confirmadas e faixas de parâmetros registradas | 2026-11-02 | Concluído | docs/parametros.md, docs/sintese.md, docs/README.md |
 | 0007 | Neurônio AdEx e sinapse com STDP | 2026-11-02 | Concluído | src/neuron/*, src/synapse/*, CMakeLists.txt, tests/tests.cpp, README.md, AGENTS.md, architecture.md |
+| 0008 | Dopamina como terceiro fator | 2026-11-02 | Concluído | src/dopamine/*, src/synapse/*, CMakeLists.txt, tests/tests.cpp, README.md, AGENTS.md, architecture.md |
 
 ---
 

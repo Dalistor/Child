@@ -19,7 +19,7 @@
         }
       ],
       "evidence": [
-        "ev-720f1fbfbebe4eeeae4083124ce43c3c"
+        "ev-08943958b83b4e1989e83c2f6a85e147"
       ],
       "delivery": {
         "stage": "integrated",
@@ -49,7 +49,7 @@
         }
       ],
       "evidence": [
-        "ev-c0045c3d943e4136a70a5cbe4fc58558"
+        "ev-25f1bdc964394127a17cd617839318e0"
       ],
       "delivery": {
         "stage": "integrated",
@@ -67,18 +67,18 @@
         {
           "path": "src/synapse/synapse.hpp",
           "start": 1,
-          "end": 43,
+          "end": 59,
           "role": "Parâmetros STDP e interface da sinapse"
         },
         {
           "path": "src/synapse/synapse.cpp",
           "start": 1,
-          "end": 35,
+          "end": 54,
           "role": "Traços, proposta de mudança e corte do peso"
         }
       ],
       "evidence": [
-        "ev-2bfe32f2424947bf8d71306c21078f9f"
+        "ev-920baddb88c94d9abaf72ce1a1d720a5"
       ],
       "delivery": {
         "stage": "integrated",
@@ -106,9 +106,21 @@
           "role": "Padrões do STDP (Song 2000)"
         },
         {
+          "path": "src/synapse/synapse.hpp",
+          "start": 16,
+          "end": 21,
+          "role": "τ_e 1 s e expiração (Frémaux & Gerstner 2016; Izhikevich 2007)"
+        },
+        {
+          "path": "src/dopamine/dopamine.hpp",
+          "start": 10,
+          "end": 10,
+          "role": "τ_d 0,2 s (Izhikevich, patente)"
+        },
+        {
           "path": "docs/parametros.md",
           "start": 5,
-          "end": 52,
+          "end": 64,
           "role": "Faixas publicadas"
         }
       ],
@@ -119,7 +131,45 @@
       "specs": [
         "master/0008"
       ],
-      "notes": "Neurônio e sinapse dentro das faixas; faltam dopamina, homeostase e inibição."
+      "notes": "Neurônio, sinapse, elegibilidade e dopamina dentro das faixas; faltam homeostase e inibição."
+    },
+    "DOP-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/dopamine/dopamine.hpp",
+          "start": 1,
+          "end": 24,
+          "role": "Sinal global de dopamina, pulsos sem basal"
+        },
+        {
+          "path": "src/dopamine/dopamine.cpp",
+          "start": 1,
+          "end": 11,
+          "role": "Liberação e decaimento"
+        },
+        {
+          "path": "src/synapse/synapse.hpp",
+          "start": 16,
+          "end": 21,
+          "role": "Parâmetros da marca de elegibilidade"
+        },
+        {
+          "path": "src/synapse/synapse.cpp",
+          "start": 36,
+          "end": 54,
+          "role": "Marca, expiração e reforço por dopamina"
+        }
+      ],
+      "evidence": [
+        "ev-ea5a45026dec49e79ffeb04b7f6dfb72"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0009"
+      ]
     }
   }
 }
