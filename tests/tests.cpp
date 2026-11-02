@@ -16,6 +16,7 @@
 #include "engram/engram.hpp"
 #include "neuron/neuron.hpp"
 #include "synapse/synapse.hpp"
+#include "dopamine/dopamine.hpp"
 
 using namespace child;
 namespace fs = std::filesystem;
@@ -175,6 +176,43 @@ void test_stdp_synapse() {
     CHECK(quiet.weight() == 0.5f);
     for (int i = 0; i < 100; ++i) quiet.apply(quiet.on_pre(10.f * float(i)));  // pre alone never pairs
     CHECK(quiet.weight() == 0.5f);
+}
+
+// DOP-01: a spike pair only changes the weight if dopamine arrives while its
+// eligibility trace is still alive. `release_at` < 0 means no dopamine.
+float three_factor_change(bool pre_first, float release_at) {
+    Synapse s(0.5f);
+    Dopamine dopamine;
+    s.tag(pre_first ? s.on_pre(0.f) : s.on_post(0.f), 0.f);
+    s.tag(pre_first ? s.on_post(5.f) : s.on_pre(5.f), 5.f);
+
+    const float dt = 1.f;
+    for (int i = 6; i <= 10000; ++i) {
+        const float t = float(i) * dt;
+        if (release_at >= 0.f && t == release_at) dopamine.release(1.f);
+        dopamine.step(dt);
+        s.reinforce(dopamine.level(), t, dt);
+    }
+    return s.weight() - 0.5f;
+}
+
+void test_three_factor_plasticity() {
+    const float soon = three_factor_change(true, 200.f), later = three_factor_change(true, 1000.f);
+    const float never = three_factor_change(true, -1.f), expired = three_factor_change(true, 6000.f);
+    const float reversed = three_factor_change(false, 200.f);
+    std::printf("  dopamine at 0.2 s %+.5f  1 s %+.5f  6 s %+.5f  none %+.5f | reversed pair %+.5f\n", soon,
+                later, expired, never, reversed);
+    CHECK(soon > 0.f);
+    CHECK(later > 0.f && later < soon);
+    CHECK(reversed < 0.f);
+    CHECK(never == 0.f);
+    CHECK(expired == 0.f);
+
+    Synapse s(0.5f);
+    s.tag(0.01f, 0.f);
+    CHECK(s.weight() == 0.5f);  // tagging alone never touches the weight
+    CHECK(s.eligibility(4999.f) > 0.f);
+    CHECK(s.eligibility(5000.f) == 0.f);
 }
 
 void test_learns_a_pattern() {
@@ -354,6 +392,7 @@ int main() {
     run("learns a pattern", test_learns_a_pattern);
     run("adex neuron", test_adex_neuron);
     run("stdp synapse", test_stdp_synapse);
+    run("three-factor plasticity", test_three_factor_plasticity);
     run("engram roundtrip and corruption", test_engram_roundtrip_and_corruption);
     run("fork diverges but remembers", test_fork_diverges_but_remembers);
     run("capture", test_capture);

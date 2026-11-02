@@ -13,12 +13,19 @@ struct StdpParams {
     float tau_minus = 20.f;          // ms, window for post-before-pre
 };
 
+// Eligibility trace for three-factor learning (Fremaux & Gerstner 2016): STDP
+// changes wait here until dopamine turns them into weight, or until they expire.
+struct EligibilityParams {
+    float tau = 1000.f;      // tau_e, ms
+    float lifetime = 5000.f; // ms after the last tag; then the trace is exactly zero
+};
+
 // A synapse only sees spike events and their times. STDP proposes a change at
 // each event and apply() commits it, so a third factor (dopamine) can sit in
 // between later without touching the rule.
 class Synapse {
 public:
-    explicit Synapse(float weight, const StdpParams& params = {});
+    explicit Synapse(float weight, const StdpParams& params = {}, const EligibilityParams& eligibility = {});
 
     // Spike times must not decrease. Each call returns the weight change the
     // STDP rule proposes for that event; nothing is applied yet.
@@ -28,16 +35,25 @@ public:
     // Adds `change` and clamps the weight to [0, max_weight].
     void apply(float change);
 
+    // Three-factor path: tag() keeps a proposed change as eligibility at time
+    // t instead of applying it; reinforce() turns eligibility into weight at
+    // the rate of the dopamine level, dw = e * dopamine * dt.
+    void tag(float change, float t);
+    void reinforce(float dopamine, float t, float dt);
+    float eligibility(float t) const;
+
     float weight() const { return w_; }
     const StdpParams& params() const { return p_; }
 
 private:
     StdpParams p_;
+    EligibilityParams e_params_;
     float w_;
     // Exponentially decaying traces of past spikes, decayed lazily to the
     // time of the next event.
     float pre_trace_ = 0.f, post_trace_ = 0.f;
     float pre_time_ = 0.f, post_time_ = 0.f;
+    float tag_ = 0.f, tag_time_ = 0.f;  // eligibility at the last tag
 };
 
 }  // namespace child
