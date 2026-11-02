@@ -19,13 +19,13 @@
         },
         {
           "path": "tests/tests.cpp",
-          "start": 179,
-          "end": 205,
+          "start": 233,
+          "end": 259,
           "role": "Teste da captação"
         }
       ],
       "evidence": [
-        "ev-d16f5aabfac34913a7bb4a4eda8e95e6"
+        "ev-b312b3b70f8f49e9a7e6a512d0c8517f"
       ],
       "delivery": {
         "stage": "integrated",
@@ -58,19 +58,19 @@
         },
         {
           "path": "tests/tests.cpp",
-          "start": 31,
-          "end": 64,
+          "start": 34,
+          "end": 67,
           "role": "Gradiente contra diferença numérica"
         },
         {
           "path": "tests/tests.cpp",
-          "start": 82,
-          "end": 108,
+          "start": 100,
+          "end": 126,
           "role": "Aprendizado de um padrão"
         }
       ],
       "evidence": [
-        "ev-41e952360da64ec6b488e2b3449e79be"
+        "ev-e018eb80700a467295dbac736279749b"
       ],
       "delivery": {
         "stage": "integrated",
@@ -97,13 +97,13 @@
         },
         {
           "path": "tests/tests.cpp",
-          "start": 66,
-          "end": 80,
+          "start": 69,
+          "end": 83,
           "role": "Teste da base virgem"
         }
       ],
       "evidence": [
-        "ev-846b86f54d964403a7669c5e00cfff33"
+        "ev-b07b5df94d7d413b9926a3e7b6551364"
       ],
       "delivery": {
         "stage": "integrated",
@@ -117,26 +117,26 @@
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/store/store.cpp",
-          "start": 83,
-          "end": 110,
-          "role": "Escrita atômica com checksum"
+          "path": "src/engram/engram.cpp",
+          "start": 89,
+          "end": 123,
+          "role": "Escrita atômica do engrama em seções, com checksum"
         },
         {
-          "path": "src/store/store.cpp",
-          "start": 112,
-          "end": 147,
-          "role": "Leitura com verificação de integridade"
+          "path": "src/engram/engram.cpp",
+          "start": 127,
+          "end": 187,
+          "role": "Leitura com verificação de integridade e de seções"
         },
         {
           "path": "tests/tests.cpp",
-          "start": 110,
-          "end": 155,
-          "role": "Ida e volta e detecção de corrupção"
+          "start": 128,
+          "end": 209,
+          "role": "Ida e volta, corrupção, seção desconhecida e formato 1"
         }
       ],
       "evidence": [
-        "ev-75de59246fde45fc8226ef8f91a176b8"
+        "ev-6392dffc7de8454baf562f5b0e7de6f5"
       ],
       "delivery": {
         "stage": "integrated",
@@ -144,21 +144,22 @@
         "revision": "288ab04116efab9ee35d9bc677c7e05f9bfe8628",
         "at": "2026-10-30T02:04:45+00:00"
       },
-      "specs": []
+      "specs": [],
+      "notes": "Desde master/0005 o checkpoint é o engrama formato 2 (contrato engrama@1); os aceites do ARM-01 continuam valendo."
     },
     "RAM-01": {
       "implementation": "implementada",
       "sources": [
         {
-          "path": "src/store/store.cpp",
-          "start": 75,
-          "end": 81,
+          "path": "src/engram/engram.cpp",
+          "start": 81,
+          "end": 87,
           "role": "Ramificação com nova identidade e pai"
         },
         {
           "path": "tests/tests.cpp",
-          "start": 157,
-          "end": 177,
+          "start": 211,
+          "end": 231,
           "role": "Isolamento entre ramificações"
         },
         {
@@ -175,8 +176,8 @@
         }
       ],
       "evidence": [
-        "ev-27af57c500d5463ba24b09839b6b800e",
-        "ev-4578d518046c4be7b4a4c8735a3603b1"
+        "ev-0f35b6d53b6644b3be367e6bb08f558e",
+        "ev-5c7de7954833422ebd32e126da76d246"
       ],
       "delivery": {
         "stage": "integrated",
@@ -192,12 +193,12 @@
         {
           "path": "CMakeLists.txt",
           "start": 1,
-          "end": 29,
+          "end": 43,
           "role": "Alvos e flags de compilação, sem dependências externas"
         }
       ],
       "evidence": [
-        "ev-8447ac2a812f4a448da96c488ff1d10b"
+        "ev-6114b418b3c24cf8be635269387502da"
       ],
       "delivery": {
         "stage": "integrated",

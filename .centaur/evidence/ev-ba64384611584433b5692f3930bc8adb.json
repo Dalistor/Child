@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-ba64384611584433b5692f3930bc8adb",
+  "contract": "base@2",
+  "rule": "RNF-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "rm -rf .centaur/build/rnf01 && cmake -S . -B .centaur/build/rnf01 -G Ninja -DCMAKE_CXX_FLAGS=-Werror >/dev/null && cmake --build .centaur/build/rnf01"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T16:24:02.991881+00:00",
+  "revision": "da5d7bc26f7f2e96d2f25525cd81a8ca580c781e",
+  "summary": "Build limpo do zero com -Werror no build portátil",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "c60365a03f95abff6c6e18a752ea86011d366c0f7a23770f9af2625859783d39"
+  },
+  "sources_stable": true
+}

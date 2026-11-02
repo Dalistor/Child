@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "id": "ev-b312b3b70f8f49e9a7e6a512d0c8517f",
+  "contract": "base@2",
+  "rule": "CAP-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T17:29:29.862249+00:00",
+  "revision": "addccea31e54bab717cc56910a55286227a0a5a8",
+  "summary": "Teste 'capture': só os textos, em ordem, cada um seguido de byte 0; caminho inexistente falha",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/capture/capture.cpp": "7ec908da97c3f70ed6c9ee33a4469d31d98b0b89c2da3646ccdb582a1f5045f8",
+    "tests/tests.cpp": "b94825a627608230a30e34fd4a9c12589c909167e6dec24148d04b9d8b24ea7d"
+  },
+  "sources_stable": true
+}

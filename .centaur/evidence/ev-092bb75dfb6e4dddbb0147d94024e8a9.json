@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-092bb75dfb6e4dddbb0147d94024e8a9",
+  "contract": "reprodutibilidade@1",
+  "rule": "REP-02",
+  "contract_hash": "8362b80216484daf9f2f459eebe967a58df978e5ecb4350bee470fa615cd7d03",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T16:20:52.091123+00:00",
+  "revision": "da5d7bc26f7f2e96d2f25525cd81a8ca580c781e",
+  "summary": "Semente 42 + texto fixo, 1 época: hash FNV-1a dos pesos = 0x7e20ee7914140083 no build portátil; build com flags antigas (-march=native sem -ffp-contract=off) dá 0xdbb8b8c8e7da8a9d e o teste falha mostrando o hash",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "b58761562fb26165012e7a84d4335f68798d072877c7dd18c4f61ed56eed1298",
+    "src/model/model.cpp": "3083d5c157389d2e613f312c559e012c0a62932c70bdfd5a5bf3f0e96cf9952d",
+    "src/model/rng.hpp": "9d4dca796d6afbff1f21224c9b9a5195caf8e57154acaa7fd125a1df5cf3a913",
+    "tests/tests.cpp": "4ad63d73fd9791798b1cb915fa1b6cf9707a5b65c5ba1bc2aa1fbf8950ad2130"
+  },
+  "sources_stable": true
+}

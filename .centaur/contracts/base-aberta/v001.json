@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "id": "base-aberta",
+  "version": 1,
+  "title": "O Child pronto para ser clonado e treinado por outras pessoas",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Dar a quem chega ao repositório o direito de usar, as regras para contribuir e um caminho que funcione do clone ao primeiro fork treinado.",
+  "extends": [],
+  "boundaries": [
+    "Documentação em português; código e identificadores em inglês",
+    "Licença MIT"
+  ],
+  "autonomy": [
+    "Organizar o texto do README e do CONTRIBUTING"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Quem clona a base",
+      "Contribuidor"
+    ],
+    "exclusions": [
+      "Publicação de pacotes ou binários"
+    ]
+  },
+  "rules": [
+    {
+      "id": "ABR-01",
+      "kind": "non_functional",
+      "description": "O repositório tem licença declarada",
+      "acceptance": [
+        "Há um arquivo LICENSE na raiz com o texto integral da licença MIT, citada no README"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "ABR-02",
+      "kind": "non_functional",
+      "description": "Há um guia de contribuição com as regras que um clone precisa respeitar",
+      "acceptance": [
+        "CONTRIBUTING.md explica como compilar e testar, o fluxo de contratos e evidências, as regras de aprendizado local e determinismo e a convenção de idioma, e está ligado no README"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "ABR-03",
+      "kind": "functional",
+      "description": "O README traz um exemplo de ponta a ponta, do clone ao primeiro fork treinado, que funciona sem alterações",
+      "acceptance": [
+        "Executar os comandos do exemplo, na ordem, a partir de um clone limpo termina sem erro e mostra a ramificação treinada e a raiz virgem"
+      ],
+      "depends_on": []
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-02",
+    "reference": "Pedido do usuário na sessão de 2026-11-02: \"Aprovo todas as suas recomendações\", em resposta à lista de decisões pendentes das specs master/0002 a master/0006 (licença MIT)"
+  }
+}

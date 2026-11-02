@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "contract": "engrama@1",
+  "rules": {
+    "ENG-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/engram/engram.cpp",
+          "start": 17,
+          "end": 24,
+          "role": "Versão do formato e tipos de seção"
+        },
+        {
+          "path": "src/engram/engram.cpp",
+          "start": 89,
+          "end": 123,
+          "role": "Escrita em seções"
+        },
+        {
+          "path": "src/engram/engram.cpp",
+          "start": 127,
+          "end": 187,
+          "role": "Leitura de seções, recusa de tipo desconhecido e do formato 1"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 128,
+          "end": 209,
+          "role": "Teste do engrama"
+        },
+        {
+          "path": "tests/cli_branching.sh",
+          "start": 1,
+          "end": 20,
+          "role": "CLI ponta a ponta"
+        }
+      ],
+      "evidence": [
+        "ev-fe626f6f5c774c2dbd17baf2661af89d"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0005"
+      ],
+      "notes": "Arquivo .child real do formato 1 recusado com mensagem para recriar a base (demonstração manual)."
+    },
+    "ENG-02": {
+      "implementation": "ausente",
+      "sources": [],
+      "evidence": [],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [],
+      "notes": "Depende de cerebro/NEU-01 e SIN-01."
+    }
+  }
+}

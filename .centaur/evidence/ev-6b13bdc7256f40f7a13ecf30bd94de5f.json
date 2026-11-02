@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-6b13bdc7256f40f7a13ecf30bd94de5f",
+  "contract": "base-aberta@1",
+  "rule": "ABR-01",
+  "contract_hash": "f0e2e038bb03fa67449a970f968fe373056271a3dc12da1fca4a6bb0171c50fd",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "grep -q \"^MIT License\" LICENSE && grep -q \"THE SOFTWARE IS PROVIDED \\\"AS IS\\\"\" LICENSE && grep -q \"\\[MIT\\](LICENSE)\" README.md"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T17:29:34.937315+00:00",
+  "revision": "addccea31e54bab717cc56910a55286227a0a5a8",
+  "summary": "LICENSE na raiz com o texto integral da MIT e citada no README (seção Licença)",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "LICENSE": "4085ba011c2924d9381a9647f3efe235c27879d6da111ed20ccdd81ec01319f2",
+    "README.md": "77b57caf1b9b2f5671d5a80068ce6c3522f0c4eabc437f5cfd054a09d7344fef"
+  },
+  "sources_stable": true
+}

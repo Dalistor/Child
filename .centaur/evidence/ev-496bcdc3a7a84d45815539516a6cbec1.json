@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-496bcdc3a7a84d45815539516a6cbec1",
+  "contract": "base-aberta@1",
+  "rule": "ABR-02",
+  "contract_hash": "f0e2e038bb03fa67449a970f968fe373056271a3dc12da1fca4a6bb0171c50fd",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "for s in \"## Compilar e testar\" \"## Contratos e evidências\" \"Aprendizado local\" \"Determinismo\" \"## Idioma\"; do grep -q \"$s\" CONTRIBUTING.md || exit 1; done; grep -q \"(CONTRIBUTING.md)\" README.md"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T16:27:25.934481+00:00",
+  "revision": "da5d7bc26f7f2e96d2f25525cd81a8ca580c781e",
+  "summary": "CONTRIBUTING.md cobre compilar/testar, contratos e evidências, aprendizado local, determinismo e idioma; ligado no README",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CONTRIBUTING.md": "5b194c753062a521f4c0817e13250fb0828956af8b0e425ab3911fdacc4d029d",
+    "README.md": "8d5c31de3fddd1fd3bbf0e6115e7ba2116e02a35b3f6b00c9513b154fe6383a0"
+  },
+  "sources_stable": true
+}

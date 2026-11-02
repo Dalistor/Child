@@ -31,7 +31,8 @@ Snapshot create(const Config& cfg, uint64_t seed, std::string name);
 // Same weights and history, new identity pointing back at `from`.
 Snapshot fork(const Snapshot& from, std::string name);
 
-// Atomic (temp file + rename) and checksummed. Throws on any failure.
+// Engram format 2: lineage header, typed and versioned sections, checksum.
+// Atomic (temp file + rename). Throws on any failure, naming unknown sections.
 void save(const std::string& path, const Snapshot& snap);
 Snapshot load(const std::string& path);
 
