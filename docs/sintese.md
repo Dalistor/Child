@@ -1,6 +1,6 @@
 # Síntese: o que aprendemos até aqui
 
-Consolidação de 2026-10-30 das duas rodadas de pesquisa. É a porta de entrada; os detalhes e todas as fontes estão em [pesquisa-cerebro.md](pesquisa-cerebro.md) e [ideias-cerebro.md](ideias-cerebro.md). Tudo se baseia em resumos de busca, não em artigos lidos por inteiro.
+Consolidação de 2026-10-30 das duas rodadas de pesquisa, com o grau de confiança revisto em 2026-11-02. É a porta de entrada; os detalhes e todas as fontes estão em [pesquisa-cerebro.md](pesquisa-cerebro.md) e [ideias-cerebro.md](ideias-cerebro.md). As duas rodadas se basearam em resumos de busca; as afirmações centrais foram conferidas nas fontes primárias em [parametros.md](parametros.md).
 
 ## Em uma frase
 
@@ -11,7 +11,7 @@ O Child é uma **base aberta de um cérebro simplificado**. Seus neurônios disp
 1. **O que torna um neurônio humano é o dendrito, não o disparo.** Sem as condutâncias NMDA, um neurônio piramidal detalhado é imitado por uma unidade simples. Com picos de cálcio dendríticos, um único neurônio humano resolve XOR. Daí a fidelidade em degraus: AdEx de ponto, depois segmentos dendríticos (estilo HTM) e por fim NMDA e cálcio.
 
 2. **Aprender só com regras locais é possível, mas o STDP sozinho não basta.** Faltam duas coisas:
-   - estabilidade, dada pela homeostase (escala sináptica, limiar BCM) e pela inibição (interneurônios PV, SST e VIP), sem a qual a excitação dispara sem limite;
+   - estabilidade. Um neurônio isolado com STDP aditivo fica estável se cada peso tiver teto e a depressão dominar (A−τ− > A+τ+, Song 2000). Numa rede recorrente, porém, a atividade dispara sem limite sem homeostase rápida ou inibição (Zenke 2013). Daí a homeostase (escala sináptica, limiar BCM) e a inibição (interneurônios PV, SST e VIP);
    - um terceiro fator que diga *o que importa*, porque o STDP puro rende pouco sem um erro global.
 
 3. **A predição é o fio que une tudo.** Prever o próximo byte é o objetivo. O erro dessa previsão (a surpresa) é a dopamina que libera a plasticidade. Os segmentos dendríticos são o mecanismo que prevê, e a queda do erro (o progresso) é o que move a curiosidade. Um único princípio dá ao projeto o objetivo, o sinal de aprendizado e a motivação.
@@ -92,6 +92,17 @@ A qualidade do texto gerado não é critério. Os critérios medem mecanismos: a
 
 ## Grau de confiança
 
-- **Firme:** dopamina como erro de predição; divisão giro denteado/CA3; o STDP precisa de estabilizador; teoria dos sistemas complementares; Marr-Albus para o cerebelo; AdEx prevê bem o tempo dos disparos.
-- **Moderado:** papéis de PV, SST e VIP; sono contra o esquecimento; segmentos dendríticos como modelo de neurônio; critérios de janela crítica.
-- **Fraco ou não verificado:** papéis de serotonina, noradrenalina e acetilcolina; astrócitos como memória; os números do BDH; qual fila de eventos é melhor em CPU.
+Atualizado em 2026-11-02 pela leitura das fontes primárias. Detalhes, trechos e faixas em [parametros.md](parametros.md).
+
+- **Confirmado na fonte primária:**
+  - Dopamina fásica como erro de predição (Schultz, Dayan & Montague 1997).
+  - O AdEx prevê o tempo dos disparos: 96% dentro de ±2 ms. A comparação foi com um modelo tipo Hodgkin-Huxley de célula piramidal, não com o axônio de lula de 1952, e sem adaptação (b = 0) cai para 67% (Brette & Gerstner 2005).
+  - Escala sináptica multiplicativa, que leva cerca de 48 h no cérebro (Turrigiano 2008).
+  - Janela de STDP de dezenas de ms (Bi & Poo 1998; Song 2000).
+  - Marca de elegibilidade como a janela em que a dopamina precisa chegar (Frémaux & Gerstner 2016).
+- **Corrigido:**
+  - "STDP sem estabilizador diverge" vale para redes. Um neurônio isolado com STDP aditivo, teto por peso e depressão dominante fica estável (Song 2000).
+  - "A homeostase age em horas ou dias" vale para a biologia. Em modelos ela precisa agir em segundos a minutos, ou a rede diverge (Zenke 2013: τ crítico ≈ 25 s). O Child usará uma escala rápida de propósito.
+- **Firme (não relido nesta rodada):** divisão giro denteado/CA3; teoria dos sistemas complementares; Marr-Albus para o cerebelo.
+- **Moderado:** papéis de PV, SST e VIP; sono contra o esquecimento; segmentos dendríticos como modelo de neurônio; critérios de janela crítica; τ da elegibilidade e da dopamina de Izhikevich 2007 (vistos só na patente do autor).
+- **Fraco ou não verificado:** papéis de serotonina, noradrenalina e acetilcolina; astrócitos como memória; os números do BDH; qual fila de eventos é melhor em CPU; van Rossum et al. 2000 e Brunel 2000 (sem acesso).

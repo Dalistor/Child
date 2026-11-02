@@ -1,0 +1,103 @@
+{
+  "schema": 1,
+  "id": "engrama",
+  "version": 1,
+  "title": "Engrama em seções versionadas, com estado dinâmico",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Definir um formato de engrama que aceite novas peças do cérebro sem quebrar os clones existentes e que guarde o estado dinâmico dos neurônios, para que fork e retomada continuem de onde pararam.",
+  "extends": [],
+  "boundaries": [
+    "Escrita atômica (.tmp + rename) e detecção de corrupção, como no base@2",
+    "Ensinar uma ramificação não altera a raiz nem as irmãs",
+    "Sem dependências externas além do compilador C++20 e do CMake",
+    "Little-endian; mudança de formato sobe a versão do formato",
+    "Arquivos .child do formato versão 1 são recusados com mensagem que indica recriar a base; não há conversão"
+  ],
+  "autonomy": [
+    "Escolher os códigos dos tipos de seção, o tamanho dos campos e o algoritmo de checksum por seção ou global"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Desenvolvedor",
+      "Quem clona a base"
+    ],
+    "exclusions": [
+      "Compressão",
+      "Leitura parcial ou mapeada em memória"
+    ],
+    "data_model": {
+      "entities": [
+        {
+          "name": "Engrama",
+          "attributes": [
+            "assinatura",
+            "versão do formato",
+            "linhagem",
+            "seções",
+            "checksum"
+          ],
+          "invariants": [
+            "Toda seção é lida ou provoca erro; nenhuma é ignorada em silêncio"
+          ]
+        },
+        {
+          "name": "Seção",
+          "attributes": [
+            "tipo",
+            "versão da seção",
+            "tamanho",
+            "dados"
+          ],
+          "invariants": [
+            "O tamanho declarado coincide com os dados"
+          ]
+        }
+      ],
+      "relationships": [
+        {
+          "from": "Engrama",
+          "to": "Seção",
+          "cardinality": "1:N",
+          "invariants": [
+            "Tipos não se repetem"
+          ]
+        }
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "ENG-01",
+      "kind": "functional",
+      "description": "O engrama é uma sequência de seções com tipo, versão e tamanho, após um cabeçalho com a linhagem",
+      "acceptance": [
+        "Salvar e carregar preserva linhagem e todas as seções bit a bit",
+        "Uma seção de tipo ou versão desconhecida faz o carregamento falhar com mensagem que nomeia o tipo",
+        "Alterar um byte do arquivo faz o carregamento falhar e não resta arquivo temporário após salvar",
+        "A base MLP atual é gravada como uma seção, e init, fork, feed, info e sample seguem funcionando"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "ENG-02",
+      "kind": "functional",
+      "description": "O engrama guarda o estado dinâmico dos neurônios e sinapses (potencial, adaptação, traços e marcas de elegibilidade), não só os pesos",
+      "acceptance": [
+        "Salvar no meio de uma simulação e continuar a partir do engrama produz a mesma sequência de disparos que continuar sem salvar",
+        "Pai e ramificação recém-criada, com a mesma entrada, produzem a mesma sequência de disparos"
+      ],
+      "depends_on": [
+        "engrama/ENG-01",
+        "cerebro/NEU-01",
+        "cerebro/SIN-01"
+      ]
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-02",
+    "reference": "Pedido do usuário na sessão de 2026-11-02: \"Aprovo todas as suas recomendações\", em resposta à lista de decisões pendentes das specs master/0002 a master/0006 (recusar .child v1 com mensagem)"
+  }
+}

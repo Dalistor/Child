@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "id": "reprodutibilidade",
+  "version": 1,
+  "title": "Mesma semente, mesmos pesos, também entre máquinas",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Garantir que quem clona a base e a treina com a mesma semente e os mesmos dados obtém os mesmos pesos em outra máquina, sem depender das instruções da CPU de quem compilou.",
+  "extends": [],
+  "boundaries": [
+    "Sem dependências externas além do compilador C++20 e do CMake",
+    "Compilar sem avisos com -Wall -Wextra -Wpedantic",
+    "A igualdade bit a bit é verificada em x86-64 Linux; outras plataformas e bibliotecas C ficam como limitação conhecida até a decisão sobre ponto fixo no cerebro@2"
+  ],
+  "autonomy": [
+    "Escolher o nome da opção do CMake e o texto a hashear, desde que documentados"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Desenvolvedor",
+      "Quem clona a base"
+    ],
+    "exclusions": [
+      "Determinismo em GPU",
+      "Igualdade bit a bit entre bibliotecas C diferentes"
+    ]
+  },
+  "rules": [
+    {
+      "id": "REP-01",
+      "kind": "non_functional",
+      "description": "O build padrão é portátil e não funde operações de ponto flutuante; o build otimizado para a máquina é opcional",
+      "acceptance": [
+        "O comando de compilação do build padrão, visto com cmake --build build -v, não contém -march=native e contém -ffp-contract=off",
+        "Uma opção do CMake, desligada por padrão, ativa -march=native e está documentada como não reprodutível entre máquinas",
+        "O build padrão segue sem avisos e a suíte existente passa"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "REP-02",
+      "kind": "functional",
+      "description": "Um valor de referência fixo detecta qualquer mudança nos pesos produzidos por uma semente e um texto conhecidos",
+      "acceptance": [
+        "Criar uma base com semente fixa e ensinar um texto fixo por uma época produz um hash de parâmetros igual ao valor gravado no teste",
+        "Alterar a inicialização ou o aprendizado faz o teste falhar e mostrar o hash obtido"
+      ],
+      "depends_on": [
+        "reprodutibilidade/REP-01"
+      ]
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-02",
+    "reference": "Pedido do usuário na sessão de 2026-11-02: \"Aprovo todas as suas recomendações\", em resposta à lista de decisões pendentes das specs master/0002 a master/0006 (aprovar o contrato reprodutibilidade)"
+  }
+}
