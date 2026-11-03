@@ -49,6 +49,16 @@ Para o NEU-01 (adaptação sob corrente constante), o conjunto "b adaptativo" ou
 | limites do peso | — | [0, g_max], corte rígido | — | Song; Masquelier | Song: "If this modification rule would push the peak synaptic conductance beyond the allowed range 0 ≤ ḡa ≤ ḡmax, ḡa is set to the appropriate limiting value". Masquelier: pesos "clipped to [0,1]" |
 | neurônio de Song (LIF) | ms, mV | — | τ_m 20; V_rest −70; limiar −54; reset −60; E_ex 0; E_in −70; τ_ex = τ_in 5 | Song et al. 2000 | Métodos; 1000 sinapses excitatórias e 200 inibitórias, entradas de 10–40 Hz |
 
+**Valores no código: transmissão** (`ReceptorParams` em `src/neuron/neuron.hpp`, desde a master/0010). Um disparo abre uma condutância no neurônio alvo, que decai exponencialmente: `I_syn = g_E (E_E − V) + g_I (E_I − V)`.
+
+| parâmetro | código | faixa / fonte |
+|---|---|---|
+| E_E | 0 mV | Vogels 2011 (V_E = 0 mV); Song 2000 (E_ex 0) |
+| E_I | −80 mV | Vogels 2011 (V_I = −80 mV); Song 2000 usa −70 |
+| τ_E | 5 ms | Vogels 2011 (5 ms); Song 2000 (5 ms) |
+| τ_I | 10 ms | Vogels 2011 (10 ms); Song 2000 usa 5 |
+| condutância de pico de uma sinapse excitatória com peso máximo | 1 nS (teste `homeostatic scaling`) | g_max de Song, 0,015–0,035·g_L, dá 0,45–1,05 nS com o g_L de 30 nS do BG05 |
+
 ## 3. Elegibilidade e dopamina (três fatores)
 
 | parâmetro | unidade | faixa | valor típico | fonte | trecho / onde |
@@ -75,6 +85,14 @@ Equação de referência (Frémaux, Eq. 6): `de/dt = −e/τ_e + STDP(pre, post)
 
 **Tensão registrada.** Na biologia, a escala sináptica leva horas ou dias (Turrigiano). Nos modelos com STDP, a homeostase precisa detectar mudanças de taxa em segundos ou minutos, senão a rede dispara sem controle (Zenke 2013: "homeostasis has to detect rate changes on a timescale of seconds to minutes to keep the activity stable"). O próprio Zenke registra que existem formas rápidas de escala, algumas na faixa de minutos, mas a questão continua em aberto. A regra HOM-01 ("pelo menos uma ordem de grandeza acima da janela do STDP") cabe nessa faixa: com janela de 20 ms, basta τ_hom ≥ 0,2 s.
 
+**Valores no código: homeostase** (`HomeostasisParams` em `src/synapse/homeostasis.hpp`, desde a master/0010). Um sensor de taxa por neurônio filtra os disparos com τ_hom. Um ganho comum multiplica todos os pesos de entrada (peso efetivo = peso × ganho), o que preserva a proporção entre eles: `ganho ← ganho · (1 + η·dt·(1 − taxa/alvo))`.
+
+| parâmetro | código | faixa / fonte |
+|---|---|---|
+| taxa-alvo | 5 Hz | aprovada no `cerebro@2` (HOM-01); entre κ = 3 Hz (Zenke) e ρ0 ≈ 3–6 Hz (Vogels) |
+| τ_hom | 5 s | aprovada no `cerebro@2`, faixa 1–20 s; abaixo de τ_crit ≈ 25 s (Zenke 2013) |
+| η | 10⁻⁴ por ms (escala de tempo 1/η = 10 s) | **sem valor publicado na mesma forma.** Escolhido para a escala agir em segundos, abaixo de τ_crit (Zenke 2013), e ≥ 10 vezes a janela do STDP. No teste, depois de a entrada dobrar, a taxa em 20 s volta a 4–6 Hz antes dos 50 s, com um mergulho a ~2 Hz no caminho |
+
 ## 5. Inibição
 
 | parâmetro | unidade | faixa | valor típico | fonte | trecho / onde |
@@ -90,6 +108,21 @@ Equação de referência (Frémaux, Eq. 6): `de/dt = −e/τ_e + STDP(pre, post)
 | conectividade | — | 2% (Vogels); 10% (Izhikevich) | — | código ModelDB; Izhikevich (patente) | `epsilon = 0.02`; "randomly connected with 10% probability" |
 | proporção E/I | — | 80/20 (4:1) | 80/20 | código ModelDB; Izhikevich (patente); Zenke 2013 | `NE = 8000`, `NI = NE/4`; "80% excitatory… and 20% inhibitory"; Zenke: "20000 excitatory and 5000 inhibitory units". Brunel 2000 **não lido** |
 | entrada do neurônio isolado | — | 8 grupos × (100 E + 25 I) | — | Vogels 2011 | texto principal, Fig. 1B; sinal com τ ≈ 50 ms |
+
+**Valores no código: inibição** (`src/interneuron/interneuron.hpp`, desde a master/0010).
+
+| parâmetro | código | faixa / fonte |
+|---|---|---|
+| neurônio inibitório genérico | conjunto "a tônico" de Naud 2008: C 200 pF, g_L 10 nS, E_L −70, V_T −50, Δ_T 2, a 2 nS, τ_w 30 ms, b 0, V_reset −58 | §1 (Naud, Tabela 1); b = 0 dá disparo sem adaptação, como uma célula de disparo rápido |
+| condutância por disparo na sinapse inibitória (fixa) | 3 nS | Vogels: I→I 3 nS, E←I de ~0 a 100 nS |
+
+Configuração do teste `inhibition`, que não é um padrão do código:
+- 200 neurônios excitatórios (BG05) e 50 inibitórios, ou seja 4:1;
+- E→E com 10% de conectividade e STDP. O pico é de 12 nS por sinapse com peso máximo, e o peso inicial é 0,3;
+- E→I com 50% e 1 nS fixo; I→E denso, com 3 nS;
+- fundo de 200 entradas a 20 Hz, agregadas num processo de 4000 Hz, com 0,6 nS por disparo.
+
+O pico recorrente fica acima da faixa de Song porque a rede é pequena: com ~20 entradas recorrentes por neurônio, em vez de milhares, cada uma precisa pesar mais para a recorrência importar. A conectividade densa do interneurônio para as células vizinhas é a das células em cesto. Os 50% de E→I também ficam acima dos 2–10% de rede grande, pelo mesmo motivo.
 
 ## Confirmação das afirmações da síntese
 

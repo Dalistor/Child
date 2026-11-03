@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-20afc79e90964f9f87ee5137b4722d30",
+  "contract": "cerebro@2",
+  "rule": "REG-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "ctest --test-dir build -R brain_layout --output-on-failure && d=$(mktemp -d) && cp -r src \"$d/src\" && mkdir \"$d/src/foo\" && touch \"$d/src/foo/bar.cpp\" && out=$(python3 tests/brain_layout.py \"$d/src\"; true) && rm -rf \"$d\" && echo \"$out\" | grep -q \"foo: missing\""
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T20:58:40.060283+00:00",
+  "revision": "aaac12799f422de1c3283e9af148ab22228ed0f9",
+  "summary": "cerebro@2: brain_layout passa no src/ atual; cópia com src/foo/bar.cpp falha nomeando src/foo",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "62549deb6da69ab3f8fe5f7ec1ae114c41e05e08f455d2ef88410b98be488aad",
+    "tests/brain_layout.py": "f4094203cdadad24cd255ebf99d2caa13903422054161604bac8652d8f65d0ba"
+  },
+  "sources_stable": true
+}
