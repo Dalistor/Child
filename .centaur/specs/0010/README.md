@@ -192,7 +192,7 @@ As três tasks editam `tests/tests.cpp` e `CMakeLists.txt`, e as duas últimas u
   Tudo está registrado em `parametros.md`. O η não tem valor publicado na mesma forma.
 - **Critério de "estabiliza":** aplicado como planejado, mais a ausência de tendência entre os dois últimos blocos de 10 s.
 - **Impacto real:** igual ao previsto, mais `src/synapse/homeostasis.*` como arquivo separado. As evidências afetadas foram refeitas.
-- **Integração:** na branch `homeostasis-inhibition`; falta o PR e o merge.
+- **Integração:** entregue na branch `homeostasis-inhibition`, PR #4; falta o merge.
 
 ## Checklist de conclusão
 - [x] Task 01 — Transmissão sináptica por condutância
