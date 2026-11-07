@@ -52,7 +52,7 @@ O build padrão é portátil (`-O3 -ffp-contract=off`); `-DCHILD_NATIVE=ON` acre
 
 # Parte 2 — Direção: uma versão simplificada do cérebro (planejado)
 
-Já implementados: o engrama em seções, a verificação de nomes (REG-01), o neurônio AdEx em `src/neuron/` (NEU-01) a sinapse com STDP em `src/synapse/` (SIN-01) e a dopamina como terceiro fator em `src/dopamine/`, com a marca de elegibilidade na sinapse (DOP-01). O resto está planejado. O primeiro degrau tem contrato aprovado ([`cerebro` v002](../contracts/cerebro/v002.json)), com homeostase, inibição e limiares numéricos tirados de [parametros.md](../../docs/parametros.md). O roteiro completo e os critérios de cada degrau estão na [síntese](../../docs/sintese.md).
+Já implementados: o engrama em seções, a verificação de nomes (REG-01), o neurônio AdEx em `src/neuron/` (NEU-01) a sinapse com STDP em `src/synapse/` (SIN-01), a dopamina como terceiro fator em `src/dopamine/`, com a marca de elegibilidade na sinapse (DOP-01), a escala homeostática em `src/synapse/homeostasis` (HOM-01) e o interneurônio inibitório genérico em `src/interneuron/` (INB-01). O neurônio recebe condutâncias excitatória e inibitória; a ligação entre as peças ainda fica nos testes. O resto está planejado. O primeiro degrau tem contrato aprovado ([`cerebro` v002](../contracts/cerebro/v002.json)), com homeostase, inibição e limiares numéricos tirados de [parametros.md](../../docs/parametros.md). O roteiro completo e os critérios de cada degrau estão na [síntese](../../docs/sintese.md).
 
 ## Princípios (decididos)
 
@@ -74,7 +74,7 @@ Já implementados: o engrama em seções, a verificação de nomes (REG-01), o n
 | `src/hippocampus/` | hipocampo | Memória rápida esparsa, CA3 e repetição no `sleep` | 4 | novo |
 | `src/engram/` | engrama, o traço físico da memória | Engrama em seções, linhagem e `fork` | entregue | `store/` |
 
-Os segmentos dendríticos (degrau 3) entram em `neuron/`. As dependências seguem a regra de dentro para fora: neurônio e sinapse são o núcleo e não conhecem tálamo, cerebelo nem engrama. As pastas legadas (`capture/`, `model/`) saem conforme cada substituta for entregue; `tests/brain_layout.py` verifica os nomes.
+Os segmentos dendríticos (degrau 3) entram em `neuron/`. As dependências seguem a regra de dentro para fora: neurônio e sinapse são o núcleo e não conhecem tálamo, cerebelo nem engrama. O `interneuron/` usa o `neuron/` (é um neurônio com outros padrões), e o núcleo não o conhece. As pastas legadas (`capture/`, `model/`) saem conforme cada substituta for entregue; `tests/brain_layout.py` verifica os nomes.
 
 ## Roteiro
 

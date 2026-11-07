@@ -1,0 +1,22 @@
+{
+  "schema": 1,
+  "id": "ev-f06ffb12e5e0461180b7a2253878ac41",
+  "contract": "reprodutibilidade@1",
+  "rule": "REP-02",
+  "contract_hash": "8362b80216484daf9f2f459eebe967a58df978e5ecb4350bee470fa615cd7d03",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-02T20:59:17.129868+00:00",
+  "revision": "aaac12799f422de1c3283e9af148ab22228ed0f9",
+  "summary": "Semente 42 + texto fixo, 1 época: FNV-1a dos pesos = 0x6213932d187d6039 no build portátil; com -march=native sem -ffp-contract=off dá 0x621efdd9134abb6f e o teste falha mostrando o hash",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "62549deb6da69ab3f8fe5f7ec1ae114c41e05e08f455d2ef88410b98be488aad",
+    "tests/tests.cpp": "ce7b26a2734a8d5270ef4cf4908b21c765a3998543da505dd1e90acb3d01421e"
+  },
+  "sources_stable": true
+}

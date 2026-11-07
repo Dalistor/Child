@@ -10,12 +10,12 @@ Child parte dessa ideia. Em vez de otimizar uma rede de camadas por retropropaga
 
 ## Onde estamos
 
-**As primeiras peças do cérebro já estão no código:** um neurônio AdEx que dispara e se adapta (`src/neuron/`), uma sinapse que aprende pela ordem dos disparos (`src/synapse/`) e a dopamina que decide se esse aprendizado vira mudança de peso (`src/dopamine/`), ainda sem estarem ligados numa rede. Ao lado deles fica a base de partida, uma rede de camadas que prevê o próximo byte, com captação, aprendizado e engrama com **ramificação** (`fork`): copiar o estado e deixar cada cópia divergir sem afetar a origem. Ela segue no repositório como referência para comparar e testar o que vier.
+**As primeiras peças do cérebro já estão no código:** um neurônio AdEx que dispara e se adapta (`src/neuron/`), uma sinapse que aprende pela ordem dos disparos e se reescala para manter a taxa de disparo no alvo (`src/synapse/`), a dopamina que decide se esse aprendizado vira mudança de peso (`src/dopamine/`) e o interneurônio inibitório que impede a população de disparar sem controle (`src/interneuron/`). Por enquanto eles são ligados entre si apenas nos testes. Ao lado deles fica a base de partida, uma rede de camadas que prevê o próximo byte, com captação, aprendizado e engrama com **ramificação** (`fork`): copiar o estado e deixar cada cópia divergir sem afetar a origem. Ela segue no repositório como referência para comparar e testar o que vier.
 
 | Degrau | O que entrega | Situação |
 |---|---|---|
 | Base MLP | Captação, aprendizado, engrama em seções e ramificação; build reprodutível | feito (referência) |
-| 0 · [`cerebro`](.centaur/contracts/cerebro/v002.json) | Neurônio AdEx, sinapse com STDP, dopamina, homeostase e inibição; um neurônio que aprende um padrão | em andamento: neurônio, sinapse e dopamina feitos; faltam homeostase, inibição e o aprendizado de um padrão |
+| 0 · [`cerebro`](.centaur/contracts/cerebro/v002.json) | Neurônio AdEx, sinapse com STDP, dopamina, homeostase e inibição; um neurônio que aprende um padrão | em andamento: neurônio, sinapse, dopamina, homeostase e inibição feitos; falta o aprendizado de um padrão |
 | 1 · Dopamina como surpresa | O erro ao prever o próximo byte libera a plasticidade | planejado |
 | 2 · Cerebelo | Leitura do próximo byte sem retropropagação | planejado |
 | 3 · Segmentos dendríticos | Um neurônio resolve XOR; contextos de sequência separados | planejado |

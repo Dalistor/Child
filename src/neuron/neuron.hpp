@@ -18,25 +18,45 @@ struct AdExParams {
     float peak = 20.f;            // V_peak, mV: crossing it counts as a spike
 };
 
+// Synaptic receptors on the membrane (Vogels et al. 2011). A presynaptic spike
+// opens a conductance that decays exponentially and pulls the potential toward
+// its reversal: excitation toward 0 mV, inhibition toward -80 mV.
+struct ReceptorParams {
+    float excitatory_reversal = 0.f;    // E_E, mV
+    float inhibitory_reversal = -80.f;  // E_I, mV
+    float excitatory_tau = 5.f;         // tau_E, ms
+    float inhibitory_tau = 10.f;        // tau_I, ms
+};
+
 // Integration step used by default, in ms.
 constexpr float kStepMs = 0.1f;
 
 class Neuron {
 public:
-    explicit Neuron(const AdExParams& params = {});
+    explicit Neuron(const AdExParams& params = {}, const ReceptorParams& receptors = {});
 
-    // Advances `dt` ms under an input current in pA (forward Euler). Returns
-    // true when the neuron fired during this step; it is then already reset.
+    // A presynaptic spike arrives: opens `conductance` nS more of the
+    // excitatory or inhibitory receptors.
+    void excite(float conductance) { g_e_ += conductance; }
+    void inhibit(float conductance) { g_i_ += conductance; }
+
+    // Advances `dt` ms under an input current in pA plus the synaptic current
+    // (forward Euler). Returns true when the neuron fired during this step; it
+    // is then already reset.
     bool step(float current, float dt = kStepMs);
 
     float potential() const { return v_; }   // V, mV
     float adaptation() const { return w_; }  // w, pA
+    float excitation() const { return g_e_; } // g_E, nS
+    float inhibition() const { return g_i_; } // g_I, nS
     const AdExParams& params() const { return p_; }
 
 private:
     AdExParams p_;
+    ReceptorParams r_;
     float v_;
     float w_ = 0.f;
+    float g_e_ = 0.f, g_i_ = 0.f;
 };
 
 }  // namespace child

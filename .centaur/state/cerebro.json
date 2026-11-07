@@ -19,7 +19,7 @@
         }
       ],
       "evidence": [
-        "ev-08943958b83b4e1989e83c2f6a85e147"
+        "ev-20afc79e90964f9f87ee5137b4722d30"
       ],
       "delivery": {
         "stage": "integrated",
@@ -38,18 +38,18 @@
         {
           "path": "src/neuron/neuron.hpp",
           "start": 1,
-          "end": 42,
+          "end": 62,
           "role": "Parâmetros AdEx e interface do neurônio"
         },
         {
           "path": "src/neuron/neuron.cpp",
           "start": 1,
-          "end": 26,
+          "end": 31,
           "role": "Integração, disparo, reinício e adaptação"
         }
       ],
       "evidence": [
-        "ev-25f1bdc964394127a17cd617839318e0"
+        "ev-80dcca3bcb7a41ceb6b376f4b164ae81"
       ],
       "delivery": {
         "stage": "integrated",
@@ -78,7 +78,7 @@
         }
       ],
       "evidence": [
-        "ev-920baddb88c94d9abaf72ce1a1d720a5"
+        "ev-807538b9278742dca6ab4f76ea793cc0"
       ],
       "delivery": {
         "stage": "integrated",
@@ -120,8 +120,32 @@
         {
           "path": "docs/parametros.md",
           "start": 5,
-          "end": 64,
+          "end": 149,
           "role": "Faixas publicadas"
+        },
+        {
+          "path": "src/neuron/neuron.hpp",
+          "start": 21,
+          "end": 29,
+          "role": "Receptores (Vogels 2011)"
+        },
+        {
+          "path": "src/synapse/homeostasis.hpp",
+          "start": 8,
+          "end": 15,
+          "role": "Homeostase: 5 Hz, τ_hom 5 s, η 1e-4/ms"
+        },
+        {
+          "path": "src/interneuron/interneuron.cpp",
+          "start": 5,
+          "end": 17,
+          "role": "Interneurônio: conjunto tônico de Naud 2008"
+        },
+        {
+          "path": "src/interneuron/interneuron.hpp",
+          "start": 13,
+          "end": 16,
+          "role": "Condutância inibitória 3 nS (Vogels 2011)"
         }
       ],
       "evidence": [],
@@ -129,9 +153,10 @@
         "stage": "local"
       },
       "specs": [
-        "master/0008"
+        "master/0008",
+        "master/0010"
       ],
-      "notes": "Neurônio, sinapse, elegibilidade e dopamina dentro das faixas; faltam homeostase e inibição."
+      "notes": "Neurônio, sinapse, elegibilidade, dopamina, receptores, homeostase e inibição com padrões registrados em docs/parametros.md; η da homeostase sem valor publicado na mesma forma (justificado pela escala de tempo de Zenke 2013). Parcial até o CFG-01 e o APR-01."
     },
     "DOP-01": {
       "implementation": "implementada",
@@ -162,7 +187,7 @@
         }
       ],
       "evidence": [
-        "ev-ea5a45026dec49e79ffeb04b7f6dfb72"
+        "ev-1f6a88535bec44a2aa9dd5c00a6599bf"
       ],
       "delivery": {
         "stage": "integrated",
@@ -172,6 +197,94 @@
       },
       "specs": [
         "master/0009"
+      ]
+    },
+    "HOM-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/synapse/homeostasis.hpp",
+          "start": 1,
+          "end": 36,
+          "role": "Padrões (5 Hz, τ_hom 5 s, η) e ganho multiplicativo por neurônio"
+        },
+        {
+          "path": "src/synapse/homeostasis.cpp",
+          "start": 1,
+          "end": 16,
+          "role": "Sensor de taxa e escala do ganho"
+        },
+        {
+          "path": "src/neuron/neuron.hpp",
+          "start": 21,
+          "end": 29,
+          "role": "Receptores: transmissão por condutância (Vogels 2011)"
+        },
+        {
+          "path": "src/neuron/neuron.cpp",
+          "start": 10,
+          "end": 21,
+          "role": "Corrente sináptica e decaimento das condutâncias"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 283,
+          "end": 353,
+          "role": "Caso homeostatic scaling"
+        }
+      ],
+      "evidence": [
+        "ev-7042385d5ee440af9528d334a339c44b"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0010"
+      ]
+    },
+    "INB-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/interneuron/interneuron.hpp",
+          "start": 1,
+          "end": 37,
+          "role": "Neurônio inibitório genérico e sinapse inibitória fixa"
+        },
+        {
+          "path": "src/interneuron/interneuron.cpp",
+          "start": 1,
+          "end": 21,
+          "role": "Padrões de disparo rápido (Naud 2008, tônico)"
+        },
+        {
+          "path": "src/neuron/neuron.hpp",
+          "start": 21,
+          "end": 29,
+          "role": "Receptor inibitório: E_I −80 mV, τ_I 10 ms"
+        },
+        {
+          "path": "src/neuron/neuron.cpp",
+          "start": 10,
+          "end": 21,
+          "role": "Corrente sináptica e decaimento das condutâncias"
+        },
+        {
+          "path": "tests/tests.cpp",
+          "start": 355,
+          "end": 450,
+          "role": "Caso inhibition"
+        }
+      ],
+      "evidence": [
+        "ev-a31dfb97b0db4dc6909870a382297383"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0010"
       ]
     }
   }
