@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "contract": "hipocampo@1",
+  "rules": {
+    "HIP-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/hippocampus/hippocampus.hpp",
+          "start": 1,
+          "end": 68,
+          "role": "Episódios e sono"
+        },
+        {
+          "path": "src/hippocampus/hippocampus.cpp",
+          "start": 1,
+          "end": 55,
+          "role": "Reservatório e substituição"
+        },
+        {
+          "path": "src/brain/brain.cpp",
+          "start": 1,
+          "end": 152,
+          "role": "Brain::sleep repete os episódios ao cerebelo"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 219,
+          "end": 240,
+          "role": "Caso 'sleep protects'"
+        }
+      ],
+      "evidence": [
+        "ev-98300daa1fb04a6bae225d3bc7867586"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0014"
+      ]
+    },
+    "HIP-02": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/hippocampus/hippocampus.cpp",
+          "start": 1,
+          "end": 55,
+          "role": "Completação por sobreposição"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 242,
+          "end": 268,
+          "role": "Caso 'pattern completion'"
+        }
+      ],
+      "evidence": [
+        "ev-a7268b6304b8435c96ec779b71c41012"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0014"
+      ]
+    }
+  }
+}

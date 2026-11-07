@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-5c42c62f436f47ac97eb998f73395891",
+  "contract": "base@2",
+  "rule": "PRO-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:33:31.547114+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Testes 'gradients match numeric' e 'learns a pattern' passam no build portátil",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/model/model.cpp": "3083d5c157389d2e613f312c559e012c0a62932c70bdfd5a5bf3f0e96cf9952d",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

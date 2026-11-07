@@ -15,6 +15,12 @@ public:
     void step(float dt);
 
     float level() const { return level_; }  // per ms
+    float tau() const { return tau_; }
+
+    template <class Archive>
+    void persist(Archive& a) {
+        a(level_);
+    }
 
 private:
     float tau_;

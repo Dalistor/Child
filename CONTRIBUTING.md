@@ -4,7 +4,7 @@ O Child é uma base: a ideia é que você clone, treine o seu e, se quiser, devo
 
 ## Compilar e testar
 
-Precisa só de um compilador C++20 e do CMake (Ninja é opcional). Python 3 é usado apenas pelo teste de nomes de pastas e, sem ele, esse teste é pulado.
+Precisa só de um compilador C++20 e do CMake (Ninja é opcional). Python 3 é usado apenas por dois testes, o dos nomes de pastas e o dos parâmetros documentados. Sem ele, esses testes são pulados.
 
 ```bash
 cmake -S . -B build -G Ninja && cmake --build build
@@ -18,11 +18,13 @@ Um pull request precisa compilar sem avisos (`-Wall -Wextra -Wpedantic`) e passa
 ## Regras da base
 
 - **Sem dependências externas**: só a biblioteca padrão do C++20. CUDA, quando vier, é um backend opcional.
-- **Aprendizado local**: o código novo aprende por regras locais e online (STDP, dopamina como terceiro fator, homeostase). Retropropagação existe apenas no MLP de referência.
+- **Variáveis de ambiente**: `CHILD_NEUROGENESIS`, `CHILD_MAX_NEURONS`, `CHILD_PARAMS` e `CHILD_ENGINE` (README). Elas controlam a execução e nunca reescrevem os parâmetros gravados num engrama.
+- **Aprendizado local**: o código novo aprende por regras locais e online: STDP, dopamina como terceiro fator, homeostase, regra delta no cerebelo e regras hebbianas nos segmentos. Retropropagação existe apenas no MLP de referência.
 - **Determinismo**: mesma semente, mesmos pesos. Use o `Rng` do projeto, não `<random>`, para pesos. O teste `reference weights` fixa o hash dos pesos; se a sua mudança o altera de propósito, explique por quê no pull request.
-- **Engrama**: a escrita é sempre atômica (`.tmp` + `rename`). Uma estrutura nova entra como seção nova do engrama, com tipo e versão próprios, sem quebrar as existentes.
+- **Engrama**: a escrita é sempre atômica (`.tmp` + `rename`). Uma peça nova do cérebro grava seu estado pelo próprio `persist()`. Se o formato da seção `brain` mudar, a versão dessa seção sobe.
+- **Parâmetros**: todo parâmetro novo entra no registro (`src/brain/parameters.cpp`) com unidade, faixa e fonte, e na tabela da seção 7 de `docs/parametros.md`. O teste `parameters_doc` confere.
 - **Nomes do cérebro**: cada estrutura nova fica em `src/<estrutura>/` com o arquivo principal `<estrutura>.hpp`/`.cpp` (por exemplo, `src/neuron/neuron.hpp`). O `ctest` verifica.
-- **Testes**: só para uma falha concreta num ponto vital ainda sem proteção. Prefira ampliar um caso existente em `tests/tests.cpp`.
+- **Testes**: só para uma falha concreta num ponto vital ainda sem proteção. Prefira ampliar um caso existente em `tests/tests.cpp` (núcleo e MLP) ou em `tests/brain_tests.cpp` (o cérebro integrado).
 
 ## Idioma
 

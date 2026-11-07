@@ -1,0 +1,27 @@
+{
+  "schema": 1,
+  "id": "ev-b47ba64b503d49b78805b796b07dfd7a",
+  "contract": "cerebro@2",
+  "rule": "PAR-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "python3",
+    "tests/parameters_doc.py",
+    "build/child",
+    "docs/parametros.md"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:32:09.881093+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "parameters_doc: os 64 parâmetros do registro têm unidade, padrão e faixa iguais em docs/parametros.md §7, e cada padrão está na faixa",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "docs/parametros.md": "c2081c1c6a8834ab27a7440b752ed635c9d8fa9e6eca720c7e77965769947fb9",
+    "src/brain/parameters.cpp": "2d819313cfa67d9e3b110549eda3c606ba482b127deadc3273be5fa21527f33c",
+    "src/brain/parameters.hpp": "6ed97abc7f00b11dc6b88c2762f8592f4ad3723e13354477e86d036e2b230f48",
+    "tests/parameters_doc.py": "e5f53ebe37350e948cbcea9cfcdeac47bf7dfd48d64fd9868f059a81025c89ae"
+  },
+  "sources_stable": true
+}

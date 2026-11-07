@@ -27,6 +27,12 @@ public:
     float gain() const { return gain_; }
     const HomeostasisParams& params() const { return p_; }
 
+    template <class Archive>
+    void persist(Archive& a) {
+        a(rate_);
+        a(gain_);
+    }
+
 private:
     HomeostasisParams p_;
     float rate_;  // spikes per ms, starts at the target

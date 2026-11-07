@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-41f1ca382cd54ca6b3ee7d0cae3d0437",
+  "contract": "cerebro@2",
+  "rule": "NEU-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:35:50.050110+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Caso 'adex neuron' (padrões de Brette & Gerstner 2005, Euler 0,1 ms): sem corrente fica em E_L e não dispara em 1 s; com 1000 pA dispara 17 vezes em 500 ms com intervalos crescentes (13,9; 16,2; 18,9; 22,2 ms); cada disparo reinicia V em V_reset e soma ~b a w; mesma entrada, mesma sequência",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/neuron/neuron.cpp": "ac14584edd947daf1e521931490f2c0ab0c6b5e7bc00cfc6004ac39de0659762",
+    "src/neuron/neuron.hpp": "f974ee0907e6e76c7c0baac8cf61cda8155e7dbbbf44e379518ab42c4a3d32ef",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

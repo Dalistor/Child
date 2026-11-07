@@ -49,6 +49,18 @@ public:
     float weight() const { return w_; }
     const StdpParams& params() const { return p_; }
 
+    // Dynamic state, saved or restored through an archive (see brain/archive.hpp).
+    template <class Archive>
+    void persist(Archive& a) {
+        a(w_);
+        a(pre_trace_);
+        a(post_trace_);
+        a(pre_time_);
+        a(post_time_);
+        a(tag_);
+        a(tag_time_);
+    }
+
 private:
     StdpParams p_;
     EligibilityParams e_params_;

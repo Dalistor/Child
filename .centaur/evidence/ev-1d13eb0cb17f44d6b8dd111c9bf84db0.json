@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "id": "ev-1d13eb0cb17f44d6b8dd111c9bf84db0",
+  "contract": "neurogenese@1",
+  "rule": "NEO-02",
+  "contract_hash": "09b463f8cdda83bf25e67e9b2d1c6ce3e72676cb4e8331d4aa000b999e3d3ce6",
+  "method": "test",
+  "command": [
+    "sh",
+    "tests/cli_brain.sh",
+    "build/child"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:41:08.989522+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "cli_brain: CHILD_NEUROGENESIS=off mantém 32 células onde o feed cresceria até 64; valor inválido falha; CHILD_MAX_NEURONS=40 limita feed e grow; CHILD_PARAMS igual a --params; CHILD_ENGINE=mlp cria o MLP",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "66d71d909649ab2511d2c8030a0e8decada5569ec59234e4e76cf03d040e4bd0",
+    "src/brain/brain.cpp": "9cba75c94326d6cbdb9e74ec4568aea6ba78d91ad0b175f42add5a4edf692fed",
+    "src/brain/brain.hpp": "248495c8e6cd081ac63873ca913ac459380cd25a6ebb03c293da8b0992fadc69",
+    "src/brain/neurogenesis.cpp": "4f0283026c07fcb3c9f6b156a00dad33e054b87c2bc1806d37c41683219a984f",
+    "src/brain/parameters.cpp": "2d819313cfa67d9e3b110549eda3c606ba482b127deadc3273be5fa21527f33c",
+    "src/cerebellum/cerebellum.cpp": "c9fd1dac3b50cd6af2cc06e6d6d6ba451fc6bb74473652886038fe36a9ac493d",
+    "src/cortex/cortex.cpp": "3263dfb9eea60a38b3fb19a857f73980aaf8587b2073e0134db4ce419c4bfc7a",
+    "src/cortex/cortex.hpp": "756b0f4f5da2247e41c4d76f78e7bba80aa3da5ad19ea974cb95432abc8c683d",
+    "src/engram/engram.cpp": "e13dc63cf81de18379ba9b7a0b1f2ba144af560919d3baae0688d03949e08d68",
+    "src/hippocampus/hippocampus.cpp": "eb17159acf42e59ce3f18cb310b999e6a86abe92a552cae882a8b041369fd352",
+    "src/main.cpp": "23490e1e912b4684d437c253a0ef91a2f839c68c1a0402abb3d4c4baf3cb6d76",
+    "src/neuron/dendrite.cpp": "8de6106c5ae1e2d7509ef9c7477af8d09383f87ee4c771043c986202816964d8",
+    "src/neuron/neuron.cpp": "ac14584edd947daf1e521931490f2c0ab0c6b5e7bc00cfc6004ac39de0659762",
+    "src/synapse/synapse.cpp": "bb1e219024738a9d504b88c2a50b7746df1f7edd25a1dcc542aa749da96921c3",
+    "src/thalamus/thalamus.cpp": "d2a7290fe365bad74146187ef872571972513c5e1d8c031c0b79102c477e3d36",
+    "tests/brain_tests.cpp": "721f2d1b307d68fe38a891bd498cf376fba036f25f974ee23c57f1916cd9e44a",
+    "tests/cli_brain.sh": "a1dd21c9fba9d1c42d2cdec815b03f2a3aa38e3653c07ecb51d80094694cca10",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

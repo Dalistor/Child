@@ -19,7 +19,7 @@
         }
       ],
       "evidence": [
-        "ev-0b53f8edc66340579aebdff1431d2ae4"
+        "ev-013b74d7394a4a0593c676754c235606"
       ],
       "delivery": {
         "stage": "integrated",
@@ -42,7 +42,7 @@
         }
       ],
       "evidence": [
-        "ev-b3a327dd52044dbfb6ef3adba1fb0c36"
+        "ev-c3980e5423dc468eabb7d8976730dd0a"
       ],
       "delivery": {
         "stage": "integrated",
@@ -62,10 +62,16 @@
           "start": 33,
           "end": 59,
           "role": "Exemplo do clone ao fork treinado"
+        },
+        {
+          "path": "tests/readme_example.sh",
+          "start": 1,
+          "end": 16,
+          "role": "Executa o bloco do README numa cópia limpa"
         }
       ],
       "evidence": [
-        "ev-34a908632b004912bb2f316b9b597cd8"
+        "ev-834968f75aae4dfab0015f37a33a9063"
       ],
       "delivery": {
         "stage": "integrated",

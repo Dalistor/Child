@@ -37,7 +37,7 @@
         }
       ],
       "evidence": [
-        "ev-87ab11076b3a4f339eed043806cfd913"
+        "ev-6340038bcc754840869e40c8666661e5"
       ],
       "delivery": {
         "stage": "integrated",
@@ -51,14 +51,48 @@
       "notes": "Arquivo .child real do formato 1 recusado com mensagem para recriar a base (demonstração manual)."
     },
     "ENG-02": {
-      "implementation": "ausente",
-      "sources": [],
-      "evidence": [],
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/engram/engram.cpp",
+          "start": 1,
+          "end": 200,
+          "role": "Seção brain"
+        },
+        {
+          "path": "src/brain/archive.hpp",
+          "start": 1,
+          "end": 79,
+          "role": "Gravação e leitura do estado"
+        },
+        {
+          "path": "src/brain/brain.cpp",
+          "start": 1,
+          "end": 152,
+          "role": "Brain::persist"
+        },
+        {
+          "path": "src/cortex/cortex.hpp",
+          "start": 1,
+          "end": 113,
+          "role": "Estado do córtex"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 317,
+          "end": 346,
+          "role": "Caso 'dynamic state'"
+        }
+      ],
+      "evidence": [
+        "ev-f64af1dbb9f04634879f44a304bc1d24"
+      ],
       "delivery": {
         "stage": "local"
       },
-      "specs": [],
-      "notes": "Depende de cerebro/NEU-01 e SIN-01."
+      "specs": [
+        "master/0017"
+      ]
     }
   }
 }

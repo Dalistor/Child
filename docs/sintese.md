@@ -73,6 +73,18 @@ A qualidade do texto gerado não é critério. Os critérios medem mecanismos: a
 | 4 | Hipocampo e `sleep` | Aprender B não estraga A com sono; sem sono, estraga |
 | 5 | Escala e engrama de estado | Neurônios/s medidos na RTX 3060; `fork` preserva o estado dinâmico |
 
+## Situação em 2026-11-07
+
+Os degraus 0 a 5 estão entregues em CPU, com critérios nos contratos `cerebro`, `encefalo`, `dendritos`, `hipocampo`, `neurogenese` e `engrama`. O backend CUDA continua como extensão. A [arquitetura](../.centaur/system/architecture.md#limites-conhecidos) registra o que ainda não se confirmou:
+- o APR-01 depende da semente;
+- os segmentos dendríticos não mostraram ganho no `abcabd`.
+
+Respostas às perguntas em aberto abaixo:
+- **Homeostase e inibição** entraram no `cerebro` v002.
+- **Precisão:** float32, com tempos de evento em double.
+- **Fila de eventos:** passo fixo de 0,1 ms com fontes por evento. Isso custou menos do que uma fila geral nos tamanhos medidos.
+- **O sinal de cima do e-prop** não foi usado. A regra delta do cerebelo usa só o erro da própria unidade.
+
 ## Decisões
 
 **Tomadas:**

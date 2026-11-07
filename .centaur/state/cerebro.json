@@ -19,7 +19,7 @@
         }
       ],
       "evidence": [
-        "ev-110ce8b973274d1ea659b39dbaf3d73a"
+        "ev-ff025ff8455e429cbb965864bef6d113"
       ],
       "delivery": {
         "stage": "integrated",
@@ -49,7 +49,7 @@
         }
       ],
       "evidence": [
-        "ev-b8e96383948247038161d7c40be5fc70"
+        "ev-41f1ca382cd54ca6b3ee7d0cae3d0437"
       ],
       "delivery": {
         "stage": "integrated",
@@ -78,7 +78,7 @@
         }
       ],
       "evidence": [
-        "ev-806870187597470380c02852bd2eeaf5"
+        "ev-fb455310bdb641abba5fde00e06ebc81"
       ],
       "delivery": {
         "stage": "integrated",
@@ -91,72 +91,36 @@
       ]
     },
     "PAR-01": {
-      "implementation": "parcial",
+      "implementation": "implementada",
       "sources": [
         {
-          "path": "src/neuron/neuron.hpp",
-          "start": 8,
-          "end": 19,
-          "role": "Padrões do AdEx (Brette & Gerstner 2005)"
+          "path": "src/brain/parameters.cpp",
+          "start": 1,
+          "end": 159,
+          "role": "Registro com faixa e fonte"
         },
         {
-          "path": "src/synapse/synapse.hpp",
-          "start": 8,
-          "end": 14,
-          "role": "Padrões do STDP (Song 2000)"
-        },
-        {
-          "path": "src/synapse/synapse.hpp",
-          "start": 16,
-          "end": 21,
-          "role": "τ_e 1 s e expiração (Frémaux & Gerstner 2016; Izhikevich 2007)"
-        },
-        {
-          "path": "src/dopamine/dopamine.hpp",
-          "start": 10,
-          "end": 10,
-          "role": "τ_d 0,2 s (Izhikevich, patente)"
+          "path": "tests/parameters_doc.py",
+          "start": 1,
+          "end": 54,
+          "role": "Confere código e documentação"
         },
         {
           "path": "docs/parametros.md",
-          "start": 5,
-          "end": 149,
-          "role": "Faixas publicadas"
-        },
-        {
-          "path": "src/neuron/neuron.hpp",
-          "start": 21,
-          "end": 29,
-          "role": "Receptores (Vogels 2011)"
-        },
-        {
-          "path": "src/synapse/homeostasis.hpp",
-          "start": 8,
-          "end": 15,
-          "role": "Homeostase: 5 Hz, τ_hom 5 s, η 1e-4/ms"
-        },
-        {
-          "path": "src/interneuron/interneuron.cpp",
-          "start": 5,
-          "end": 17,
-          "role": "Interneurônio: conjunto tônico de Naud 2008"
-        },
-        {
-          "path": "src/interneuron/interneuron.hpp",
-          "start": 13,
-          "end": 16,
-          "role": "Condutância inibitória 3 nS (Vogels 2011)"
+          "start": 1,
+          "end": 249,
+          "role": "Faixas e fontes (§1-7)"
         }
       ],
-      "evidence": [],
+      "evidence": [
+        "ev-b47ba64b503d49b78805b796b07dfd7a"
+      ],
       "delivery": {
         "stage": "local"
       },
       "specs": [
-        "master/0008",
-        "master/0010"
-      ],
-      "notes": "Neurônio, sinapse, elegibilidade, dopamina, receptores, homeostase e inibição com padrões registrados em docs/parametros.md; η da homeostase sem valor publicado na mesma forma (justificado pela escala de tempo de Zenke 2013). Parcial até o CFG-01 e o APR-01."
+        "master/0016"
+      ]
     },
     "DOP-01": {
       "implementation": "implementada",
@@ -187,7 +151,7 @@
         }
       ],
       "evidence": [
-        "ev-5e1b70c2cda849a3a8e2582ee392b37a"
+        "ev-04d540682b07477abf6e037972569f6d"
       ],
       "delivery": {
         "stage": "integrated",
@@ -234,7 +198,7 @@
         }
       ],
       "evidence": [
-        "ev-230948e9a09d41ea9664508cb0612a03"
+        "ev-39026aae13d24e6489eed91a2e83d530"
       ],
       "delivery": {
         "stage": "integrated",
@@ -281,7 +245,7 @@
         }
       ],
       "evidence": [
-        "ev-6ffd7fcfe37c4c33bbb11dc658485ac6"
+        "ev-577d3ba30e8c42de9afc3a285c89e9d9"
       ],
       "delivery": {
         "stage": "integrated",
@@ -328,7 +292,7 @@
         }
       ],
       "evidence": [
-        "ev-2a777584061d4c20a6227c2ba7539a70"
+        "ev-8bf497ac1fc644cab5a25fe78e226694"
       ],
       "delivery": {
         "stage": "integrated",
@@ -340,6 +304,51 @@
         "master/0011"
       ],
       "notes": "Dependente da semente: a configuração passa nos três critérios em 5 das sementes 1-8; o teste usa a semente 5. Limite registrado em docs/parametros.md §6."
+    },
+    "CFG-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/brain/parameters.hpp",
+          "start": 1,
+          "end": 60,
+          "role": "Parâmetros do cérebro"
+        },
+        {
+          "path": "src/brain/parameters.cpp",
+          "start": 1,
+          "end": 159,
+          "role": "Registro, leitura com faixa e descrição"
+        },
+        {
+          "path": "src/main.cpp",
+          "start": 131,
+          "end": 141,
+          "role": "--params e CHILD_PARAMS"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 348,
+          "end": 381,
+          "role": "Caso 'parameters'"
+        },
+        {
+          "path": "tests/cli_brain.sh",
+          "start": 1,
+          "end": 58,
+          "role": "Arquivo de parâmetros pelo CLI"
+        }
+      ],
+      "evidence": [
+        "ev-25f899bf4b604fb1abe2c892fb862850"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0016"
+      ],
+      "notes": "O engrama inteiro difere entre duas bases pelo id da linhagem (identidade, por desenho); a seção brain é idêntica."
     }
   }
 }

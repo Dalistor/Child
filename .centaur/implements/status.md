@@ -14,6 +14,7 @@ Histórico de todas as implementações realizadas neste projeto.
 | 0008 | Dopamina como terceiro fator | 2026-11-02 | Concluído | src/dopamine/*, src/synapse/*, CMakeLists.txt, tests/tests.cpp, README.md, AGENTS.md, architecture.md |
 | 0009 | Homeostase e inibição | 2026-11-02 | Concluído | src/neuron/*, src/synapse/homeostasis.*, src/interneuron/*, CMakeLists.txt, tests/tests.cpp, docs/parametros.md, README.md, AGENTS.md, architecture.md |
 | 0010 | Um neurônio aprende um padrão escondido no ruído | 2026-11-07 | Concluído | src/thalamus/*, src/synapse/*, tests/tests.cpp, CMakeLists.txt, docs/parametros.md |
+| 0011 | O cérebro integrado: córtex, cerebelo, dopamina como surpresa, dendritos, hipocampo, neurogênese e CLI | 2026-11-07 | Concluído | src/brain/*, src/cortex/*, src/cerebellum/*, src/hippocampus/*, src/neuron/dendrite.*, src/thalamus/*, src/engram/*, src/main.cpp, tests/*, CMakeLists.txt, docs/*, README.md, AGENTS.md, CONTRIBUTING.md, architecture.md |
 
 ---
 

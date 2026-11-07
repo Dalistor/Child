@@ -20,6 +20,15 @@ public:
     // Uniform in [0, 1).
     float uniform() { return float(next() >> 40) / float(1ULL << 24); }
 
+    // Uniform integer in [0, n), n > 0.
+    uint64_t below(uint64_t n) { return next() % n; }
+
+    // Saves or restores the state through an archive (see brain/archive.hpp).
+    template <class Archive>
+    void persist(Archive& a) {
+        a(s_);
+    }
+
 private:
     uint64_t s_;
 };

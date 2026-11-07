@@ -15,6 +15,12 @@ Planejamentos de implementações complexas, decompostos em tasks para subagente
 | [0009](0009/README.md) | Dopamina como terceiro fator: o STDP só vira mudança de peso se a dopamina chegar a tempo | 2026-11-02 | Concluída | 1 |
 | [0010](0010/README.md) | Homeostase e inibição: a taxa de disparo volta ao alvo e a população não explode | 2026-11-02 | Concluída | 3 |
 | [0011](0011/README.md) | Um neurônio aprende um padrão escondido no ruído (APR-01) | 2026-11-07 | Concluída | 2 |
+| [0012](0012/README.md) | O cérebro integrado prevê o próximo byte pelo CLI | 2026-11-07 | Em revisão | 5 |
+| [0013](0013/README.md) | Segmentos dendríticos: XOR num neurônio e contextos de sequência | 2026-11-07 | Em revisão | 2 |
+| [0014](0014/README.md) | Hipocampo e sono: aprender B sem estragar A | 2026-11-07 | Em revisão | 1 |
+| [0015](0015/README.md) | Neurogênese: neurônios criados quando o cérebro precisa | 2026-11-07 | Em revisão | 2 |
+| [0016](0016/README.md) | Parâmetros lidos de arquivo, com faixa e fonte (CFG-01, PAR-01) | 2026-11-07 | Em revisão | 2 |
+| [0017](0017/README.md) | Engrama com estado dinâmico (ENG-02) | 2026-11-07 | Em revisão | 1 |
 
 ---
 

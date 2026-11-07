@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-834968f75aae4dfab0015f37a33a9063",
+  "contract": "base-aberta@1",
+  "rule": "ABR-03",
+  "contract_hash": "f0e2e038bb03fa67449a970f968fe373056271a3dc12da1fca4a6bb0171c50fd",
+  "method": "test",
+  "command": [
+    "sh",
+    "tests/readme_example.sh",
+    "."
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:44:13.833414+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "tests/readme_example.sh: o bloco do README, sem alterações, roda numa cópia limpa da árvore (compila, testa, cria um cérebro, ramifica, ensina src/cortex com sono, mostra a ramificação treinada e a raiz virgem e gera texto)",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "README.md": "8a68b57d9d96dae0e26b24643e6efea988301dc69d3c68df684ff5dc3e65c87f",
+    "tests/readme_example.sh": "877cc0d24f14f748cfd286d5aaf99ab1490888930af3602a24f5f02c1ab20777"
+  },
+  "sources_stable": true
+}

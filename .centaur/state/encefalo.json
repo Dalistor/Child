@@ -1,0 +1,167 @@
+{
+  "schema": 1,
+  "contract": "encefalo@1",
+  "rules": {
+    "TAL-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/thalamus/thalamus.hpp",
+          "start": 1,
+          "end": 79,
+          "role": "Célula relé e código esparso de cada byte"
+        },
+        {
+          "path": "src/thalamus/thalamus.cpp",
+          "start": 1,
+          "end": 57,
+          "role": "Sorteio dos códigos e disparos por evento"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 80,
+          "end": 104,
+          "role": "Caso 'thalamus'"
+        }
+      ],
+      "evidence": [
+        "ev-7918a449fee64e50a3915767b61757fe"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0012"
+      ]
+    },
+    "CER-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/cerebellum/cerebellum.hpp",
+          "start": 1,
+          "end": 61,
+          "role": "Parâmetros e interface do cerebelo"
+        },
+        {
+          "path": "src/cerebellum/cerebellum.cpp",
+          "start": 1,
+          "end": 77,
+          "role": "Grânulos, k-WTA, Purkinje e regra delta"
+        },
+        {
+          "path": "src/brain/brain.cpp",
+          "start": 1,
+          "end": 152,
+          "role": "Fluxo por byte e leitura do traço"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 106,
+          "end": 117,
+          "role": "Caso 'cerebellar readout'"
+        }
+      ],
+      "evidence": [
+        "ev-c18f322392cc45a5b77899d29f988871"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0012"
+      ]
+    },
+    "SUR-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/brain/brain.cpp",
+          "start": 1,
+          "end": 152,
+          "role": "Surpresa, expectativa e liberação de dopamina"
+        },
+        {
+          "path": "src/dopamine/dopamine.hpp",
+          "start": 1,
+          "end": 30,
+          "role": "Sinal de dopamina"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 119,
+          "end": 162,
+          "role": "Caso 'surprise as dopamine' contra o MLP"
+        }
+      ],
+      "evidence": [
+        "ev-3d5ec94efabd45d1b730b1197e995459"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0012"
+      ]
+    },
+    "CLI-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/main.cpp",
+          "start": 1,
+          "end": 358,
+          "role": "CLI com os dois motores"
+        },
+        {
+          "path": "tests/cli_branching.sh",
+          "start": 1,
+          "end": 26,
+          "role": "Ramificação pelos dois motores"
+        },
+        {
+          "path": "tests/cli_brain.sh",
+          "start": 1,
+          "end": 58,
+          "role": "Comandos do cérebro"
+        }
+      ],
+      "evidence": [
+        "ev-1a91b933b5db40dca958e123dfc1f0fb"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0012"
+      ]
+    },
+    "ESC-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/main.cpp",
+          "start": 312,
+          "end": 331,
+          "role": "Comando bench"
+        },
+        {
+          "path": ".centaur/system/architecture.md",
+          "start": 1,
+          "end": 107,
+          "role": "Tabela de vazão medida"
+        }
+      ],
+      "evidence": [
+        "ev-b3475f519eb44a6881b190e7d02754dc"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0012"
+      ],
+      "notes": "Medido em CPU (i5-10400F); o backend CUDA fica como extensão."
+    }
+  }
+}

@@ -26,7 +26,14 @@ add_library(child_core STATIC
   src/synapse/homeostasis.cpp
   src/dopamine/dopamine.cpp
   src/interneuron/interneuron.cpp
-  src/thalamus/thalamus.cpp)
+  src/thalamus/thalamus.cpp
+  src/neuron/dendrite.cpp
+  src/cortex/cortex.cpp
+  src/cerebellum/cerebellum.cpp
+  src/hippocampus/hippocampus.cpp
+  src/brain/parameters.cpp
+  src/brain/neurogenesis.cpp
+  src/brain/brain.cpp)
 target_include_directories(child_core PUBLIC src)
 target_compile_options(child_core PRIVATE -Wall -Wextra -Wpedantic)
 
@@ -35,15 +42,19 @@ target_link_libraries(child PRIVATE child_core)
 target_compile_options(child PRIVATE -Wall -Wextra -Wpedantic)
 
 enable_testing()
-add_executable(child_tests tests/tests.cpp)
+add_executable(child_tests tests/tests.cpp tests/brain_tests.cpp)
 target_link_libraries(child_tests PRIVATE child_core)
 add_test(NAME child_tests COMMAND child_tests)
 add_test(NAME cli_branching
   COMMAND sh ${CMAKE_SOURCE_DIR}/tests/cli_branching.sh $<TARGET_FILE:child> ${CMAKE_SOURCE_DIR}/src/model/rng.hpp)
+add_test(NAME cli_brain COMMAND sh ${CMAKE_SOURCE_DIR}/tests/cli_brain.sh $<TARGET_FILE:child>)
 
-# REG-01: folder naming. Python is not a build dependency; without it the check is skipped.
+# REG-01 and PAR-01 run in Python, which is not a build dependency; without it they are skipped.
 find_package(Python3 COMPONENTS Interpreter QUIET)
 if(Python3_Interpreter_FOUND)
   add_test(NAME brain_layout
     COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/brain_layout.py ${CMAKE_SOURCE_DIR}/src)
+  # PAR-01: every brain parameter documented with the same range and default.
+  add_test(NAME parameters_doc
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_SOURCE_DIR}/tests/parameters_doc.py $<TARGET_FILE:child> ${CMAKE_SOURCE_DIR}/docs/parametros.md)
 endif()

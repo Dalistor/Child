@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "contract": "dendritos@1",
+  "rules": {
+    "DEN-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/neuron/dendrite.hpp",
+          "start": 1,
+          "end": 65,
+          "role": "Pico de cálcio e segmento distal"
+        },
+        {
+          "path": "src/neuron/dendrite.cpp",
+          "start": 1,
+          "end": 49,
+          "role": "Amplitude não monotônica e regra dos segmentos"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 164,
+          "end": 174,
+          "role": "Neurônio com e sem dendrito"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 176,
+          "end": 188,
+          "role": "Caso 'dendritic xor'"
+        }
+      ],
+      "evidence": [
+        "ev-2d99a9eb46b441c48f84eda941900fc6"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0013"
+      ]
+    },
+    "DEN-02": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/cortex/cortex.cpp",
+          "start": 1,
+          "end": 163,
+          "role": "Córtex com segmentos, inibição e adaptação"
+        },
+        {
+          "path": "src/neuron/dendrite.cpp",
+          "start": 1,
+          "end": 49,
+          "role": "Segmentos distais"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 190,
+          "end": 217,
+          "role": "Caso 'sequence contexts', com e sem segmentos"
+        }
+      ],
+      "evidence": [
+        "ev-d443e381696b40a08498cf429ff26388"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0013"
+      ],
+      "notes": "Os segmentos não mostram ganho medido neste critério: sem eles, 0,96/0,95; com eles, 0,96/0,96. A separação vem da história do córtex (arquitetura, Limites conhecidos)."
+    }
+  }
+}
