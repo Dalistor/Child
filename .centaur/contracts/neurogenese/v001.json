@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "id": "neurogenese",
+  "version": 1,
+  "title": "Neurogênese: criar neurônios virtuais quando o cérebro precisa, com teto e controle por variável de ambiente",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Permitir que a base cresça: quando a surpresa fica alta e para de cair, o córtex ganha um lote de células piramidais novas, ligadas como as primeiras e mais plásticas por um tempo (Ge et al. 2007), e o cerebelo ganha os grânulos que as leem (Draelos et al. 2017; Fritzke 1995). O crescimento respeita um teto e pode ser desligado ou limitado por variáveis de ambiente.",
+  "extends": [],
+  "boundaries": [
+    "O aprendizado do código novo usa regras locais e online; retropropagação não é usada nele (a regra delta do cerebelo é local: erro da própria unidade vezes a atividade do grânulo)",
+    "Sem dependências externas além do compilador C++20 e do CMake; CUDA, quando vier, é um backend opcional",
+    "Determinismo: mesma semente e mesmos parâmetros produzem o mesmo estado, bit a bit, no build portátil",
+    "Pastas nomeadas por estruturas do cérebro, com arquivo principal de mesmo nome (cerebro/REG-01)",
+    "Todo parâmetro padrão tem faixa e fonte registradas em docs/parametros.md (cerebro/PAR-01)",
+    "A qualidade do texto gerado não é critério; os critérios medem mecanismos",
+    "Variáveis de ambiente controlam a execução, não reescrevem os parâmetros gravados: CHILD_NEUROGENESIS (on/off), CHILD_MAX_NEURONS (teto), CHILD_PARAMS (arquivo do init) e CHILD_ENGINE (motor do init)"
+  ],
+  "autonomy": [
+    "Escolher a janela, os limiares e o tamanho do lote de crescimento dentro das faixas registradas"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Quem clona a base"
+    ],
+    "exclusions": [
+      "Morte de neurônios e poda",
+      "Neurogênese de interneurônios"
+    ],
+    "use_cases": [
+      {
+        "id": "UC-01",
+        "title": "Deixar a base crescer ao aprender",
+        "actor": "Quem clona a base",
+        "preconditions": [
+          "Um cérebro criado com child init"
+        ],
+        "main_flow": [
+          "child feed ensina um texto difícil",
+          "A base cria neurônios até o teto",
+          "child info mostra quantos nasceram"
+        ],
+        "alternatives": [
+          "CHILD_NEUROGENESIS=off mantém o tamanho",
+          "CHILD_MAX_NEURONS=N limita o teto da execução",
+          "child grow --neurons N cria à mão"
+        ],
+        "postconditions": [
+          "O engrama guarda o novo tamanho"
+        ],
+        "rules": [
+          "NEO-01",
+          "NEO-02"
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "NEO-01",
+      "kind": "functional",
+      "description": "O cérebro cria neurônios quando a surpresa fica alta e para de cair, até o teto, e não cria quando dá conta; os novos participam e o crescimento é determinístico",
+      "acceptance": [
+        "Num texto aleatório, um cérebro de 128 células com janela de 256 bytes, lotes de 16 e teto de 176 chega a 176 células, e o cerebelo passa a ler as 176",
+        "Num texto fácil (abab), o mesmo cérebro não cria neurônios",
+        "As células novas disparam enquanto o texto difícil continua",
+        "Dois cérebros com a mesma semente e o mesmo texto crescem igual, e o engrama preserva o tamanho e o estado"
+      ],
+      "depends_on": [
+        "encefalo/CER-01"
+      ]
+    },
+    {
+      "id": "NEO-02",
+      "kind": "functional",
+      "description": "Variáveis de ambiente desligam ou limitam o crescimento em cada execução, e escolhem o motor e o arquivo de parâmetros do init",
+      "acceptance": [
+        "CHILD_NEUROGENESIS=off impede o crescimento num feed que cresceria; um valor inválido falha nomeando a variável",
+        "CHILD_MAX_NEURONS=N limita o tamanho a N no feed e no grow",
+        "CHILD_PARAMS tem o mesmo efeito de --params no init, e CHILD_ENGINE=mlp cria o MLP"
+      ],
+      "depends_on": [
+        "neurogenese/NEO-01",
+        "encefalo/CLI-01"
+      ]
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-07",
+    "reference": "Pedido do usuário na sessão de 2026-11-07 (/goal): \"Pode trabalhar no projeto até que a base esteja totalmente concluída e funcional, precisa ser capaz de expandir e criar neurônios virtuais se necessário (Deve ter uma váriavel de ambiente para esta e outras versões necessárias)\". Os critérios numéricos foram propostos pela IA a partir da síntese (docs/sintese.md, roteiro consolidado) e de medições piloto registradas na spec master/0012."
+  }
+}

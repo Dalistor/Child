@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "contract": "neurogenese@1",
+  "rules": {
+    "NEO-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/brain/neurogenesis.hpp",
+          "start": 1,
+          "end": 48,
+          "role": "Política de crescimento"
+        },
+        {
+          "path": "src/brain/neurogenesis.cpp",
+          "start": 1,
+          "end": 21,
+          "role": "Janelas de surpresa e lotes"
+        },
+        {
+          "path": "src/cortex/cortex.cpp",
+          "start": 1,
+          "end": 163,
+          "role": "Cortex::grow e células jovens"
+        },
+        {
+          "path": "src/cerebellum/cerebellum.cpp",
+          "start": 1,
+          "end": 77,
+          "role": "Grânulos das novas fibras"
+        },
+        {
+          "path": "tests/brain_tests.cpp",
+          "start": 285,
+          "end": 315,
+          "role": "Caso 'neurogenesis'"
+        }
+      ],
+      "evidence": [
+        "ev-e02ca4577a124a08a4e5f139a545efcb"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0015"
+      ]
+    },
+    "NEO-02": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "src/main.cpp",
+          "start": 85,
+          "end": 97,
+          "role": "CHILD_NEUROGENESIS e CHILD_MAX_NEURONS"
+        },
+        {
+          "path": "src/main.cpp",
+          "start": 143,
+          "end": 163,
+          "role": "CHILD_ENGINE e CHILD_PARAMS no init"
+        },
+        {
+          "path": "tests/cli_brain.sh",
+          "start": 1,
+          "end": 58,
+          "role": "Variáveis de ambiente pelo CLI"
+        }
+      ],
+      "evidence": [
+        "ev-1d13eb0cb17f44d6b8dd111c9bf84db0"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0015"
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "ev-165a15bdac2544a7bd0be4c9dc32706f",
+  "contract": "base@2",
+  "rule": "RAM-01",
+  "contract_hash": "f38e6c819fa1cb2a115f994c838c97700f3a945c7687ec5ff61ff68a2acc3d18",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:35:07.046473+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Teste 'fork diverges but remembers' com o engrama formato 2",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/engram/engram.cpp": "e13dc63cf81de18379ba9b7a0b1f2ba144af560919d3baae0688d03949e08d68",
+    "src/main.cpp": "7ae2940cd6d0bedac20006269554514be55460619fe9920feb563a2f9a6d864e",
+    "tests/cli_branching.sh": "7cf072de5164a6bad9cb4b20750189ce53e07e10103dd6342723679096db75e0",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

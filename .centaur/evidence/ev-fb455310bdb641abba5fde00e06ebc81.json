@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "id": "ev-fb455310bdb641abba5fde00e06ebc81",
+  "contract": "cerebro@2",
+  "rule": "SIN-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:36:21.939256+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Caso 'stdp synapse' (padrões de Song 2000): pré→pós +5/+20/+60 ms muda o peso em +0,00389/+0,00184/+0,00025 e pós→pré 5/60 ms em −0,00409/−0,00026; 2000 pares no mesmo sentido saturam exatamente em w_max e em 0; sem pares (só pré), o peso não muda",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/synapse/synapse.cpp": "bb1e219024738a9d504b88c2a50b7746df1f7edd25a1dcc542aa749da96921c3",
+    "src/synapse/synapse.hpp": "d9182c63a5046c171fd49cde70fdc39edaf763856908263651fa6c404ccbc983",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

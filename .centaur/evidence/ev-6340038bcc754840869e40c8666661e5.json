@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "ev-6340038bcc754840869e40c8666661e5",
+  "contract": "engrama@1",
+  "rule": "ENG-01",
+  "contract_hash": "ebf50ed367d63a7abb3e4e48e7b6172ec122a3ef02678fac1f790ff03176be17",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "./build/child_tests && sh tests/cli_branching.sh ./build/child src/model/rng.hpp"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:42:25.380127+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Formato 2 em seções: ida e volta bit a bit; seção tipo 99 recusada nomeando o tipo; arquivo formato 1 recusado pedindo recriar; corrupção detectada; CLI init/fork/feed/info/sample e cli_branching funcionam",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/engram/engram.cpp": "e13dc63cf81de18379ba9b7a0b1f2ba144af560919d3baae0688d03949e08d68",
+    "src/engram/engram.hpp": "368feab292810e8c7a5166711d8981e5874b6643325bac0f5e3f40dcbb2d0b05",
+    "src/main.cpp": "23490e1e912b4684d437c253a0ef91a2f839c68c1a0402abb3d4c4baf3cb6d76",
+    "tests/cli_branching.sh": "7cf072de5164a6bad9cb4b20750189ce53e07e10103dd6342723679096db75e0",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

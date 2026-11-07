@@ -1,90 +1,108 @@
 # Arquitetura
 
-O objetivo do projeto é criar uma **versão bem simplificada do cérebro**. Este documento separa o que **existe hoje** (a base MLP, que passa a ser a referência/legado) do que está **planejado**. As regras normativas estão nos contratos [`base`](../contracts/base/v002.json) (o MLP atual), [`cerebro`](../contracts/cerebro/v002.json) (a direção nova), [`engrama`](../contracts/engrama/v001.json), [`reprodutibilidade`](../contracts/reprodutibilidade/v001.json) e [`base-aberta`](../contracts/base-aberta/v001.json). Este documento só explica e vincula. A pesquisa está em [docs/](../../docs/README.md), e o roteiro, na [síntese](../../docs/sintese.md).
+O Child é uma **versão bem simplificada do cérebro**, em C++20 e sem dependências externas. Este documento descreve o que existe hoje e explica as decisões. As regras normativas ficam nos contratos:
+- [`cerebro`](../contracts/cerebro/v002.json): neurônio, sinapse, dopamina, homeostase, inibição e parâmetros;
+- [`encefalo`](../contracts/encefalo/v001.json): o cérebro integrado e o CLI;
+- [`dendritos`](../contracts/dendritos/v001.json), [`hipocampo`](../contracts/hipocampo/v001.json) e [`neurogenese`](../contracts/neurogenese/v001.json);
+- [`engrama`](../contracts/engrama/v001.json), [`reprodutibilidade`](../contracts/reprodutibilidade/v001.json) e [`base-aberta`](../contracts/base-aberta/v001.json);
+- [`base`](../contracts/base/v002.json): o MLP, mantido como oráculo.
 
-# Parte 1 — Estado atual: a base MLP (referência)
+A pesquisa está em [docs/](../../docs/README.md) e o roteiro, na [síntese](../../docs/sintese.md). Atualizado em 2026-11-07.
 
-Fatos extraídos do código em 2026-10-29 e atualizados em 2026-11-02 (engrama em seções, build portátil). Não é um neurônio: é uma rede de camadas que prevê o próximo byte. Continua no repositório como referência e oráculo de testes até ser substituída.
-
-## Fluxo
+## Fluxo de um byte
 
 ```
-fonte (arquivo | pasta | stdin)
-   │  captação  ─ src/capture/capture.cpp
-   ▼
-bytes ──► janela de 16 bytes ──► rede ─ src/model/model.cpp ──► P(próximo byte)
-                                  │
-                                  ▼ aprendizado (learn)
-                           parâmetros atualizados
-                                  │  engrama ─ src/engram/engram.cpp
-                                  ▼
-                        engrama (.child) + linhagem
+fonte (arquivo | pasta | stdin) ─ capture/ ─► bytes
+                                                │
+                        thalamus/  canais relé de Poisson: o código esparso do byte dispara
+                                                │ disparos (passo de 0,1 ms, byte_ms = 10 ms)
+                                                ▼
+   cortex/   células piramidais AdEx ◄─ sinapses STDP × dopamina (três fatores), escala homeostática
+             segmentos distais (platô NMDA) ◄─ células ativas no byte anterior
+             interneurônios genéricos ─► inibição de retroalimentação
+                                                │ contagem de disparos por célula, traço (τ 30 ms)
+                                                ▼
+   cerebellum/  fibras musgosas (canais relé + células corticais) ─► grânulos (4 entradas, 5% ativos)
+                ─► unidades de Purkinje ─► P(próximo byte); regra delta local pelo erro (fibra trepadeira)
+                                                │
+               surpresa = −ln P(byte que veio) ─┼─► dopamine/  libera a parte inesperada da surpresa
+                                                ├─► hippocampus/  guarda o episódio (padrão, byte); sleep o repete
+                                                └─► brain/neurogenesis  surpresa alta e parada ⇒ nascem células
+                                                ▼
+   engram/   seção "brain": parâmetros em texto + estrutura + estado dinâmico completo; linhagem e fork
 ```
+
+`src/brain/brain.cpp` orquestra o fluxo: a cada byte, `Brain::perceive(byte, learn)`.
 
 ## Módulos e dependências
 
-| Módulo | Arquivos | Responsabilidade | Depende de |
+| Pasta | Estrutura | Responsabilidade | Depende de |
 |---|---|---|---|
-| Captação | [capture.hpp](../../src/capture/capture.hpp), [capture.cpp](../../src/capture/capture.cpp) | Fonte → bytes determinísticos | nada do projeto |
-| Processamento | [model.hpp](../../src/model/model.hpp), [model.cpp](../../src/model/model.cpp), [rng.hpp](../../src/model/rng.hpp) | Rede, retropropagação, SGD, `learn` | nada do projeto |
-| Engrama | [engram.hpp](../../src/engram/engram.hpp), [engram.cpp](../../src/engram/engram.cpp) | Engrama em seções, checksum, linhagem, `fork` | `model.hpp` (só `Config`) |
-| CLI | [main.cpp](../../src/main.cpp) | `init`, `fork`, `info`, `feed`, `sample` | os três acima |
+| `neuron/` | neurônio | AdEx com receptores de condutância; `dendrite`: pico de cálcio (dCaAP) e segmento distal | `model/rng.hpp` |
+| `synapse/` | sinapse | STDP de pares, marca de elegibilidade, escala homeostática | nada |
+| `dopamine/` | dopamina | Sinal global fásico, o terceiro fator | nada |
+| `interneuron/` | interneurônio | Neurônio inibitório genérico (AdEx tônico) | `neuron/` |
+| `thalamus/` | tálamo | Célula relé de Poisson por evento; código esparso de cada byte | `model/rng.hpp` |
+| `cortex/` | neocórtex | População piramidal, sinapses tálamo-corticais, segmentos, inibição, crescimento | `neuron/`, `synapse/`, `interneuron/` |
+| `cerebellum/` | cerebelo | Expansão em grânulos e leitura por regra delta | `model/rng.hpp` |
+| `hippocampus/` | hipocampo | Episódios por amostragem de reservatório, repetição no sono, completação | `model/rng.hpp` |
+| `brain/` | encéfalo | Liga tudo; parâmetros com faixa, política de neurogênese, serialização | todos acima |
+| `engram/` | engrama | Formato em seções, checksum, escrita atômica, linhagem, `fork` | `model/model.hpp` (só `Config`) |
+| `capture/` (legada) | — | Fonte → bytes | nada |
+| `model/` (legada) | — | MLP oráculo e `Rng` | nada |
+| `main.cpp` | — | CLI: orquestra captação, cérebro ou MLP e engrama | todos |
 
-Processamento e captação não se conhecem; só o CLI os une.
+Regras de dependência:
+- As peças do cérebro não conhecem o engrama nem a E/S.
+- Cada peça expõe `template <class Archive> void persist(Archive&)`, que nomeia seus campos uma vez. `brain/archive.hpp` usa essa função para gravar e para ler.
+- O engrama guarda a seção `brain` como um bloco opaco.
+- Só o CLI conhece todas as camadas.
 
-## Modelo
+## Decisões
 
-Embeddings dos 16 bytes anteriores concatenados → `tanh(W1·x + b1)` → softmax(`W2·h + b2`). Vocabulário fixo de 256 (um byte por token). Configuração padrão: embed 32, contexto 16, hidden 128, o que dá 106.880 parâmetros guardados num único vetor plano (ordem: embeddings, W1, b1, W2, b2). O byte 0 é o preenchimento antes do início e o separador entre arquivos.
+- **Passo fixo com fontes por evento.** Os neurônios integram em Euler a 0,1 ms. As células relé sorteiam o intervalo até o próximo disparo, um sorteio por disparo.
+- **Tempos em `double`.** As sinapses usam `Millis`, para a janela do STDP continuar exata em treinos longos. Pesos e estados ficam em float32.
+- **Três fatores com reforço por intervalo.** As propostas do STDP viram marcas de elegibilidade. A cada `reinforce_ms` (50 ms), a dopamina integrada no intervalo converte as marcas em peso: `dw = e · ∫D dt`.
+- **A dopamina é a surpresa inesperada.** Ela vale `max(0, surpresa − surpresa esperada)`, com a esperada numa média móvel de 100 bytes, como o erro de predição de Schultz 1997.
+- **O cerebelo lê o tálamo e o córtex.** As fibras musgosas carregam a entrada sensorial e a cortical. A regra delta só altera as sinapses dos grânulos ativos.
+- **O hipocampo guarda uma amostra uniforme** de tudo o que foi vivido (reservatório). O sono repete os episódios embaralhados, intercalando o antigo e o novo.
+- **A neurogênese segue erro e estagnação.** Por janela de bytes, se a surpresa média passa de `min_surprise` e não cai `min_improvement` em relação à janela anterior, nasce um lote de células, até o teto. As células novas são mais plásticas por `young_ms` (Ge 2007). O cerebelo ganha os grânulos que as leem.
+- **Conectividade em contagens fixas.** Os interneurônios têm fan-in e fan-out fixos, não probabilidades, para que um córtex grande fique tão esparso quanto um pequeno.
+- **Variáveis de ambiente controlam a execução sem reescrever o que está gravado:**
+  - `CHILD_NEUROGENESIS` e `CHILD_MAX_NEURONS` valem em cada execução;
+  - `CHILD_PARAMS` e `CHILD_ENGINE` só no `init`.
 
 ## Formato do engrama (versão 2, little-endian)
 
-`"CHLD"` · versão `u32` · id/pai/passos `u64` · tamanho do nome `u32` + nome · nº de seções `u32` · seções (tipo `u32`, versão `u32`, tamanho `u64`, dados) · FNV-1a 64 bits de tudo o que precede. A seção tipo 1 é o MLP: embed/context/hidden `u32`, nº de parâmetros `u64` e `float32[]`. Tipo ou versão de seção desconhecidos são recusados nomeando o tipo; o formato 1 é recusado com instrução para recriar a base. A escrita usa arquivo `.tmp` seguido de `rename`. Regras: [`engrama`](../contracts/engrama/v001.json).
+`"CHLD"` · versão `u32` · id/pai/passos `u64` · tamanho do nome `u32` + nome · nº de seções `u32` · seções (tipo `u32`, versão `u32`, tamanho `u64`, dados) · FNV-1a 64 bits de tudo o que precede.
+- **Seção 1** (MLP): embed/context/hidden `u32`, nº de parâmetros `u64` e `float32[]`.
+- **Seção 2** (cérebro, versão 1): semente `u64`, os parâmetros como texto `nome = valor`, e o estado de cada peça na ordem de `Brain::persist`. São gravados:
+  - o `Rng`;
+  - o tálamo (as fontes de cada canal);
+  - o córtex (potenciais, adaptação, condutâncias, ganhos, sinapses com traços e marcas, segmentos, ligações e nascimento de cada célula);
+  - o cerebelo (entradas dos grânulos, pesos e viés);
+  - o hipocampo (episódios);
+  - a dopamina, a neurogênese, os traços e a última previsão.
 
-## Reprodutibilidade
+Tipo ou versão de seção desconhecidos são recusados, nomeando o tipo. A escrita usa `.tmp` seguido de `rename`. Um cérebro virgem padrão ocupa cerca de 11 MB, quase tudo pesos do cerebelo.
 
-O build padrão é portátil (`-O3 -ffp-contract=off`); `-DCHILD_NATIVE=ON` acrescenta `-march=native` e deixa de garantir os mesmos pesos entre máquinas. O teste `reference weights` fixa o hash dos pesos de uma semente e um texto conhecidos. Regras: [`reprodutibilidade`](../contracts/reprodutibilidade/v001.json).
+## Escala medida
 
-## Limites conhecidos (observados, não requisitos)
+`child bench --bytes 300 --neurons N`, numa thread de um Intel Core i5-10400F (2,9 GHz), build portátil `-O3`, medido em 2026-11-07:
 
-- Aprendizado de cerca de 8,6 mil bytes/s numa thread no build portátil (9,2 mil com `-march=native`), medido em 22 KB de código.
-- Janela fixa de 16 bytes, sem memória além dela.
-- Sem proteção contra esquecimento catastrófico (prevista no roteiro, via hipocampo e replay).
-
-# Parte 2 — Direção: uma versão simplificada do cérebro (planejado)
-
-Já implementados: o engrama em seções, a verificação de nomes (REG-01), o neurônio AdEx em `src/neuron/` (NEU-01) a sinapse com STDP em `src/synapse/` (SIN-01), a dopamina como terceiro fator em `src/dopamine/`, com a marca de elegibilidade na sinapse (DOP-01), a escala homeostática em `src/synapse/homeostasis` (HOM-01) o interneurônio inibitório genérico em `src/interneuron/` (INB-01), a célula relé do tálamo como fonte de disparos de Poisson em `src/thalamus/` e o aprendizado de um padrão no ruído (APR-01). O neurônio recebe condutâncias excitatória e inibitória; a ligação entre as peças ainda fica nos testes. O resto está planejado. O primeiro degrau tem contrato aprovado ([`cerebro` v002](../contracts/cerebro/v002.json)), com homeostase, inibição e limiares numéricos tirados de [parametros.md](../../docs/parametros.md). O roteiro completo e os critérios de cada degrau estão na [síntese](../../docs/sintese.md).
-
-## Princípios (decididos)
-
-- **Fidelidade em degraus**: neurônio de ponto AdEx primeiro; dendritos humanos depois.
-- **Aprendizado por regras locais e online** (STDP e três fatores com dopamina), sem retropropagação no código novo.
-- **Nomes pelas regiões do cérebro**: cada pasta tem um arquivo principal de mesmo nome; identificadores em inglês.
-- **CUDA é um backend opcional**; o núcleo não o conhece e o build padrão exige só C++20 e CMake.
-
-## Estrutura-alvo
-
-| Pasta | Estrutura do cérebro | Responsabilidade | Degrau | Substitui |
+| células piramidais | interneurônios | bytes/s | segundos simulados por segundo | passos de neurônio/s |
 |---|---|---|---|---|
-| `src/thalamus/` | tálamo, relé sensorial | Filtrar e codificar bytes em disparos | 0 | `capture/` |
-| `src/neuron/` | neurônio | Dinâmica AdEx: integrar, disparar, reiniciar, adaptar | 0 | parte de `model/` |
-| `src/synapse/` | sinapse | Peso, plasticidade STDP e escala homeostática | 0 | parte de `model/` |
-| `src/interneuron/` | interneurônio inibitório | Inibir a população e manter o equilíbrio | 0 | novo |
-| `src/dopamine/` | dopamina | Surpresa ao prever o próximo byte, o terceiro fator | 1 | novo |
-| `src/cerebellum/` | cerebelo | Leitura do próximo byte: expansão esparsa + regra delta local | 2 | parte de `model/` |
-| `src/hippocampus/` | hipocampo | Memória rápida esparsa, CA3 e repetição no `sleep` | 4 | novo |
-| `src/engram/` | engrama, o traço físico da memória | Engrama em seções, linhagem e `fork` | entregue | `store/` |
+| 256 (padrão) | 64 | 538 | 5,4 | 1,7·10⁷ |
+| 1024 | 256 | 121 | 1,2 | 1,5·10⁷ |
+| 4096 | 1024 | 27 | 0,3 | 1,4·10⁷ |
 
-Os segmentos dendríticos (degrau 3) entram em `neuron/`. As dependências seguem a regra de dentro para fora: neurônio e sinapse são o núcleo e não conhecem tálamo, cerebelo nem engrama. O `interneuron/` usa o `neuron/` (é um neurônio com outros padrões), e o núcleo não o conhece. As pastas legadas (`capture/`, `model/`) saem conforme cada substituta for entregue; `tests/brain_layout.py` verifica os nomes.
+A máquina tem uma RTX 3060, mas sem o toolkit CUDA, por isso o backend de GPU fica como extensão, como prevê a síntese. O núcleo não depende dele.
 
-## Roteiro
+## Limites conhecidos
 
-Resumo; os critérios de aceite de cada degrau estão na [síntese](../../docs/sintese.md#roteiro-consolidado).
-
-0. **`cerebro`**: neurônio AdEx, sinapse com STDP, dopamina como terceiro fator, homeostase e inibição.
-1. **Dopamina como surpresa**, conferida contra a perda do MLP.
-2. **Leitura cerebelar** do próximo byte.
-3. **Segmentos dendríticos**: XOR num neurônio e contextos de sequência.
-4. **Hipocampo e `sleep`**, contra o esquecimento catastrófico.
-5. **Escala e engrama de estado**: medição na RTX 3060 e `fork` com estado dinâmico.
-
-Dendritos com NMDA e picos de cálcio (ModelDB 260178) ficam depois do degrau 3, como refinamento.
+- **APR-01 depende da semente.** A configuração do teste passa em 5 das sementes 1 a 8 ([parametros.md §6](../../docs/parametros.md)).
+- **Os segmentos dendríticos não mostram ganho medido no `abcabd`.** Sem eles, os dois contextos continuam separados (0,96 e 0,95 contra 0,96 e 0,96). A separação vem da história do próprio córtex (adaptação, condutâncias e inibição), que torna a representação de "b" diferente em cada contexto (cosseno de 0,02 entre contextos e 0,95 dentro do mesmo). Os segmentos estão ligados e aprendem, mas ainda falta um teste em que eles sejam necessários.
+- **Vazão de ~500 bytes/s no tamanho padrão.** Ensinar os 100 KB de `src/` leva cerca de 3 minutos por época.
+- **A previsão de texto é modesta.** O critério é o mecanismo, não a qualidade do texto. O MLP continua melhor como modelo de linguagem.
+- **Em texto variado, a base cresce até o teto.** Ensinar os 102 KB de `src/` por uma época levou a base padrão de 256 a 1024 células (o teto) em 9 min, com perda média de 2,63 nats. A surpresa fica acima de 1,5 nat, e o crescimento ainda não mostrou ganho medido de previsão. Use `CHILD_MAX_NEURONS` ou `CHILD_NEUROGENESIS=off` para conter o crescimento.
+- **O sono só consolida o cerebelo.** O córtex não é repetido no sono.

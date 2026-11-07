@@ -17,10 +17,16 @@ struct Lineage {
     std::string name;
 };
 
+// What a base is made of: either the MLP (config + params), the oracle of
+// the tests, or the brain, whose section is an opaque block that only
+// src/brain/ reads. The engram stores sections; it never interprets the brain.
 struct Snapshot {
     Config config;
     Lineage lineage;
     std::vector<float> params;
+    std::vector<uint8_t> brain;  // non-empty for a brain base
+
+    bool is_brain() const { return !brain.empty(); }
 };
 
 uint64_t new_id();

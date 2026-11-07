@@ -22,6 +22,8 @@ constexpr uint32_t kVersion = 2;
 // Section types and the version of each one's layout.
 constexpr uint32_t kSectionMlp = 1;
 constexpr uint32_t kSectionMlpVersion = 1;
+constexpr uint32_t kSectionBrain = 2;  // src/brain/: parameters, structure and dynamic state
+constexpr uint32_t kSectionBrainVersion = 1;
 
 uint64_t fnv1a(const uint8_t* data, size_t n) {
     uint64_t h = 0xcbf29ce484222325ULL;
@@ -75,7 +77,7 @@ uint64_t new_id() {
 
 Snapshot create(const Config& cfg, uint64_t seed, std::string name) {
     Model model(cfg, seed);
-    return {cfg, {new_id(), 0, 0, std::move(name)}, model.params()};
+    return {cfg, {new_id(), 0, 0, std::move(name)}, model.params(), {}};
 }
 
 Snapshot fork(const Snapshot& from, std::string name) {
@@ -87,15 +89,21 @@ Snapshot fork(const Snapshot& from, std::string name) {
 }
 
 void save(const std::string& path, const Snapshot& snap) {
-    if (snap.params.size() != snap.config.param_count())
-        throw std::runtime_error("snapshot parameters do not match its config");
-
-    Writer mlp;
-    mlp.put(snap.config.embed);
-    mlp.put(snap.config.context);
-    mlp.put(snap.config.hidden);
-    mlp.put(uint64_t(snap.params.size()));
-    mlp.put_bytes(snap.params.data(), snap.params.size() * sizeof(float));
+    uint32_t type = kSectionBrain, layout = kSectionBrainVersion;
+    Writer section;
+    if (snap.is_brain()) {
+        section.put_bytes(snap.brain.data(), snap.brain.size());
+    } else {
+        if (snap.params.size() != snap.config.param_count())
+            throw std::runtime_error("snapshot parameters do not match its config");
+        type = kSectionMlp;
+        layout = kSectionMlpVersion;
+        section.put(snap.config.embed);
+        section.put(snap.config.context);
+        section.put(snap.config.hidden);
+        section.put(uint64_t(snap.params.size()));
+        section.put_bytes(snap.params.data(), snap.params.size() * sizeof(float));
+    }
 
     Writer w;
     w.put_bytes(kMagic, sizeof kMagic);
@@ -106,10 +114,10 @@ void save(const std::string& path, const Snapshot& snap) {
     w.put(uint32_t(snap.lineage.name.size()));
     w.put_bytes(snap.lineage.name.data(), snap.lineage.name.size());
     w.put(uint32_t(1));  // section count
-    w.put(kSectionMlp);
-    w.put(kSectionMlpVersion);
-    w.put(uint64_t(mlp.buf.size()));
-    w.put_bytes(mlp.buf.data(), mlp.buf.size());
+    w.put(type);
+    w.put(layout);
+    w.put(uint64_t(section.buf.size()));
+    w.put_bytes(section.buf.data(), section.buf.size());
     w.put(fnv1a(w.buf.data(), w.buf.size()));
 
     std::string tmp = path + ".tmp";
@@ -166,7 +174,7 @@ Snapshot load(const std::string& path) {
     s.lineage.name.resize(name_len);
     r.get_bytes(s.lineage.name.data(), name_len);
 
-    bool has_mlp = false;
+    bool has_network = false;
     for (uint32_t n = r.get<uint32_t>(); n > 0; --n) {
         uint32_t type = r.get<uint32_t>();
         uint32_t layout = r.get<uint32_t>();
@@ -175,14 +183,17 @@ Snapshot load(const std::string& path) {
         std::vector<uint8_t> data(size);
         r.get_bytes(data.data(), size);
 
-        if (type != kSectionMlp) throw std::runtime_error("unknown engram section type " + std::to_string(type));
-        if (layout != kSectionMlpVersion || has_mlp)
+        if (type != kSectionMlp && type != kSectionBrain)
+            throw std::runtime_error("unknown engram section type " + std::to_string(type));
+        const uint32_t expected = type == kSectionMlp ? kSectionMlpVersion : kSectionBrainVersion;
+        if (layout != expected || has_network)
             throw std::runtime_error("unsupported or repeated engram section type " + std::to_string(type));
-        read_mlp(Reader(data.data(), data.size()), s);
-        has_mlp = true;
+        if (type == kSectionMlp) read_mlp(Reader(data.data(), data.size()), s);
+        else s.brain = std::move(data);
+        has_network = true;
     }
     if (r.remaining() != 0) throw std::runtime_error("engram has trailing data");
-    if (!has_mlp) throw std::runtime_error("engram has no network section");
+    if (!has_network) throw std::runtime_error("engram has no network section");
     return s;
 }
 

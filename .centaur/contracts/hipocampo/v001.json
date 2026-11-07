@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "id": "hipocampo",
+  "version": 1,
+  "title": "Hipocampo e sono: aprender o novo sem esquecer o antigo",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Acrescentar o aprendiz rápido dos sistemas complementares (McClelland, McNaughton & O'Reilly 1995): o hipocampo guarda episódios de uma vez e, no sono, os repete intercalados para o cerebelo, que aprende devagar. Degrau 4 da síntese.",
+  "extends": [],
+  "boundaries": [
+    "O aprendizado do código novo usa regras locais e online; retropropagação não é usada nele (a regra delta do cerebelo é local: erro da própria unidade vezes a atividade do grânulo)",
+    "Sem dependências externas além do compilador C++20 e do CMake; CUDA, quando vier, é um backend opcional",
+    "Determinismo: mesma semente e mesmos parâmetros produzem o mesmo estado, bit a bit, no build portátil",
+    "Pastas nomeadas por estruturas do cérebro, com arquivo principal de mesmo nome (cerebro/REG-01)",
+    "Todo parâmetro padrão tem faixa e fonte registradas em docs/parametros.md (cerebro/PAR-01)",
+    "A qualidade do texto gerado não é critério; os critérios medem mecanismos",
+    "O sono é um comando explícito (child sleep, ou feed --sleep); não há ciclo circadiano automático"
+  ],
+  "autonomy": [
+    "Escolher a capacidade do hipocampo, o número de repetições e a amostragem dos episódios"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Desenvolvedor"
+    ],
+    "exclusions": [
+      "Mapa cognitivo e células de lugar",
+      "Consolidação do córtex durante o sono"
+    ],
+    "use_cases": []
+  },
+  "rules": [
+    {
+      "id": "HIP-01",
+      "kind": "functional",
+      "description": "Aprender B depois de A estraga A sem sono; com sono, A se preserva",
+      "acceptance": [
+        "Sem sono, depois de 3 épocas de B a surpresa em A sobe mais de 0,3 nat acima do que era logo depois de aprender A",
+        "Com 2 ciclos de sono depois de cada época de B, a subida em A fica em no máximo metade da subida sem sono",
+        "Com sono, B também é aprendido: a surpresa em B fica abaixo de ln 256 / 2"
+      ],
+      "depends_on": [
+        "encefalo/CER-01"
+      ]
+    },
+    {
+      "id": "HIP-02",
+      "kind": "functional",
+      "description": "O hipocampo completa um episódio a partir de metade do seu padrão (CA3)",
+      "acceptance": [
+        "Com 200 episódios guardados de 40 células cada, metade das células de cada um recupera o episódio certo nos 200 casos"
+      ],
+      "depends_on": []
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-07",
+    "reference": "Pedido do usuário na sessão de 2026-11-07 (/goal): \"Pode trabalhar no projeto até que a base esteja totalmente concluída e funcional, precisa ser capaz de expandir e criar neurônios virtuais se necessário (Deve ter uma váriavel de ambiente para esta e outras versões necessárias)\". Os critérios numéricos foram propostos pela IA a partir da síntese (docs/sintese.md, roteiro consolidado) e de medições piloto registradas na spec master/0012."
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "id": "encefalo",
+  "version": 1,
+  "title": "O cérebro integrado: tálamo, córtex, cerebelo e dopamina como surpresa, prevendo o próximo byte pelo CLI",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Ligar as peças do cerebro@2 num cérebro que lê bytes e prevê o próximo: o tálamo codifica cada byte em disparos, o córtex de neurônios AdEx o representa com plasticidade de três fatores, o cerebelo lê a atividade e prevê o próximo byte por regra delta local, e a surpresa dessa previsão é a dopamina que libera a plasticidade. É o motor padrão do CLI; o MLP fica como oráculo (degraus 1 e 2 da síntese, mais a medição de escala do degrau 5).",
+  "extends": [],
+  "boundaries": [
+    "O aprendizado do código novo usa regras locais e online; retropropagação não é usada nele (a regra delta do cerebelo é local: erro da própria unidade vezes a atividade do grânulo)",
+    "Sem dependências externas além do compilador C++20 e do CMake; CUDA, quando vier, é um backend opcional",
+    "Determinismo: mesma semente e mesmos parâmetros produzem o mesmo estado, bit a bit, no build portátil",
+    "Pastas nomeadas por estruturas do cérebro, com arquivo principal de mesmo nome (cerebro/REG-01)",
+    "Todo parâmetro padrão tem faixa e fonte registradas em docs/parametros.md (cerebro/PAR-01)",
+    "A qualidade do texto gerado não é critério; os critérios medem mecanismos",
+    "O MLP permanece como oráculo e motor alternativo (--engine mlp); o contrato base@2 continua valendo para ele"
+  ],
+  "autonomy": [
+    "Escolher tamanhos, tempo de apresentação de um byte, codificação e taxas de aprendizado dentro das faixas registradas",
+    "Organizar as estruturas internas e otimizar o desempenho sem mudar o comportamento observável"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Desenvolvedor",
+      "Quem clona a base"
+    ],
+    "exclusions": [
+      "Backend CUDA (extensão)",
+      "Qualidade do texto gerado",
+      "Gânglios da base e escolha de ações"
+    ],
+    "use_cases": [
+      {
+        "id": "UC-01",
+        "title": "Criar, ensinar e consultar um cérebro",
+        "actor": "Quem clona a base",
+        "preconditions": [
+          "Projeto compilado"
+        ],
+        "main_flow": [
+          "child init cria um cérebro virgem",
+          "child feed ensina uma ramificação",
+          "child info mostra neurônios, grânulos e episódios",
+          "child sample gera bytes a partir da previsão"
+        ],
+        "alternatives": [
+          "--engine mlp cria o oráculo"
+        ],
+        "postconditions": [
+          "O engrama guarda o cérebro inteiro"
+        ],
+        "rules": [
+          "TAL-01",
+          "CER-01",
+          "SUR-01",
+          "CLI-01"
+        ]
+      }
+    ]
+  },
+  "rules": [
+    {
+      "id": "TAL-01",
+      "kind": "functional",
+      "description": "O tálamo codifica cada byte num conjunto fixo e esparso de canais relé que disparam enquanto o byte é apresentado",
+      "acceptance": [
+        "Os 256 valores de byte têm códigos distintos, cada um com channels_per_byte canais",
+        "Durante 100 ms do byte 'a', seus canais disparam acima de 100 Hz e os demais abaixo de 10 Hz",
+        "A mesma semente produz a mesma sequência de disparos"
+      ],
+      "depends_on": []
+    },
+    {
+      "id": "CER-01",
+      "kind": "functional",
+      "description": "O cerebelo prevê o próximo byte acima do acaso numa fonte repetitiva, por expansão esparsa em grânulos e regra delta local",
+      "acceptance": [
+        "Numa frase de 45 bytes repetida 20 vezes, depois de 3 épocas, a previsão mais provável acerta pelo menos 50% dos bytes (acaso: 1/256)",
+        "Nas mesmas condições, a surpresa média fica abaixo de ln 256 / 2"
+      ],
+      "depends_on": [
+        "cerebro/NEU-01",
+        "cerebro/SIN-01",
+        "encefalo/TAL-01"
+      ]
+    },
+    {
+      "id": "SUR-01",
+      "kind": "functional",
+      "description": "A dopamina é a surpresa inesperada da previsão do próximo byte, e essa surpresa acompanha a perda do MLP (o oráculo) no mesmo texto",
+      "acceptance": [
+        "Num texto repetido, a surpresa média cai para menos da metade entre a primeira e a terceira época",
+        "Depois do treino, um texto novo libera mais que o dobro da dopamina por byte que o texto aprendido",
+        "A correlação de Pearson, byte a byte, entre a surpresa do cérebro treinado e a perda do MLP treinado no mesmo texto é de pelo menos 0,3"
+      ],
+      "depends_on": [
+        "cerebro/DOP-01",
+        "encefalo/CER-01"
+      ]
+    },
+    {
+      "id": "CLI-01",
+      "kind": "functional",
+      "description": "O cérebro é o motor padrão do CLI, e init, fork, info, feed, sleep, grow, sample, params e bench funcionam com ele; o MLP continua disponível",
+      "acceptance": [
+        "child init cria um cérebro; --engine mlp ou CHILD_ENGINE=mlp cria o MLP",
+        "Para os dois motores, ensinar uma ramificação não altera a raiz (byte a byte) nem a irmã, e o total aprendido é bytes x épocas",
+        "sleep, grow, sample, params e bench terminam sem erro num cérebro pequeno"
+      ],
+      "depends_on": [
+        "encefalo/CER-01"
+      ]
+    },
+    {
+      "id": "ESC-01",
+      "kind": "non_functional",
+      "description": "A vazão do cérebro é medida e registrada",
+      "acceptance": [
+        "child bench informa bytes por segundo e passos de neurônio por segundo num tamanho escolhido",
+        "Os valores medidos em CPU para 256, 1024 e 4096 células piramidais ficam registrados na documentação, com a máquina; a GPU fica como extensão"
+      ],
+      "depends_on": [
+        "encefalo/CLI-01"
+      ]
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-07",
+    "reference": "Pedido do usuário na sessão de 2026-11-07 (/goal): \"Pode trabalhar no projeto até que a base esteja totalmente concluída e funcional, precisa ser capaz de expandir e criar neurônios virtuais se necessário (Deve ter uma váriavel de ambiente para esta e outras versões necessárias)\". Os critérios numéricos foram propostos pela IA a partir da síntese (docs/sintese.md, roteiro consolidado) e de medições piloto registradas na spec master/0012."
+  }
+}

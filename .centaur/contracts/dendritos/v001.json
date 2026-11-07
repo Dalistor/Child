@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "id": "dendritos",
+  "version": 1,
+  "title": "Segmentos dendríticos: um neurônio que resolve XOR e contextos de sequência separados",
+  "scope": "master",
+  "status": "approved",
+  "intent": "Dar ao neurônio de ponto o que a pesquisa mostrou que torna um neurônio humano especial: o pico de cálcio dendrítico, graduado e não monotônico (Gidon et al. 2020), e segmentos distais com platô NMDA que reconhecem o contexto (Hawkins & Ahmad 2016). Degrau 3 da síntese.",
+  "extends": [],
+  "boundaries": [
+    "O aprendizado do código novo usa regras locais e online; retropropagação não é usada nele (a regra delta do cerebelo é local: erro da própria unidade vezes a atividade do grânulo)",
+    "Sem dependências externas além do compilador C++20 e do CMake; CUDA, quando vier, é um backend opcional",
+    "Determinismo: mesma semente e mesmos parâmetros produzem o mesmo estado, bit a bit, no build portátil",
+    "Pastas nomeadas por estruturas do cérebro, com arquivo principal de mesmo nome (cerebro/REG-01)",
+    "Todo parâmetro padrão tem faixa e fonte registradas em docs/parametros.md (cerebro/PAR-01)",
+    "A qualidade do texto gerado não é critério; os critérios medem mecanismos",
+    "NMDA e cálcio detalhados (ModelDB 260178) ficam como refinamento posterior; aqui o dendrito é reduzido à corrente que entrega ao soma"
+  ],
+  "autonomy": [
+    "Escolher limiares, número de segmentos e correntes dentro das faixas registradas"
+  ],
+  "decisions": [],
+  "specification": {
+    "actors": [
+      "Desenvolvedor"
+    ],
+    "exclusions": [
+      "Modelo multicompartimental",
+      "Plasticidade dendrítica dependente de cálcio"
+    ],
+    "use_cases": []
+  },
+  "rules": [
+    {
+      "id": "DEN-01",
+      "kind": "functional",
+      "description": "Um único neurônio com dendrito de cálcio resolve XOR; o mesmo neurônio sem ele, com corrente proporcional à entrada, não resolve",
+      "acceptance": [
+        "Com o dendrito, o neurônio dispara para (0,1) e (1,0) e não dispara para (0,0) nem (1,1)",
+        "Sem o dendrito, a resposta é monotônica na entrada e falha em pelo menos um dos quatro casos"
+      ],
+      "depends_on": [
+        "cerebro/NEU-01"
+      ]
+    },
+    {
+      "id": "DEN-02",
+      "kind": "functional",
+      "description": "Treinado em abcabd, o cérebro separa os dois contextos de ab: prevê c depois de dab e d depois de cab",
+      "acceptance": [
+        "Depois de 3 épocas sobre abcabd repetido 200 vezes, a previsão depois de ab acerta pelo menos 90% em cada um dos dois contextos"
+      ],
+      "depends_on": [
+        "encefalo/CER-01"
+      ]
+    }
+  ],
+  "approval": {
+    "by": "Dalistor",
+    "at": "2026-11-07",
+    "reference": "Pedido do usuário na sessão de 2026-11-07 (/goal): \"Pode trabalhar no projeto até que a base esteja totalmente concluída e funcional, precisa ser capaz de expandir e criar neurônios virtuais se necessário (Deve ter uma váriavel de ambiente para esta e outras versões necessárias)\". Os critérios numéricos foram propostos pela IA a partir da síntese (docs/sintese.md, roteiro consolidado) e de medições piloto registradas na spec master/0012."
+  }
+}

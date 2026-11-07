@@ -46,6 +46,7 @@ void Synapse::reinforce(float dopamine, Millis t, float dt) {
 }
 
 float Synapse::eligibility(Millis t) const {
+    if (tag_ == 0.f) return 0.f;  // never tagged, or tagged with nothing: no exp needed
     const Millis since = t - tag_time_;
     if (since >= e_params_.lifetime) return 0.f;
     return decayed(tag_, since, e_params_.tau);

@@ -51,6 +51,15 @@ public:
     float inhibition() const { return g_i_; } // g_I, nS
     const AdExParams& params() const { return p_; }
 
+    // Dynamic state, saved or restored through an archive (see brain/archive.hpp).
+    template <class Archive>
+    void persist(Archive& a) {
+        a(v_);
+        a(w_);
+        a(g_e_);
+        a(g_i_);
+    }
+
 private:
     AdExParams p_;
     ReceptorParams r_;

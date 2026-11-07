@@ -29,6 +29,11 @@ public:
     float potential() const { return cell_.potential(); }
     const InterneuronParams& params() const { return p_; }
 
+    template <class Archive>
+    void persist(Archive& a) {
+        cell_.persist(a);
+    }
+
 private:
     InterneuronParams p_;
     Neuron cell_;

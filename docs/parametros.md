@@ -150,6 +150,80 @@ Variações testadas sem ganho de robustez (8 sementes cada):
 
 Tornar o aprendizado robusto entre sementes fica como pesquisa em aberto: entrada com taxa variável à maneira de Masquelier e competição entre vários neurônios (Masquelier et al. 2009).
 
+## 7. Registro dos parâmetros do cérebro
+
+Gerado de `child params` (master/0012). O `tests/parameters_doc.py` confere que cada linha bate com o código: unidade, padrão e faixa. Um arquivo de parâmetros (`child init --params` ou `CHILD_PARAMS`) aceita qualquer valor dentro da faixa e recusa os de fora, nomeando o parâmetro (CFG-01).
+
+A fonte **engenharia** indica parâmetros sem valor biológico publicado na mesma forma: tempo de apresentação de um byte, tamanhos, taxas de aprendizado e o critério da neurogênese. Para eles, a faixa é a dos valores que o código aceita. As fontes abreviadas estão nas seções 1 a 6 e em [pesquisa-degraus.md](pesquisa-degraus.md):
+- BG05 é Brette & Gerstner 2005;
+- Naud 2008 é Naud et al. 2008;
+- Ge 2007 é Ge et al. 2007.
+
+| parâmetro | unidade | padrão | mín. | máx. | fonte |
+|---|---|---|---|---|---|
+| `brain.byte_ms` | ms | 10 | 5 | 50 | engenharia |
+| `brain.step_ms` | ms | 0,1 | 0,05 | 0,1 | BG05 (Euler) |
+| `brain.context_tau` | ms | 30 | 10 | 100 | engenharia |
+| `brain.dopamine_tau` | ms | 200 | 100 | 500 | Izhikevich 2007 |
+| `brain.dopamine_gain` | - | 1 | 0 | 10 | engenharia |
+| `brain.reinforce_ms` | ms | 50 | 10 | 200 | abaixo de tau_d e tau_e (Izhikevich 2007) |
+| `brain.sensory_weight` | - | 1 | 0 | 1 | engenharia |
+| `brain.expectation_bytes` | bytes | 100 | 1 | 10000 | engenharia |
+| `thalamus.channels` | - | 256 | 64 | 4096 | engenharia |
+| `thalamus.channels_per_byte` | - | 12 | 4 | 64 | engenharia |
+| `thalamus.active_rate` | Hz | 300 | 50 | 300 | engenharia |
+| `thalamus.spontaneous_rate` | Hz | 2 | 0 | 10 | engenharia |
+| `neuron.capacitance` | pF | 281 | 59 | 281 | BG05; Naud 2008 |
+| `neuron.leak` | nS | 30 | 1,7 | 30 | BG05; Naud 2008 |
+| `neuron.rest` | mV | -70,6 | -70,6 | -58 | BG05; Naud 2008 |
+| `neuron.threshold` | mV | -50,4 | -56 | -42 | BG05; Naud 2008 |
+| `neuron.slope` | mV | 2 | 0,8 | 5,5 | BG05; Naud 2008 |
+| `neuron.subthreshold` | nS | 4 | -11 | 4 | BG05; Naud 2008 |
+| `neuron.adaptation_tau` | ms | 144 | 16 | 300 | BG05; Naud 2008 |
+| `neuron.spike_jump` | pA | 80,5 | 0 | 120 | BG05; Naud 2008 |
+| `neuron.reset` | mV | -70,6 | -70,6 | -46 | BG05; Naud 2008 |
+| `neuron.peak` | mV | 20 | 0 | 20 | BG05; Naud 2008 |
+| `synapse.potentiation` | - | 0,005 | 0,005 | 0,03125 | Song 2000; Masquelier 2008 |
+| `synapse.depression_ratio` | - | 1,05 | 0,85 | 1,05 | Song 2000; Masquelier 2008 |
+| `synapse.tau_plus` | ms | 20 | 16,8 | 20 | Song 2000; Masquelier 2008 |
+| `synapse.tau_minus` | ms | 20 | 20 | 33,7 | Song 2000; Masquelier 2008 |
+| `eligibility.tau` | ms | 1000 | 100 | 1000 | Fremaux & Gerstner 2016; Izhikevich 2007 |
+| `eligibility.lifetime` | ms | 5000 | 1000 | 25000 | Izhikevich 2007 |
+| `homeostasis.target_rate` | Hz | 5 | 3 | 6 | Zenke 2013; Vogels 2011 |
+| `homeostasis.tau` | ms | 5000 | 1000 | 20000 | cerebro@2 HOM-01; Zenke 2013 |
+| `homeostasis.learning_rate` | 1/ms | 0,0001 | 1e-05 | 0,001 | engenharia |
+| `interneuron.conductance` | nS | 3 | 0,3 | 100 | Vogels 2011 |
+| `cortex.excitatory` | - | 256 | 16 | 65536 | engenharia |
+| `cortex.interneurons` | - | 64 | 4 | 16384 | 4:1 (Vogels 2011; Izhikevich 2007) |
+| `cortex.thalamic_peak` | nS | 2 | 0,45 | 5 | Song 2000 (0,45-1,05) e acima para redes pequenas |
+| `cortex.initial_weight` | - | 0,5 | 0 | 1 | engenharia |
+| `cortex.initial_spread` | - | 0,3 | 0 | 0,5 | engenharia |
+| `cortex.to_interneuron_inputs` | - | 128 | 1 | 10000 | Vogels 2011 (2% de 8000 = 160) |
+| `cortex.from_interneuron_inputs` | - | 64 | 1 | 10000 | Vogels 2011 (2% de 2000 = 40); celulas em cesto |
+| `cortex.to_interneuron_conductance` | nS | 1 | 0,3 | 3 | Vogels 2011 |
+| `cortex.segments` | - | 2 | 0 | 16 | Hawkins & Ahmad 2016 (ate 128) |
+| `cortex.young_boost` | - | 2 | 1 | 4 | Ge 2007 (LTP aumentada) |
+| `cortex.young_ms` | ms | 20000 | 0 | 1e+07 | engenharia |
+| `dendrite.synapses` | - | 16 | 4 | 40 | Hawkins & Ahmad 2016 (20-40) |
+| `dendrite.threshold` | - | 4 | 2 | 20 | Hawkins & Ahmad 2016 (8-20) |
+| `dendrite.connected` | - | 0,5 | 0 | 1 | Hawkins & Ahmad 2016 (0,5) |
+| `dendrite.initial` | - | 0,45 | 0 | 1 | engenharia |
+| `dendrite.increment` | - | 0,1 | 0 | 0,1 | Hawkins & Ahmad 2016 (< 0,1) |
+| `dendrite.decrement` | - | 0,02 | 0 | 0,1 | Hawkins & Ahmad 2016 (< 0,1) |
+| `dendrite.plateau_current` | pA | 150 | 0 | 500 | Schiller 2000 (5,9 mV no soma) |
+| `cerebellum.expansion` | - | 16 | 1 | 50 | Litwin-Kumar 2017 (10-50) |
+| `cerebellum.inputs` | - | 4 | 2 | 7 | Billings 2014 (2-7) |
+| `cerebellum.coding_level` | - | 0,05 | 0,01 | 0,1 | Litwin-Kumar 2017 (0,01-0,1) |
+| `cerebellum.learning_rate` | - | 0,5 | 0,01 | 2 | engenharia |
+| `hippocampus.capacity` | episodes | 2048 | 0 | 1e+06 | engenharia |
+| `hippocampus.replay` | - | 1 | 1 | 20 | engenharia |
+| `neurogenesis.enabled` | - | 1 | 0 | 1 | engenharia |
+| `neurogenesis.max_neurons` | - | 1024 | 16 | 1e+06 | engenharia |
+| `neurogenesis.window` | bytes | 2048 | 64 | 1e+06 | Draelos 2017; Fritzke 1995 |
+| `neurogenesis.min_surprise` | nats | 1,5 | 0 | 5,55 | engenharia |
+| `neurogenesis.min_improvement` | - | 0,02 | 0 | 1 | engenharia |
+| `neurogenesis.batch` | - | 32 | 1 | 4096 | engenharia |
+
 ## Confirmação das afirmações da síntese
 
 | afirmação (docs/sintese.md) | veredito | o que a fonte diz |

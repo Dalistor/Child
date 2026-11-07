@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "ev-04d540682b07477abf6e037972569f6d",
+  "contract": "cerebro@2",
+  "rule": "DOP-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:36:53.844603+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Caso 'three-factor plasticity' (τ_e 1 s com expiração em 5 s, τ_d 0,2 s, sem basal): par pré→pós +5 ms com dopamina a 0,2 s muda o peso +0,00266 e a 1 s +0,00119; com dopamina a 6 s ou sem dopamina, mudança exatamente 0; par invertido com dopamina −0,00279; marcar não altera o peso; marca > 0 a 4999 ms e = 0 a 5000 ms",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "src/dopamine/dopamine.cpp": "5d3c948f6d5c039fab197627bc7281be9773647408c8eec5d4878649ebeacedc",
+    "src/dopamine/dopamine.hpp": "e0a88713261d0d23d168fcd89eae8bc40ebfe32869b09f32e80898cdd29f55d8",
+    "src/synapse/synapse.cpp": "bb1e219024738a9d504b88c2a50b7746df1f7edd25a1dcc542aa749da96921c3",
+    "src/synapse/synapse.hpp": "d9182c63a5046c171fd49cde70fdc39edaf763856908263651fa6c404ccbc983",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}

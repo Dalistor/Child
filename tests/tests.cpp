@@ -22,21 +22,12 @@
 #include "interneuron/interneuron.hpp"
 #include "thalamus/thalamus.hpp"
 #include "model/rng.hpp"
+#include "harness.hpp"
 
 using namespace child;
 namespace fs = std::filesystem;
 
 namespace {
-
-int failures = 0;
-
-#define CHECK(cond)                                                       \
-    do {                                                                  \
-        if (!(cond)) {                                                    \
-            std::printf("  FAIL %s:%d  %s\n", __FILE__, __LINE__, #cond); \
-            ++failures;                                                   \
-        }                                                                 \
-    } while (0)
 
 std::vector<uint8_t> bytes(const std::string& s) { return {s.begin(), s.end()}; }
 
@@ -717,16 +708,11 @@ void test_capture() {
     fs::remove_all(dir);
 }
 
-void run(const char* name, const std::function<void()>& fn) {
-    int before = failures;
-    std::printf("%s\n", name);
-    fn();
-    std::printf("  %s\n", failures == before ? "ok" : "FAILED");
-}
-
 }  // namespace
 
-int main() {
+int main(int argc, char** argv) {
+    filter_count = argc - 1;
+    filters = argv + 1;
     run("gradients match numeric", test_gradients_match_numeric);
     run("virgin network", test_virgin_network);
     run("reference weights", test_reference_weights);
@@ -741,6 +727,7 @@ int main() {
     run("engram roundtrip and corruption", test_engram_roundtrip_and_corruption);
     run("fork diverges but remembers", test_fork_diverges_but_remembers);
     run("capture", test_capture);
+    run_brain_tests();
     std::printf(failures ? "%d check(s) failed\n" : "all passed\n", failures);
     return failures ? 1 : 0;
 }

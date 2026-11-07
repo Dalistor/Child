@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "id": "ev-8bf497ac1fc644cab5a25fe78e226694",
+  "contract": "cerebro@2",
+  "rule": "APR-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T19:37:25.702557+00:00",
+  "revision": "bbb667567efe397c7ca0498dabdab99bd6a91524",
+  "summary": "Caso 'pattern learning' (semente 5; 500 aferentes de Poisson a 20 Hz, padrão de 50 ms em 1/4 do tempo; STDP A+ 0,02, τ+ 16,8, τ− 20, A−/A+ 1,05; homeostase padrão): após 500 apresentações razão infinita (19,6 Hz dentro, 0 fora); sem plasticidade 0,5; após 5000 razão 8,4; janelas de 20 s depois de 100 s entre 4,6 e 5,75 Hz",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "66d71d909649ab2511d2c8030a0e8decada5569ec59234e4e76cf03d040e4bd0",
+    "src/neuron/neuron.cpp": "ac14584edd947daf1e521931490f2c0ab0c6b5e7bc00cfc6004ac39de0659762",
+    "src/neuron/neuron.hpp": "f974ee0907e6e76c7c0baac8cf61cda8155e7dbbbf44e379518ab42c4a3d32ef",
+    "src/synapse/homeostasis.cpp": "235612b6f21990f545638d4dbb6d3fedab396c3855c786f32d9aab7f06b3318e",
+    "src/synapse/homeostasis.hpp": "1965900b593924473085bbae4f5d16dbaefeed6c9b6626fe2e099f988ef2e17c",
+    "src/synapse/synapse.cpp": "bb1e219024738a9d504b88c2a50b7746df1f7edd25a1dcc542aa749da96921c3",
+    "src/synapse/synapse.hpp": "d9182c63a5046c171fd49cde70fdc39edaf763856908263651fa6c404ccbc983",
+    "src/thalamus/thalamus.cpp": "d2a7290fe365bad74146187ef872571972513c5e1d8c031c0b79102c477e3d36",
+    "src/thalamus/thalamus.hpp": "36f08eb8f03bf743e4e9292d4baa1950a123f1622d84e14fedc998f9a6acf2c6",
+    "tests/harness.hpp": "01d0cf03f181def07e15b86f951bd726023612c7adf165bcbc560ad29b19e336",
+    "tests/tests.cpp": "6a82228099e8bf71550156744bc4099be56121cddd10a51b0c46549d3f6a9e07"
+  },
+  "sources_stable": true
+}
