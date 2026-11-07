@@ -1,7 +1,7 @@
 # 2026 Um neurônio aprende um padrão escondido no ruído (APR-01)
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** cerebro@2
@@ -49,7 +49,7 @@ Fora desta entrega:
 ## Validação e integração
 - `ctest --test-dir build` (child_tests, cli_branching, brain_layout).
 - `validate-lifecycle.py --ready cerebro/APR-01` e `--complete master/0011`.
-- Integração por PR no `main`.
+- Integração por PR no `main`: PR #5, merge 1eaa75f; `--ready cerebro/APR-01` e `--complete master/0011` sem pendências.
 
 ## Diferença entre plano e resultado
 - **Implementação:** [0010](../../implements/0010/README.md).
