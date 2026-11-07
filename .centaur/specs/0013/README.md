@@ -1,7 +1,7 @@
 # 2026 Segmentos dendríticos: XOR num neurônio e contextos de sequência
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** dendritos@1
@@ -19,6 +19,9 @@
 - **Ablação:** sem segmentos, 0,96 e 0,95. Os segmentos estão ligados e aprendem (~16 células previstas por byte no treino), mas não são eles que separam os contextos neste critério. Quem separa é a história do córtex: cosseno de 0,02 entre as representações de "b" nos dois contextos.
 - **Pendente:** um teste em que os segmentos sejam necessários.
 
+
+## Integração
+PR #6, com merge no `main` (22d196b) e a CI `build-and-test` verde. `--ready` de cada regra e `--complete master/0013` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Pico de cálcio e XOR (DEN-01)

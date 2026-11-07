@@ -1,7 +1,7 @@
 # 2026 O cérebro integrado prevê o próximo byte pelo CLI
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** encefalo@1
@@ -69,6 +69,9 @@ Esta é a mestre da entrega que conclui a base pedida no /goal. As filhas cobrem
 - `validate-lifecycle.py --ready` de cada regra, mais `--complete` das filhas e da mestre.
 - PR no `main`.
 
+
+## Integração
+PR #6, com merge no `main` (22d196b) e a CI `build-and-test` verde. `--ready` de cada regra e `--complete master/0012` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Tálamo como codificador de bytes (TAL-01)

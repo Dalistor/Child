@@ -28,7 +28,10 @@
         "ev-7918a449fee64e50a3915767b61757fe"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #6 (commit 22d196b)",
+        "revision": "22d196b0c3d1f3a358c3df02467c288666566210",
+        "at": "2026-11-07T16:46:12-03:00"
       },
       "specs": [
         "master/0012"
@@ -66,7 +69,10 @@
         "ev-c18f322392cc45a5b77899d29f988871"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #6 (commit 22d196b)",
+        "revision": "22d196b0c3d1f3a358c3df02467c288666566210",
+        "at": "2026-11-07T16:46:12-03:00"
       },
       "specs": [
         "master/0012"
@@ -98,7 +104,10 @@
         "ev-3d5ec94efabd45d1b730b1197e995459"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #6 (commit 22d196b)",
+        "revision": "22d196b0c3d1f3a358c3df02467c288666566210",
+        "at": "2026-11-07T16:46:12-03:00"
       },
       "specs": [
         "master/0012"
@@ -130,7 +139,10 @@
         "ev-1a91b933b5db40dca958e123dfc1f0fb"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #6 (commit 22d196b)",
+        "revision": "22d196b0c3d1f3a358c3df02467c288666566210",
+        "at": "2026-11-07T16:46:12-03:00"
       },
       "specs": [
         "master/0012"
@@ -156,7 +168,10 @@
         "ev-b3475f519eb44a6881b190e7d02754dc"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #6 (commit 22d196b)",
+        "revision": "22d196b0c3d1f3a358c3df02467c288666566210",
+        "at": "2026-11-07T16:46:12-03:00"
       },
       "specs": [
         "master/0012"

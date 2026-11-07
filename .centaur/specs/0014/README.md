@@ -1,7 +1,7 @@
 # 2026 Hipocampo e sono: aprender B sem estragar A
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** hipocampo@1
@@ -21,6 +21,9 @@
 - Amostragem de reservatório, com capacidade de 2048 episódios.
 - O sono repete os episódios embaralhados para o cerebelo. O córtex não é repetido.
 
+
+## Integração
+PR #6, com merge no `main` (22d196b) e a CI `build-and-test` verde. `--ready` de cada regra e `--complete master/0014` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Episódios, sono e completação (HIP-01, HIP-02)

@@ -1,7 +1,7 @@
 # 2026 Neurogênese: neurônios criados quando o cérebro precisa, com teto e variáveis de ambiente
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** neurogenese@1
@@ -25,6 +25,9 @@
 - **Células jovens:** 2 vezes mais plásticas por 20 s (Ge 2007).
 - **Escopo das variáveis:** valem para a execução e não reescrevem os parâmetros gravados.
 
+
+## Integração
+PR #6, com merge no `main` (22d196b) e a CI `build-and-test` verde. `--ready` de cada regra e `--complete master/0015` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Política e crescimento do córtex e do cerebelo (NEO-01)

@@ -1,7 +1,7 @@
 # 2026 Parâmetros lidos de arquivo, com faixa e fonte (CFG-01, PAR-01)
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** cerebro@2
@@ -23,6 +23,9 @@
 ## Limite
 O engrama inteiro de duas bases difere pelo id da linhagem, que é a identidade de cada base, por desenho. A seção `brain` é idêntica.
 
+
+## Integração
+PR #6, com merge no `main` (22d196b) e a CI `build-and-test` verde. `--ready` de cada regra e `--complete master/0016` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Registro, leitura e descrição dos parâmetros (CFG-01)

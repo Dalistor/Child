@@ -1,7 +1,7 @@
 # 2026 Engrama com estado dinâmico (ENG-02)
 
 **Data:** 2026-11-07
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** engrama@1
@@ -14,6 +14,9 @@
 ## Objetivo e demonstração
 A seção `brain` guarda o estado inteiro: potenciais, adaptação, condutâncias, traços, marcas de elegibilidade, ganhos, segmentos, episódios, `Rng` e tempo. Salvar depois de 150 bytes e continuar dá os mesmos disparos em 120 de 120 bytes, tanto na base retomada quanto num fork novo.
 
+
+## Integração
+PR #6, com merge no `main` (22d196b) e a CI `build-and-test` verde. `--ready` de cada regra e `--complete master/0017` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — persist() em cada peça e seção brain (ENG-02)
