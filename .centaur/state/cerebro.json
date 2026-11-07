@@ -237,7 +237,10 @@
         "ev-7042385d5ee440af9528d334a339c44b"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #4 (commit 6045324)",
+        "revision": "6045324118ac25f964b8015d67290f32f96e7cf2",
+        "at": "2026-11-07T15:19:07-03:00"
       },
       "specs": [
         "master/0010"
@@ -281,7 +284,10 @@
         "ev-a31dfb97b0db4dc6909870a382297383"
       ],
       "delivery": {
-        "stage": "local"
+        "stage": "integrated",
+        "reference": "origin/main em github.com/Dalistor/Child, merge do PR #4 (commit 6045324)",
+        "revision": "6045324118ac25f964b8015d67290f32f96e7cf2",
+        "at": "2026-11-07T15:19:07-03:00"
       },
       "specs": [
         "master/0010"

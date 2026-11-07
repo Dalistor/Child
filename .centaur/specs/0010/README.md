@@ -1,7 +1,7 @@
 # 2026 Homeostase e inibição: a taxa de disparo volta ao alvo e a população não explode
 
 **Data:** 2026-11-02
-**Status:** Em revisão
+**Status:** Concluída
 **Escopo:** master
 **Responsável:** Dalistor
 **Contrato:** cerebro@2
@@ -192,7 +192,7 @@ As três tasks editam `tests/tests.cpp` e `CMakeLists.txt`, e as duas últimas u
   Tudo está registrado em `parametros.md`. O η não tem valor publicado na mesma forma.
 - **Critério de "estabiliza":** aplicado como planejado, mais a ausência de tendência entre os dois últimos blocos de 10 s.
 - **Impacto real:** igual ao previsto, mais `src/synapse/homeostasis.*` como arquivo separado. As evidências afetadas foram refeitas.
-- **Integração:** entregue na branch `homeostasis-inhibition`, PR #4; falta o merge.
+- **Integração:** entregue na branch `homeostasis-inhibition`, PR #4, e integrada no `main` pelo merge (6045324); `--ready cerebro/HOM-01`, `--ready cerebro/INB-01` e `--complete master/0010` sem pendências.
 
 ## Checklist de conclusão
 - [x] Task 01 — Transmissão sináptica por condutância
