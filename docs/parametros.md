@@ -124,6 +124,32 @@ Configuração do teste `inhibition`, que não é um padrão do código:
 
 O pico recorrente fica acima da faixa de Song porque a rede é pequena: com ~20 entradas recorrentes por neurônio, em vez de milhares, cada uma precisa pesar mais para a recorrência importar. A conectividade densa do interneurônio para as células vizinhas é a das células em cesto. Os 50% de E→I também ficam acima dos 2–10% de rede grande, pelo mesmo motivo.
 
+## 6. Aprendizado de um padrão (APR-01)
+
+Configuração do teste `pattern learning` (master/0011), que não muda nenhum padrão do código. Segue [Masquelier et al. 2008](https://doi.org/10.1371/journal.pone.0001377), reduzida:
+- **Entrada:** 500 aferentes de Poisson a 20 Hz, com 1 nS de pico no peso máximo e pesos iniciais uniformes em [0,3; 0,7]. Metade deles repete um trecho congelado de 50 ms do próprio processo de Poisson em 1/4 do tempo, nunca duas vezes seguidas. O padrão tem a mesma densidade do ruído.
+- **STDP:** A+ = 0,02 (Song 2000, Fig. 2f), A−/A+ = 1,05 (Song), τ+ = 16,8 ms (Masquelier) e τ− = 20 ms (Song). Isso dá A−τ−/A+τ+ = 1,25, dentro de 1,05–1,70.
+- **Homeostase:** a padrão do HOM-01 (alvo de 5 Hz, τ_hom de 5 s).
+- **Tempo:** os tempos de disparo da sinapse passaram a `double` (`Millis`). Em float32, 10⁷ ms (menos de 3 h simuladas) já têm resolução de 1 ms, maior que parte da janela do STDP.
+
+**Resultado e limite (semente 5):**
+- 500 apresentações: 19,6 Hz no padrão e 0 Hz fora.
+- Sem plasticidade: razão de 0,5.
+- 5000 apresentações: razão de 8,4.
+- Taxa em janelas de 20 s depois de 100 s: entre 4,6 e 5,75 Hz.
+
+O aprendizado depende da semente. Nas sementes 1 a 8, esta configuração passa nos três critérios em 5. Nas outras, o neurônio fica antisseletivo: dispara fora do padrão e se cala dentro dele. Ou então aprende e depois perde a seletividade, quando aferentes do padrão demais ficam fortes e o ruído que eles carregam fora do padrão passa a disparar o neurônio. Masquelier relata sucesso em 96% de 100 sementes, com 2000 aferentes cuja taxa varia entre 0 e 90 Hz e pareamento só com o disparo mais próximo.
+
+Variações testadas sem ganho de robustez (8 sementes cada):
+- valores exatos de Masquelier (τ− = 33,7 ms, A−/A+ = 0,85, A+ = 0,03125), com ou sem pareamento só com o mais próximo;
+- dependência do peso de Gütig 2003 (μ = 0,02 e 0,05);
+- 1000 e 2000 aferentes;
+- inibição de fundo de Poisson (Song 2000);
+- interneurônio de retroalimentação;
+- homeostase 10 vezes mais lenta.
+
+Tornar o aprendizado robusto entre sementes fica como pesquisa em aberto: entrada com taxa variável à maneira de Masquelier e competição entre vários neurônios (Masquelier et al. 2009).
+
 ## Confirmação das afirmações da síntese
 
 | afirmação (docs/sintese.md) | veredito | o que a fonte diz |

@@ -14,6 +14,7 @@ Planejamentos de implementações complexas, decompostos em tasks para subagente
 | [0008](0008/README.md) | Neurônio AdEx que dispara e se adapta, e sinapse que aprende por STDP | 2026-11-02 | Concluída | 2 |
 | [0009](0009/README.md) | Dopamina como terceiro fator: o STDP só vira mudança de peso se a dopamina chegar a tempo | 2026-11-02 | Concluída | 1 |
 | [0010](0010/README.md) | Homeostase e inibição: a taxa de disparo volta ao alvo e a população não explode | 2026-11-02 | Concluída | 3 |
+| [0011](0011/README.md) | Um neurônio aprende um padrão escondido no ruído (APR-01) | 2026-11-07 | Em revisão | 2 |
 
 ---
 

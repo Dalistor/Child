@@ -13,6 +13,7 @@ Histórico de todas as implementações realizadas neste projeto.
 | 0007 | Neurônio AdEx e sinapse com STDP | 2026-11-02 | Concluído | src/neuron/*, src/synapse/*, CMakeLists.txt, tests/tests.cpp, README.md, AGENTS.md, architecture.md |
 | 0008 | Dopamina como terceiro fator | 2026-11-02 | Concluído | src/dopamine/*, src/synapse/*, CMakeLists.txt, tests/tests.cpp, README.md, AGENTS.md, architecture.md |
 | 0009 | Homeostase e inibição | 2026-11-02 | Concluído | src/neuron/*, src/synapse/homeostasis.*, src/interneuron/*, CMakeLists.txt, tests/tests.cpp, docs/parametros.md, README.md, AGENTS.md, architecture.md |
+| 0010 | Um neurônio aprende um padrão escondido no ruído | 2026-11-07 | Concluído | src/thalamus/*, src/synapse/*, tests/tests.cpp, CMakeLists.txt, docs/parametros.md |
 
 ---
 

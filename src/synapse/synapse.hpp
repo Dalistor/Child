@@ -20,6 +20,10 @@ struct EligibilityParams {
     float lifetime = 5000.f; // ms after the last tag; then the trace is exactly zero
 };
 
+// Spike times in ms. Double precision keeps the STDP window exact over long
+// runs: in float32 a time of 1e7 ms (under 3 h) already has 1 ms resolution.
+using Millis = double;
+
 // A synapse only sees spike events and their times. STDP proposes a change at
 // each event and apply() commits it, so a third factor (dopamine) can sit in
 // between later without touching the rule.
@@ -29,8 +33,8 @@ public:
 
     // Spike times must not decrease. Each call returns the weight change the
     // STDP rule proposes for that event; nothing is applied yet.
-    float on_pre(float t);
-    float on_post(float t);
+    float on_pre(Millis t);
+    float on_post(Millis t);
 
     // Adds `change` and clamps the weight to [0, max_weight].
     void apply(float change);
@@ -38,9 +42,9 @@ public:
     // Three-factor path: tag() keeps a proposed change as eligibility at time
     // t instead of applying it; reinforce() turns eligibility into weight at
     // the rate of the dopamine level, dw = e * dopamine * dt.
-    void tag(float change, float t);
-    void reinforce(float dopamine, float t, float dt);
-    float eligibility(float t) const;
+    void tag(float change, Millis t);
+    void reinforce(float dopamine, Millis t, float dt);
+    float eligibility(Millis t) const;
 
     float weight() const { return w_; }
     const StdpParams& params() const { return p_; }
@@ -52,8 +56,9 @@ private:
     // Exponentially decaying traces of past spikes, decayed lazily to the
     // time of the next event.
     float pre_trace_ = 0.f, post_trace_ = 0.f;
-    float pre_time_ = 0.f, post_time_ = 0.f;
-    float tag_ = 0.f, tag_time_ = 0.f;  // eligibility at the last tag
+    Millis pre_time_ = 0, post_time_ = 0;
+    float tag_ = 0.f;  // eligibility at the last tag
+    Millis tag_time_ = 0;
 };
 
 }  // namespace child
