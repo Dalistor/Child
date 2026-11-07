@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "id": "ev-cfab491cb49247cca66682d2cf8d4de6",
+  "contract": "reprodutibilidade@1",
+  "rule": "REP-01",
+  "contract_hash": "8362b80216484daf9f2f459eebe967a58df978e5ecb4350bee470fa615cd7d03",
+  "method": "test",
+  "command": [
+    "sh",
+    "-c",
+    "out=$(cmake --build build -v --clean-first 2>&1) && echo \"$out\" | grep -q -- \"-ffp-contract=off\" && ! echo \"$out\" | grep -q -- \"-march=native\" && ! echo \"$out\" | grep -qi \"warning\" && grep -q \"option(CHILD_NATIVE\" CMakeLists.txt && ctest --test-dir build"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T18:49:18.178232+00:00",
+  "revision": "b33dd2264306dc4ee1892e1ad6e2dd0fa06508bb",
+  "summary": "Build padrão do zero com -ffp-contract=off, sem -march=native e sem avisos; opção CHILD_NATIVE (OFF); ctest passa",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "6b4cb814d4d13aaaa9cf5e4c11984079143d77813fc0743da7c7ca3eee545b25"
+  },
+  "sources_stable": true
+}

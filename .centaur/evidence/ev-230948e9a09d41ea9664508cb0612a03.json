@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "id": "ev-230948e9a09d41ea9664508cb0612a03",
+  "contract": "cerebro@2",
+  "rule": "HOM-01",
+  "contract_hash": "2e05b3577989da2d00869d97b17e3f14542f716e3714ca74d2f540d3322d221a",
+  "method": "test",
+  "command": [
+    "build/child_tests"
+  ],
+  "result": "passed",
+  "exit_code": 0,
+  "at": "2026-11-07T18:48:46.806234+00:00",
+  "revision": "b33dd2264306dc4ee1892e1ad6e2dd0fa06508bb",
+  "summary": "Caso 'homeostatic scaling' (alvo 5 Hz, τ_hom 5 s, η 1e-4/ms, 200 entradas de fundo a 20 Hz, 1 nS de pico): antes 4,95 Hz; com a entrada dobrada, a janela de 20 s de 30 a 50 s fica em 4,95 Hz com homeostase e 41,6 Hz sem; a razão entre pesos efetivos varia 1,2e-7 (ganho multiplicativo comum); τ_hom padrão 5 s",
+  "reference": "Comando executado no checkout; saída exibida no terminal",
+  "files": {
+    "CMakeLists.txt": "6b4cb814d4d13aaaa9cf5e4c11984079143d77813fc0743da7c7ca3eee545b25",
+    "src/neuron/neuron.cpp": "ac14584edd947daf1e521931490f2c0ab0c6b5e7bc00cfc6004ac39de0659762",
+    "src/neuron/neuron.hpp": "14262489a3b717a26ed62975875de2a5b70b8bbdebc15f8ea9bd729980276f94",
+    "src/synapse/homeostasis.cpp": "235612b6f21990f545638d4dbb6d3fedab396c3855c786f32d9aab7f06b3318e",
+    "src/synapse/homeostasis.hpp": "6f52997cb9a94e9c4c3d7f5420c5a8e70d6f1babcdf56656585a3dc5670c5655",
+    "src/thalamus/thalamus.cpp": "40375ed1f49213f288c3095f0e040ad06266c4b5d1e07370c35f6f187f76c424",
+    "src/thalamus/thalamus.hpp": "e2a7badb1b6c167017159ab9cbdf0024da26ede60940c9b4ebd45553c66f7737",
+    "tests/tests.cpp": "d3614a74682b6ea3ca4797b1ac616d561ccdd7e46e4060e4c2433fb8b9765236"
+  },
+  "sources_stable": true
+}

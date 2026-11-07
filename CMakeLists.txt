@@ -25,7 +25,8 @@ add_library(child_core STATIC
   src/synapse/synapse.cpp
   src/synapse/homeostasis.cpp
   src/dopamine/dopamine.cpp
-  src/interneuron/interneuron.cpp)
+  src/interneuron/interneuron.cpp
+  src/thalamus/thalamus.cpp)
 target_include_directories(child_core PUBLIC src)
 target_compile_options(child_core PRIVATE -Wall -Wextra -Wpedantic)
 

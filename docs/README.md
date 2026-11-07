@@ -8,5 +8,6 @@ Tudo que se pesquisa para o Child fica aqui, com fontes e data. Os documentos se
 | [pesquisa-cerebro.md](pesquisa-cerebro.md) | 2026-10-30 | Neurônio humano, escada de fidelidade (LIF a multicompartimental), aprendizado local, esquecimento, escala. Fundamenta o contrato [`cerebro`](../.centaur/contracts/cerebro/v001.json) |
 | [ideias-cerebro.md](ideias-cerebro.md) | 2026-10-30 | Inibição e homeostase, dendritos em segmentos, hipocampo, cerebelo, gânglios da base, neuromoduladores, desenvolvimento, redes atuais, engenharia da simulação, roteiro e a decisão de o Child ser uma base |
 | [parametros.md](parametros.md) | 2026-11-02 | Faixas publicadas dos parâmetros (AdEx, STDP, elegibilidade e dopamina, homeostase, inibição) lidas nas fontes primárias, confirmação das afirmações da síntese e proposta de limiares para o `cerebro` v002 |
+| [pesquisa-degraus.md](pesquisa-degraus.md) | 2026-11-07 | Dendritos (dCaAP, platôs NMDA, segmentos), cerebelo, hipocampo e replay, neurogênese e criação de unidades sob demanda, com nível de acesso a cada fonte |
 
 Ao adicionar uma pesquisa: arquivo novo nesta pasta, linha nova na tabela.

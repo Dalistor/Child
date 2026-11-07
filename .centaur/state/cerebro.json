@@ -19,7 +19,7 @@
         }
       ],
       "evidence": [
-        "ev-20afc79e90964f9f87ee5137b4722d30"
+        "ev-110ce8b973274d1ea659b39dbaf3d73a"
       ],
       "delivery": {
         "stage": "integrated",
@@ -49,7 +49,7 @@
         }
       ],
       "evidence": [
-        "ev-80dcca3bcb7a41ceb6b376f4b164ae81"
+        "ev-b8e96383948247038161d7c40be5fc70"
       ],
       "delivery": {
         "stage": "integrated",
@@ -78,7 +78,7 @@
         }
       ],
       "evidence": [
-        "ev-807538b9278742dca6ab4f76ea793cc0"
+        "ev-806870187597470380c02852bd2eeaf5"
       ],
       "delivery": {
         "stage": "integrated",
@@ -187,7 +187,7 @@
         }
       ],
       "evidence": [
-        "ev-1f6a88535bec44a2aa9dd5c00a6599bf"
+        "ev-5e1b70c2cda849a3a8e2582ee392b37a"
       ],
       "delivery": {
         "stage": "integrated",
@@ -234,7 +234,7 @@
         }
       ],
       "evidence": [
-        "ev-7042385d5ee440af9528d334a339c44b"
+        "ev-230948e9a09d41ea9664508cb0612a03"
       ],
       "delivery": {
         "stage": "integrated",
@@ -281,7 +281,7 @@
         }
       ],
       "evidence": [
-        "ev-a31dfb97b0db4dc6909870a382297383"
+        "ev-6ffd7fcfe37c4c33bbb11dc658485ac6"
       ],
       "delivery": {
         "stage": "integrated",
@@ -292,6 +292,51 @@
       "specs": [
         "master/0010"
       ]
+    },
+    "APR-01": {
+      "implementation": "implementada",
+      "sources": [
+        {
+          "path": "tests/tests.cpp",
+          "start": 441,
+          "end": 557,
+          "role": "Neurônio com 500 sinapses plásticas, padrão de 50 ms em 1/4 do tempo, com e sem plasticidade, treino curto e longo"
+        },
+        {
+          "path": "src/thalamus/thalamus.hpp",
+          "start": 1,
+          "end": 35,
+          "role": "Fonte de Poisson determinística por evento"
+        },
+        {
+          "path": "src/thalamus/thalamus.cpp",
+          "start": 1,
+          "end": 23,
+          "role": "Intervalos exponenciais com o Rng do projeto"
+        },
+        {
+          "path": "src/synapse/synapse.hpp",
+          "start": 1,
+          "end": 64,
+          "role": "STDP com tempos em double (Millis)"
+        },
+        {
+          "path": "src/synapse/synapse.cpp",
+          "start": 1,
+          "end": 54,
+          "role": "Traços, proposta de mudança e corte do peso"
+        }
+      ],
+      "evidence": [
+        "ev-2a777584061d4c20a6227c2ba7539a70"
+      ],
+      "delivery": {
+        "stage": "local"
+      },
+      "specs": [
+        "master/0011"
+      ],
+      "notes": "Dependente da semente: a configuração passa nos três critérios em 5 das sementes 1-8; o teste usa a semente 5. Limite registrado em docs/parametros.md §6."
     }
   }
 }
